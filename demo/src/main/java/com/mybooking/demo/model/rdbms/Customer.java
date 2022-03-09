@@ -1,6 +1,11 @@
 package com.mybooking.demo.model.rdbms;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.mybooking.demo.base.BaseModel;
@@ -14,18 +19,25 @@ public class Customer extends BaseModel {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private Double mobileNumber;
 	private String gender;
+	private Integer type;
+	private Integer created;
+	private Integer lastModified;
+	private Date createdDate;
+	private Date lastModifiedDate = new Date();
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -69,11 +81,56 @@ public class Customer extends BaseModel {
 		this.gender = gender;
 	}
 
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	public Integer getCreated() {
+		return created;
+	}
+
+	public void setCreated(Integer created) {
+		this.created = created;
+	}
+
+	public Integer getLastModified() {
+		return lastModified;
+	}
+
+	public void setLastModified(Integer lastModified) {
+		this.lastModified = lastModified;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getLastModifiedDate() {
+		return lastModifiedDate;
+	}
+
+	public void setLastModifiedDate(Date lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	public Customer(Integer id, String firstName, String lastName, String email, Double mobileNumber, String gender) {
+	public Customer() {
+		super();
+	}
+
+	public Customer(Long id, String firstName, String lastName, String email, Double mobileNumber, String gender,
+			Integer type, Integer created, Integer lastModified, Date createdDate, Date lastModifiedDate) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -81,16 +138,19 @@ public class Customer extends BaseModel {
 		this.email = email;
 		this.mobileNumber = mobileNumber;
 		this.gender = gender;
-	}
-
-	public Customer() {
-		super();
+		this.type = type;
+		this.created = created;
+		this.lastModified = lastModified;
+		this.createdDate = createdDate;
+		this.lastModifiedDate = lastModifiedDate;
 	}
 
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", mobileNumber=" + mobileNumber + ", gender=" + gender + "]";
+		return "Customer [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", mobileNumber=" + mobileNumber + ", gender=" + gender + ", type=" + type + ", created=" + created
+				+ ", lastModified=" + lastModified + ", createdDate=" + createdDate + ", lastModifiedDate="
+				+ lastModifiedDate + "]";
 	}
 
 }
