@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mybooking.demo.model.cache.FirstCache;
+import com.mybooking.demo.repository.cache.FirstCacheRepository;
 import com.mybooking.demo.repository.nosql.FirstCollectionRepository;
 import com.mybooking.demo.repository.rdbms.FirstTableRepository;
 
@@ -16,18 +18,23 @@ import com.mybooking.demo.repository.rdbms.FirstTableRepository;
 public class HelloWorldController {
 
 	@Autowired
-	FirstTableRepository ftr;
-	
+	FirstTableRepository firstTableRepo;
+
 	@Autowired
-	FirstCollectionRepository fcr;
-	
+	FirstCollectionRepository firstCollectionRepo;
+
+	@Autowired
+	FirstCacheRepository firstCacheRepo;
+
 	@GetMapping
 	@ResponseBody
 	public ResponseEntity<String> hello() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Hello World ");
-		sb.append(ftr.findAll());
-		sb.append(fcr.findAll());
+		sb.append(firstTableRepo.findAll());
+		sb.append(firstCollectionRepo.findAll());
+		firstCacheRepo.save(new FirstCache("1", "D"));
+		sb.append(firstCacheRepo.findAll());
 		return new ResponseEntity<>(sb.toString(), HttpStatus.OK);
 	}
 
