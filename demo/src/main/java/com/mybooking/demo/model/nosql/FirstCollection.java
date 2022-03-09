@@ -1,10 +1,15 @@
 package com.mybooking.demo.model.nosql;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "firstcollection")
 public class FirstCollection {
 
+	@Id
+	@GeneratedValue
 	private String id;
 	private String name;
 
