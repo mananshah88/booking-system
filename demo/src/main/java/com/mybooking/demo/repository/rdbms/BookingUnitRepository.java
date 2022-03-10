@@ -5,11 +5,11 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.mybooking.demo.model.rdbms.BookingKeepingUnit;
+import com.mybooking.demo.model.rdbms.BookingUnit;
 
 @Repository
-public interface BookingKeepingUnitRepository extends JpaRepository<BookingKeepingUnit, Long> {
+public interface BookingUnitRepository extends JpaRepository<BookingUnit, Long> {
 
-	Optional<BookingKeepingUnit> findById(Long id);
+	Optional<BookingUnit> findById(Long id);
 
 }

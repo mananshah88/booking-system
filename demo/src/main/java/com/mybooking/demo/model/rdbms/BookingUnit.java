@@ -16,8 +16,8 @@ import com.mybooking.demo.base.BaseModel;
 import com.mybooking.demo.constant.SystemConstants;
 
 @Entity
-@Table(name = "bookingkeepingunit")
-public class BookingKeepingUnit extends BaseModel {
+@Table(name = "bookingunit")
+public class BookingUnit extends BaseModel {
 
 	/**
 	 * 
@@ -38,12 +38,6 @@ public class BookingKeepingUnit extends BaseModel {
 
 	// Movie start time
 	private Date timeslot;
-
-	// Booking Type ( Seat type)
-	@JsonProperty("bookingType")
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "bookingTypeId")
-	private BookingType bookingType;
 
 	private String status = SystemConstants.STATUS_ACTIVE;
 	private Integer created;
@@ -81,14 +75,6 @@ public class BookingKeepingUnit extends BaseModel {
 
 	public void setTimeslot(Date timeslot) {
 		this.timeslot = timeslot;
-	}
-
-	public BookingType getBookingType() {
-		return bookingType;
-	}
-
-	public void setBookingType(BookingType bookingType) {
-		this.bookingType = bookingType;
 	}
 
 	public String getStatus() {
@@ -135,18 +121,17 @@ public class BookingKeepingUnit extends BaseModel {
 		return serialVersionUID;
 	}
 
-	public BookingKeepingUnit() {
+	public BookingUnit() {
 		super();
 	}
 
-	public BookingKeepingUnit(Long id, Screen screen, String movieId, Date timeslot, BookingType bookingType, String status,
-			Integer created, Integer lastModified, Date createdDate, Date lastModifiedDate) {
+	public BookingUnit(Long id, Screen screen, String movieId, Date timeslot, String status, Integer created,
+			Integer lastModified, Date createdDate, Date lastModifiedDate) {
 		super();
 		this.id = id;
 		this.screen = screen;
 		this.movieId = movieId;
 		this.timeslot = timeslot;
-		this.bookingType = bookingType;
 		this.status = status;
 		this.created = created;
 		this.lastModified = lastModified;

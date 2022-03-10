@@ -73,22 +73,44 @@ insert into bookingtype values (5, 'Delux Circle', 'Delux Circle', 'active',1,1,
 insert into bookingtype values (6, 'Box', 'Box', 'active',1,1,now(),now());
 insert into bookingtype values (7, 'Balcony', 'Balcony', 'active',1,1,now(),now());
 
-CREATE table bookingkeepingunit(
+CREATE table bookingunit(
         id bigint NOT NULL AUTO_INCREMENT primary key,
         screenId int NOT NULL,
         movieId varchar(30) NOT NULL,
         timeslot datetime NOT NULL,
-        bookingTypeId int NOT NULL,
         status varchar(10) DEFAULT 'active',
         created int(11) DEFAULT 0,
   	lastModified int(11) DEFAULT 0,
   	createdDate datetime NOT NULL,
   	lastModifiedDate datetime DEFAULT current_timestamp()
 );
-insert into bookingkeepingunit values (1, 5, "movie1", now(), 1, 'active',1,1,now(),now());
-insert into bookingkeepingunit values (2, 5, "movie2", now(), 2, 'active',1,1,now(),now());
+insert into bookingunit values (1, 5, "movie1", now(), 'active',1,1,now(),now());
+insert into bookingunit values (2, 5, "movie2", now(), 'active',1,1,now(),now());
 
+CREATE table bookingunit_price(
+        id bigint NOT NULL AUTO_INCREMENT primary key,
+        bookingTypeId int NOT NULL,
+        price double DEFAULT 0,
+        status varchar(10) DEFAULT 'active',
+        created int(11) DEFAULT 0,
+  	lastModified int(11) DEFAULT 0,
+  	createdDate datetime NOT NULL,
+  	lastModifiedDate datetime DEFAULT current_timestamp()
+);
+insert into bookingunit_price values (1, 1, 10.0, 'active',1,1,now(),now());
+insert into bookingunit_price values (2, 2, 20.0, 'active',1,1,now(),now());
 
-
-
+CREATE table bookingunit_capacity(
+        id bigint NOT NULL AUTO_INCREMENT primary key,
+        bookingTypeId int NOT NULL,
+        totalSeats int NOT NULL default 0,
+        availableSeats int  NOT NULL default 0,
+        status varchar(10) DEFAULT 'active',
+        created int(11) DEFAULT 0,
+  	lastModified int(11) DEFAULT 0,
+  	createdDate datetime NOT NULL,
+  	lastModifiedDate datetime DEFAULT current_timestamp()
+);
+insert into bookingunit_capacity values (1, 1, 50, 50, 'active', 1,1,now(),now());
+insert into bookingunit_capacity values (2, 2, 100, 100, 'active', 1,1,now(),now());
 
