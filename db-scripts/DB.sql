@@ -54,4 +54,41 @@ insert into screen values (1, "screen 1", 1, 50, 1,1,now(),now());
 insert into screen values (2, "screen 2", 1, 60, 1,1,now(),now());
 insert into screen values (3, "screen 3", 1, 70, 1,1,now(),now());
 insert into screen values (4, "screen 4", 1, 80, 1,1,now(),now());
+	
+CREATE table bookingtype(
+        id bigint NOT NULL AUTO_INCREMENT primary key,
+        name varchar(100) NOT NULL,
+        displayName varchar(100) NOT NULL,
+        status varchar(10) DEFAULT 'active',
+        created int(11) DEFAULT 0,
+  	lastModified int(11) DEFAULT 0,
+  	createdDate datetime NOT NULL,
+  	lastModifiedDate datetime DEFAULT current_timestamp()
+);
+insert into bookingtype values (1, 'Recliners', 'Recliners', 'active',1,1,now(),now());
+insert into bookingtype values (2, 'Gold', 'Gold', 'active',1,1,now(),now());
+insert into bookingtype values (3, 'Executive', 'Executive', 'active',1,1,now(),now());
+insert into bookingtype values (4, 'Upper Circle', 'Upper Circle', 'active',1,1,now(),now());
+insert into bookingtype values (5, 'Delux Circle', 'Delux Circle', 'active',1,1,now(),now());
+insert into bookingtype values (6, 'Box', 'Box', 'active',1,1,now(),now());
+insert into bookingtype values (7, 'Balcony', 'Balcony', 'active',1,1,now(),now());
+
+CREATE table bookingkeepingunit(
+        id bigint NOT NULL AUTO_INCREMENT primary key,
+        screenId int NOT NULL,
+        movieId varchar(30) NOT NULL,
+        timeslot datetime NOT NULL,
+        bookingTypeId int NOT NULL,
+        status varchar(10) DEFAULT 'active',
+        created int(11) DEFAULT 0,
+  	lastModified int(11) DEFAULT 0,
+  	createdDate datetime NOT NULL,
+  	lastModifiedDate datetime DEFAULT current_timestamp()
+);
+insert into bookingkeepingunit values (1, 5, "movie1", now(), 1, 'active',1,1,now(),now());
+insert into bookingkeepingunit values (2, 5, "movie2", now(), 2, 'active',1,1,now(),now());
+
+
+
+
 

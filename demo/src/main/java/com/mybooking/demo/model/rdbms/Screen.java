@@ -123,7 +123,7 @@ public class Screen extends BaseModel {
 
 	@Override
 	public String toString() {
-		return "Screen [id=" + id + ", name=" + name + ", theater=" + theater + ", capacity=" + capacity + ", created="
+		return "Screen [id=" + id + ", name=" + name + ", capacity=" + capacity + ", created="
 				+ created + ", lastModified=" + lastModified + ", createdDate=" + createdDate + ", lastModifiedDate="
 				+ lastModifiedDate + "]";
 	}
