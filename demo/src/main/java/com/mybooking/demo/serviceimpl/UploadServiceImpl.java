@@ -96,7 +96,7 @@ public class UploadServiceImpl implements UploadService {
 	public MovieTimeslot getNewMovieTiming(ScheduleDto schedule) {
 		var movietiming = new MovieTimeslot(schedule.getMovieId(), schedule.getStartTime());
 		schedule.getPriceQunatityDetail().forEach(detail -> movietiming
-				.addMoviePricing(getNewMoviePricing(detail.getBookingTypeId(), detail.getPrice(), detail.getSeats())));
+				.addTimeslotPricing(getNewMoviePricing(detail.getBookingTypeId(), detail.getPrice(), detail.getSeats())));
 		return movietiming;
 	}
 
@@ -119,7 +119,7 @@ public class UploadServiceImpl implements UploadService {
 						.filter(ud -> ud.getSeatcategory().getId().equals(pqd.getBookingTypeId())).findAny()
 						.orElse(null);
 				if (bud == null) {
-					movietiming.addMoviePricing(
+					movietiming.addTimeslotPricing(
 							getNewMoviePricing(pqd.getBookingTypeId(), pqd.getPrice(), pqd.getSeats()));
 				} else {
 					bud.setPrice(pqd.getPrice());

@@ -88,8 +88,10 @@ insert into movie_timeslot values (2, 5, "movie2", now(), 'active',1,1,now(),now
 
 CREATE table timeslot_pricing(
         id bigint NOT NULL AUTO_INCREMENT primary key,
+
         movietimeslotId int NOT NULL,
         seatcategoryId int NOT NULL,
+        
         price double DEFAULT 0,
         status varchar(10) DEFAULT 'active',
         created int(11) DEFAULT 0,
@@ -100,14 +102,17 @@ CREATE table timeslot_pricing(
 insert into timeslot_pricing values (1, 1, 1, 10.0, 'active',1,1,now(),now());
 insert into timeslot_pricing values (2, 1, 2, 20.0, 'active',1,1,now(),now());
 
-CREATE table slot_seat_details(
+CREATE table timeslot_seat_details(
         id bigint NOT NULL AUTO_INCREMENT primary key,
-        movietimingId int NOT NULL,
+        
+        movietimeslotId int NOT NULL,
         seatcategoryId int NOT NULL,
+        
         positionRowNo int NOT NULL,
         positionOrderFromLeft int NOT NULL,
         seatNo varchar(10) NOT NULL,
         booked tinyint(1) default 0,
+        
         status varchar(10) DEFAULT 'active',
         created int(11) DEFAULT 0,
   	lastModified int(11) DEFAULT 0,
