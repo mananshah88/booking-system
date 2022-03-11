@@ -44,9 +44,6 @@ public class MoviePricing extends BaseModel {
 	// Price of booking a single ticket for the above type
 	private Double price;
 
-	// total available capacity
-	private Integer capacity;
-
 	private String status;
 	private Integer created;
 	private Integer lastModified;
@@ -83,14 +80,6 @@ public class MoviePricing extends BaseModel {
 
 	public void setPrice(Double price) {
 		this.price = price;
-	}
-
-	public Integer getCapacity() {
-		return capacity;
-	}
-
-	public void setCapacity(Integer capacity) {
-		this.capacity = capacity;
 	}
 
 	public String getStatus() {
@@ -141,12 +130,11 @@ public class MoviePricing extends BaseModel {
 		super();
 	}
 
-	public MoviePricing(SeatCategory seatcategory, Double price, Integer capacity) {
+	public MoviePricing(SeatCategory seatcategory, Double price) {
 		super();
 		var date = new Date();
 		this.seatcategory = seatcategory;
 		this.price = price;
-		this.capacity = capacity;
 		this.status = SystemConstants.STATUS_ACTIVE;
 		this.created = 1;
 		this.lastModified = 1;
@@ -154,14 +142,13 @@ public class MoviePricing extends BaseModel {
 		this.lastModifiedDate = date;
 	}
 
-	public MoviePricing(Long id, MovieTiming movieTiming, SeatCategory seatcategory, Double price, Integer capacity,
+	public MoviePricing(Long id, MovieTiming movieTiming, SeatCategory seatcategory, Double price,
 			String status, Integer created, Integer lastModified, Date createdDate, Date lastModifiedDate) {
 		super();
 		this.id = id;
 		this.movietiming = movieTiming;
 		this.seatcategory = seatcategory;
 		this.price = price;
-		this.capacity = capacity;
 		this.status = status;
 		this.created = created;
 		this.lastModified = lastModified;
@@ -171,7 +158,7 @@ public class MoviePricing extends BaseModel {
 
 	@Override
 	public String toString() {
-		return "MoviePricing [id=" + id + ", price=" + price + ", capacity=" + capacity + ", status=" + status
+		return "MoviePricing [id=" + id + ", price=" + price + ", status=" + status
 				+ ", created=" + created + ", lastModified=" + lastModified + ", createdDate=" + createdDate
 				+ ", lastModifiedDate=" + lastModifiedDate + "]";
 	}
@@ -180,7 +167,6 @@ public class MoviePricing extends BaseModel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((capacity == null) ? 0 : capacity.hashCode());
 		result = prime * result + ((created == null) ? 0 : created.hashCode());
 		result = prime * result + ((createdDate == null) ? 0 : createdDate.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -202,11 +188,6 @@ public class MoviePricing extends BaseModel {
 		if (getClass() != obj.getClass())
 			return false;
 		MoviePricing other = (MoviePricing) obj;
-		if (capacity == null) {
-			if (other.capacity != null)
-				return false;
-		} else if (!capacity.equals(other.capacity))
-			return false;
 		if (created == null) {
 			if (other.created != null)
 				return false;

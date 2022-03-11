@@ -102,7 +102,7 @@ public class UploadServiceImpl implements UploadService {
 
 	public MoviePricing getNewMoviePricing(Long bookingTypeId, Double price, Integer seats) {
 		SeatCategory bt = seatCategoryRepository.findById(bookingTypeId).get();
-		return new MoviePricing(bt, price, seats);
+		return new MoviePricing(bt, price);
 	}
 
 	/* Assumption no modification allowed in StartTime */
@@ -123,7 +123,6 @@ public class UploadServiceImpl implements UploadService {
 							getNewMoviePricing(pqd.getBookingTypeId(), pqd.getPrice(), pqd.getSeats()));
 				} else {
 					bud.setPrice(pqd.getPrice());
-					bud.setCapacity(pqd.getSeats());
 				}
 			}
 		}
