@@ -166,3 +166,43 @@ create table orders (
   	createdDate datetime NOT NULL,
   	lastModifiedDate datetime DEFAULT current_timestamp()
 );
+
+create table promotion (
+        id bigint NOT NULL AUTO_INCREMENT primary key,
+        promotionCode varchar(20) NOT NULL,
+        name varchar(20) NOT NULL DEFAULT '0',
+        description text DEFAULT NULL,
+        status varchar(10) DEFAULT 'active',
+        created int(11) DEFAULT 0,
+  	lastModified int(11) DEFAULT 0,
+  	createdDate datetime NOT NULL,
+  	lastModifiedDate datetime DEFAULT current_timestamp()
+);
+
+create table promotion_entity (
+        id bigint NOT NULL AUTO_INCREMENT primary key,
+	promotionId int NOT NULL,
+	entityType varchar(100) NOT NULL DEFAULT 'overall',
+	entityValue int DEFAULT NULL,
+	promotionType varchar(10) NOT NULL
+	promotionValue double DEFAULT 0, 
+        status varchar(10) DEFAULT 'active',
+        created int(11) DEFAULT 0,
+  	lastModified int(11) DEFAULT 0,
+  	createdDate datetime NOT NULL,
+  	lastModifiedDate datetime DEFAULT current_timestamp()
+);
+
+create table promotion_restriction (
+        id bigint NOT NULL AUTO_INCREMENT primary key,
+	promotionId int NOT NULL,
+	conditionType varchar(100) NOT NULL,
+	conditionValue varchar(100) NOT NULL,
+	conditionOperator varchar(100) NOT NULL,
+        status varchar(10) DEFAULT 'active',
+        created int(11) DEFAULT 0,
+  	lastModified int(11) DEFAULT 0,
+  	createdDate datetime NOT NULL,
+  	lastModifiedDate datetime DEFAULT current_timestamp()
+);
+
