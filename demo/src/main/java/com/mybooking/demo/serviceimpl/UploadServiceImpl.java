@@ -12,8 +12,8 @@ import com.mybooking.demo.dto.upload.PriceQunatityDetail;
 import com.mybooking.demo.dto.upload.ScheduleDto;
 import com.mybooking.demo.dto.upload.UploadRequestDTO;
 import com.mybooking.demo.model.rdbms.BookingType;
-import com.mybooking.demo.model.rdbms.BookingUnit;
-import com.mybooking.demo.model.rdbms.BookingUnitDetails;
+import com.mybooking.demo.model.rdbms.MovieTiming;
+import com.mybooking.demo.model.rdbms.MoviePricing;
 import com.mybooking.demo.model.rdbms.Screen;
 import com.mybooking.demo.repository.rdbms.BookingTypeRepository;
 import com.mybooking.demo.repository.rdbms.ScreenRepository;
@@ -52,7 +52,7 @@ public class UploadServiceImpl implements UploadService {
 		
 		uploadRequestDTO.getScreens().forEach(screenDto -> {
 			var screen = screenRepository.findById(screenDto.getScreenId()).get();
-			screenDto.getSchedule().forEach(schedule -> screen.addBookingUnit(getNewBookingUnit(schedule)));
+			screenDto.getSchedule().forEach(schedule -> screen.addMovieTiming(getNewMovieTiming(schedule)));
 			screenRepository.save(screen);
 		});
 
@@ -65,7 +65,7 @@ public class UploadServiceImpl implements UploadService {
 	public Boolean modifyDetails(UploadRequestDTO uploadRequestDTO) {
 		uploadRequestDTO.getScreens().forEach(screenDto -> {
 			var screen = screenRepository.findById(screenDto.getScreenId()).get();
-			screenDto.getSchedule().forEach(schedule -> modifyBookingUnit(screen, schedule));
+			screenDto.getSchedule().forEach(schedule -> modifyMovietiming(screen, schedule));
 			screenRepository.save(screen);
 		});
 		return true;
@@ -93,40 +93,41 @@ public class UploadServiceImpl implements UploadService {
 		return true;
 	}
 
-	public BookingUnit getNewBookingUnit(ScheduleDto schedule) {
-		var bookingUnit = new BookingUnit(schedule.getMovieId(), schedule.getStartTime());
-		schedule.getPriceQunatityDetail().forEach(detail -> bookingUnit.addBookingUnitDetails(
-				getNewBookingUnitDetails(detail.getBookingTypeId(), detail.getPrice(), detail.getSeats())));
-		return bookingUnit;
+	public MovieTiming getNewMovieTiming(ScheduleDto schedule) {
+		var movietiming = new MovieTiming(schedule.getMovieId(), schedule.getStartTime());
+		schedule.getPriceQunatityDetail().forEach(detail -> movietiming.addMoviePricingDetails(
+				getNewMoviePricing(detail.getBookingTypeId(), detail.getPrice(), detail.getSeats())));
+		return movietiming;
 	}
 
-	public BookingUnitDetails getNewBookingUnitDetails(Long bookingTypeId, Double price, Integer seats) {
+	public MoviePricing getNewMoviePricing(Long bookingTypeId, Double price, Integer seats) {
 		BookingType bt = bookingTypeRepository.findById(bookingTypeId).get();
-		return new BookingUnitDetails(bt, price, seats);
+		return new MoviePricing(bt, price, seats);
 	}
 
-	/* Assumption no modification allowed in StartTime*/
-	public void modifyBookingUnit(Screen screen, ScheduleDto schedule) {
-		BookingUnit bookingUnit = screen.getBookingUnits().stream()
+	/* Assumption no modification allowed in StartTime */
+	public void modifyMovietiming(Screen screen, ScheduleDto schedule) {
+		var movietiming = screen.getMovietimings().stream()
 				.filter(bu -> bu.getTimeslot().equals(schedule.getStartTime())).findAny().orElse(null);
-		if(bookingUnit==null) {
+		if (movietiming == null) {
 			// new details are there...
-			bookingUnit = getNewBookingUnit(schedule);
+			movietiming = getNewMovieTiming(schedule);
 		} else {
-			bookingUnit.setMovieId(schedule.getMovieId());
-			for(PriceQunatityDetail pqd: schedule.getPriceQunatityDetail()) {
-				BookingUnitDetails bud = bookingUnit.getUnitdetails().stream()
-						.filter(ud -> ud.getBookingType().getId().equals(pqd.getBookingTypeId())).findAny().orElse(null);
+			movietiming.setMovieId(schedule.getMovieId());
+			for (PriceQunatityDetail pqd : schedule.getPriceQunatityDetail()) {
+				MoviePricing bud = movietiming.getMovietimings().stream()
+						.filter(ud -> ud.getBookingType().getId().equals(pqd.getBookingTypeId())).findAny()
+						.orElse(null);
 				if (bud == null) {
-					bookingUnit.addBookingUnitDetails(
-							getNewBookingUnitDetails(pqd.getBookingTypeId(), pqd.getPrice(), pqd.getSeats()));
+					movietiming.addMoviePricingDetails(
+							getNewMoviePricing(pqd.getBookingTypeId(), pqd.getPrice(), pqd.getSeats()));
 				} else {
 					bud.setPrice(pqd.getPrice());
 					bud.setCapacity(pqd.getSeats());
 				}
 			}
 		}
-		screen.addBookingUnit(bookingUnit);
+		screen.addMovieTiming(movietiming);
 	}
 
 }

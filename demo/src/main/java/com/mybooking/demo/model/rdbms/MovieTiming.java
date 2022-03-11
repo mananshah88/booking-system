@@ -21,8 +21,8 @@ import com.mybooking.demo.base.BaseModel;
 import com.mybooking.demo.constant.SystemConstants;
 
 @Entity
-@Table(name = "bookingunit")
-public class BookingUnit extends BaseModel {
+@Table(name = "movie_timing")
+public class MovieTiming extends BaseModel {
 
 	/**
 	 * 
@@ -43,10 +43,10 @@ public class BookingUnit extends BaseModel {
 
 	// Movie start time
 	private Date timeslot;
-	
-	@JsonProperty("unitdetails")
-	@OneToMany(mappedBy = "bookingUnit", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<BookingUnitDetails> unitdetails= new HashSet<>();
+
+	@JsonProperty("movietimings")
+	@OneToMany(mappedBy = "movietiming", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<MoviePricing> movietimings = new HashSet<>();
 
 	private String status = SystemConstants.STATUS_ACTIVE;
 	private Integer created;
@@ -86,12 +86,12 @@ public class BookingUnit extends BaseModel {
 		this.timeslot = timeslot;
 	}
 
-	public Set<BookingUnitDetails> getUnitdetails() {
-		return unitdetails;
+	public Set<MoviePricing> getMovietimings() {
+		return movietimings;
 	}
 
-	public void setUnitdetails(Set<BookingUnitDetails> unitdetails) {
-		this.unitdetails = unitdetails;
+	public void setMovietimings(Set<MoviePricing> movietimings) {
+		this.movietimings = movietimings;
 	}
 
 	public String getStatus() {
@@ -138,11 +138,11 @@ public class BookingUnit extends BaseModel {
 		return serialVersionUID;
 	}
 
-	public BookingUnit() {
+	public MovieTiming() {
 		super();
 	}
 
-	public BookingUnit(String movieId, Date timeslot) {
+	public MovieTiming(String movieId, Date timeslot) {
 		super();
 		this.movieId = movieId;
 		this.timeslot = timeslot;
@@ -153,7 +153,7 @@ public class BookingUnit extends BaseModel {
 		this.lastModifiedDate = new Date();
 	}
 
-	public BookingUnit(Long id, Screen screen, String movieId, Date timeslot, String status, Integer created,
+	public MovieTiming(Long id, Screen screen, String movieId, Date timeslot, String status, Integer created,
 			Integer lastModified, Date createdDate, Date lastModifiedDate) {
 		super();
 		this.id = id;
@@ -169,7 +169,7 @@ public class BookingUnit extends BaseModel {
 
 	@Override
 	public String toString() {
-		return "BookingKeepingUnit [id=" + id + ", movieId=" + movieId + ", timeslot=" + timeslot + ", status=" + status
+		return "MovieTiming [id=" + id + ", movieId=" + movieId + ", timeslot=" + timeslot + ", status=" + status
 				+ ", created=" + created + ", lastModified=" + lastModified + ", createdDate=" + createdDate
 				+ ", lastModifiedDate=" + lastModifiedDate + "]";
 	}
@@ -198,7 +198,7 @@ public class BookingUnit extends BaseModel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		BookingUnit other = (BookingUnit) obj;
+		MovieTiming other = (MovieTiming) obj;
 		if (created == null) {
 			if (other.created != null)
 				return false;
@@ -247,14 +247,14 @@ public class BookingUnit extends BaseModel {
 		return true;
 	}
 
-	public void addBookingUnitDetails(BookingUnitDetails unitdetail) {
-		unitdetails.add(unitdetail);
-		unitdetail.setBookingUnit(this);
+	public void addMoviePricingDetails(MoviePricing moviePricing) {
+		movietimings.add(moviePricing);
+		moviePricing.setMovietiming(this);
 	}
 
-	public void removeBookingUnitDetails(BookingUnitDetails unitdetail) {
-		unitdetails.remove(unitdetail);
-		unitdetail.setBookingUnit(null);
+	public void removeMoviePricing(MoviePricing moviePricing) {
+		movietimings.remove(moviePricing);
+		moviePricing.setMovietiming(null);
 	}
-	
+
 }

@@ -39,9 +39,9 @@ public class Screen extends BaseModel {
 	@JoinColumn(name = "theaterId", nullable = false)
 	private Theater theater;
 	
-	@JsonProperty("bookingunit")
+	@JsonProperty("movietimings")
 	@OneToMany(mappedBy = "screen", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<BookingUnit> bookingUnits= new HashSet<>();
+	private Set<MovieTiming> movietimings = new HashSet<>();
 
 	private Integer created;
 	private Integer lastModified;
@@ -72,12 +72,12 @@ public class Screen extends BaseModel {
 		this.theater = theater;
 	}
 
-	public Set<BookingUnit> getBookingUnits() {
-		return bookingUnits;
+	public Set<MovieTiming> getMovietimings() {
+		return movietimings;
 	}
 
-	public void setBookingUnits(Set<BookingUnit> bookingUnits) {
-		this.bookingUnits = bookingUnits;
+	public void setMovietimings(Set<MovieTiming> movietimings) {
+		this.movietimings = movietimings;
 	}
 
 	public Integer getCreated() {
@@ -139,12 +139,12 @@ public class Screen extends BaseModel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((bookingUnits == null) ? 0 : bookingUnits.hashCode());
 		result = prime * result + ((created == null) ? 0 : created.hashCode());
 		result = prime * result + ((createdDate == null) ? 0 : createdDate.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((lastModified == null) ? 0 : lastModified.hashCode());
 		result = prime * result + ((lastModifiedDate == null) ? 0 : lastModifiedDate.hashCode());
+		result = prime * result + ((movietimings == null) ? 0 : movietimings.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((theater == null) ? 0 : theater.hashCode());
 		return result;
@@ -159,11 +159,6 @@ public class Screen extends BaseModel {
 		if (getClass() != obj.getClass())
 			return false;
 		Screen other = (Screen) obj;
-		if (bookingUnits == null) {
-			if (other.bookingUnits != null)
-				return false;
-		} else if (!bookingUnits.equals(other.bookingUnits))
-			return false;
 		if (created == null) {
 			if (other.created != null)
 				return false;
@@ -189,6 +184,11 @@ public class Screen extends BaseModel {
 				return false;
 		} else if (!lastModifiedDate.equals(other.lastModifiedDate))
 			return false;
+		if (movietimings == null) {
+			if (other.movietimings != null)
+				return false;
+		} else if (!movietimings.equals(other.movietimings))
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -202,14 +202,14 @@ public class Screen extends BaseModel {
 		return true;
 	}
 
-	public void addBookingUnit(BookingUnit bookingUnit) {
-		bookingUnits.add(bookingUnit);
-		bookingUnit.setScreen(this);
+	public void addMovieTiming(MovieTiming movietiming) {
+		movietimings.add(movietiming);
+		movietiming.setScreen(this);
 	}
 
-	public void removeBookingUnit(BookingUnit bookingUnit) {
-		bookingUnits.remove(bookingUnit);
-		bookingUnit.setScreen(null);
+	public void removeMovieTiming(MovieTiming movietiming) {
+		movietimings.remove(movietiming);
+		movietiming.setScreen(null);
 	}
 
 }

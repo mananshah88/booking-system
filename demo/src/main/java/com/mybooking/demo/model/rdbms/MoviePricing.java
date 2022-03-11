@@ -18,8 +18,8 @@ import com.mybooking.demo.base.BaseModel;
 import com.mybooking.demo.constant.SystemConstants;
 
 @Entity
-@Table(name = "bookingunit_details")
-public class BookingUnitDetails extends BaseModel {
+@Table(name = "movie_pricing")
+public class MoviePricing extends BaseModel {
 
 	/**
 	 * 
@@ -32,9 +32,9 @@ public class BookingUnitDetails extends BaseModel {
 
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "bookingUnitId", nullable = false)
-	private BookingUnit bookingUnit; 
-	
+	@JoinColumn(name = "movietimingId", nullable = false)
+	private MovieTiming movietiming;
+
 	// Booking Type ( Seat type)
 	@JsonProperty("bookingType")
 	@OneToOne(fetch = FetchType.LAZY)
@@ -43,7 +43,7 @@ public class BookingUnitDetails extends BaseModel {
 
 	// Price of booking a single ticket for the above type
 	private Double price;
-	
+
 	// total available capacity
 	private Integer capacity;
 
@@ -61,12 +61,12 @@ public class BookingUnitDetails extends BaseModel {
 		this.id = id;
 	}
 
-	public BookingUnit getBookingUnit() {
-		return bookingUnit;
+	public MovieTiming getMovietiming() {
+		return movietiming;
 	}
 
-	public void setBookingUnit(BookingUnit bookingUnit) {
-		this.bookingUnit = bookingUnit;
+	public void setMovietiming(MovieTiming movietiming) {
+		this.movietiming = movietiming;
 	}
 
 	public BookingType getBookingType() {
@@ -137,11 +137,11 @@ public class BookingUnitDetails extends BaseModel {
 		return serialVersionUID;
 	}
 
-	public BookingUnitDetails() {
+	public MoviePricing() {
 		super();
 	}
 
-	public BookingUnitDetails(BookingType bookingType, Double price, Integer capacity) {
+	public MoviePricing(BookingType bookingType, Double price, Integer capacity) {
 		super();
 		var date = new Date();
 		this.bookingType = bookingType;
@@ -154,11 +154,11 @@ public class BookingUnitDetails extends BaseModel {
 		this.lastModifiedDate = date;
 	}
 
-	public BookingUnitDetails(Long id, BookingUnit bookingUnit, BookingType bookingType, Double price, Integer capacity,
+	public MoviePricing(Long id, MovieTiming movieTiming, BookingType bookingType, Double price, Integer capacity,
 			String status, Integer created, Integer lastModified, Date createdDate, Date lastModifiedDate) {
 		super();
 		this.id = id;
-		this.bookingUnit = bookingUnit;
+		this.movietiming = movieTiming;
 		this.bookingType = bookingType;
 		this.price = price;
 		this.capacity = capacity;
@@ -171,9 +171,9 @@ public class BookingUnitDetails extends BaseModel {
 
 	@Override
 	public String toString() {
-		return "BookingUnitDetails [id=" + id + ", price=" + price + ", capacity=" + capacity + ", status=" + status + ", created=" + created
-				+ ", lastModified=" + lastModified + ", createdDate=" + createdDate + ", lastModifiedDate="
-				+ lastModifiedDate + "]";
+		return "MoviePricing [id=" + id + ", price=" + price + ", capacity=" + capacity + ", status=" + status
+				+ ", created=" + created + ", lastModified=" + lastModified + ", createdDate=" + createdDate
+				+ ", lastModifiedDate=" + lastModifiedDate + "]";
 	}
 
 	@Override
@@ -181,13 +181,13 @@ public class BookingUnitDetails extends BaseModel {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((bookingType == null) ? 0 : bookingType.hashCode());
-		result = prime * result + ((bookingUnit == null) ? 0 : bookingUnit.hashCode());
 		result = prime * result + ((capacity == null) ? 0 : capacity.hashCode());
 		result = prime * result + ((created == null) ? 0 : created.hashCode());
 		result = prime * result + ((createdDate == null) ? 0 : createdDate.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((lastModified == null) ? 0 : lastModified.hashCode());
 		result = prime * result + ((lastModifiedDate == null) ? 0 : lastModifiedDate.hashCode());
+		result = prime * result + ((movietiming == null) ? 0 : movietiming.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
@@ -201,16 +201,11 @@ public class BookingUnitDetails extends BaseModel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		BookingUnitDetails other = (BookingUnitDetails) obj;
+		MoviePricing other = (MoviePricing) obj;
 		if (bookingType == null) {
 			if (other.bookingType != null)
 				return false;
 		} else if (!bookingType.equals(other.bookingType))
-			return false;
-		if (bookingUnit == null) {
-			if (other.bookingUnit != null)
-				return false;
-		} else if (!bookingUnit.equals(other.bookingUnit))
 			return false;
 		if (capacity == null) {
 			if (other.capacity != null)
@@ -241,6 +236,11 @@ public class BookingUnitDetails extends BaseModel {
 			if (other.lastModifiedDate != null)
 				return false;
 		} else if (!lastModifiedDate.equals(other.lastModifiedDate))
+			return false;
+		if (movietiming == null) {
+			if (other.movietiming != null)
+				return false;
+		} else if (!movietiming.equals(other.movietiming))
 			return false;
 		if (price == null) {
 			if (other.price != null)
