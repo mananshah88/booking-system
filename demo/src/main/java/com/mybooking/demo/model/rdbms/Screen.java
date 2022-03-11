@@ -1,7 +1,10 @@
 package com.mybooking.demo.model.rdbms;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -9,9 +12,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mybooking.demo.base.BaseModel;
 
 @Entity
@@ -26,13 +31,18 @@ public class Screen extends BaseModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	private String name;
+	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "theaterId", nullable = false)
 	private Theater theater;
+	
+	@JsonProperty("bookingunit")
+	@OneToMany(mappedBy = "screen", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<BookingUnit> bookingUnits= new HashSet<>();
 
-	private Integer capacity;
 	private Integer created;
 	private Integer lastModified;
 	private Date createdDate;
@@ -62,12 +72,12 @@ public class Screen extends BaseModel {
 		this.theater = theater;
 	}
 
-	public Integer getCapacity() {
-		return capacity;
+	public Set<BookingUnit> getBookingUnits() {
+		return bookingUnits;
 	}
 
-	public void setCapacity(Integer capacity) {
-		this.capacity = capacity;
+	public void setBookingUnits(Set<BookingUnit> bookingUnits) {
+		this.bookingUnits = bookingUnits;
 	}
 
 	public Integer getCreated() {
@@ -110,11 +120,9 @@ public class Screen extends BaseModel {
 		super();
 	}
 
-	public Screen(String name, Integer capacity, Integer created, Integer lastModified,
-			Date createdDate, Date lastModifiedDate) {
+	public Screen(String name, Integer created, Integer lastModified, Date createdDate, Date lastModifiedDate) {
 		super();
 		this.name = name;
-		this.capacity = capacity;
 		this.created = created;
 		this.lastModified = lastModified;
 		this.createdDate = createdDate;
@@ -123,16 +131,15 @@ public class Screen extends BaseModel {
 
 	@Override
 	public String toString() {
-		return "Screen [id=" + id + ", name=" + name + ", capacity=" + capacity + ", created="
-				+ created + ", lastModified=" + lastModified + ", createdDate=" + createdDate + ", lastModifiedDate="
-				+ lastModifiedDate + "]";
+		return "Screen [id=" + id + ", name=" + name + ", created=" + created + ", lastModified=" + lastModified
+				+ ", createdDate=" + createdDate + ", lastModifiedDate=" + lastModifiedDate + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((capacity == null) ? 0 : capacity.hashCode());
+		result = prime * result + ((bookingUnits == null) ? 0 : bookingUnits.hashCode());
 		result = prime * result + ((created == null) ? 0 : created.hashCode());
 		result = prime * result + ((createdDate == null) ? 0 : createdDate.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -152,10 +159,10 @@ public class Screen extends BaseModel {
 		if (getClass() != obj.getClass())
 			return false;
 		Screen other = (Screen) obj;
-		if (capacity == null) {
-			if (other.capacity != null)
+		if (bookingUnits == null) {
+			if (other.bookingUnits != null)
 				return false;
-		} else if (!capacity.equals(other.capacity))
+		} else if (!bookingUnits.equals(other.bookingUnits))
 			return false;
 		if (created == null) {
 			if (other.created != null)
@@ -193,6 +200,16 @@ public class Screen extends BaseModel {
 		} else if (!theater.equals(other.theater))
 			return false;
 		return true;
+	}
+
+	public void addBookingUnit(BookingUnit bookingUnit) {
+		bookingUnits.add(bookingUnit);
+		bookingUnit.setScreen(this);
+	}
+
+	public void removeBookingUnit(BookingUnit bookingUnit) {
+		bookingUnits.remove(bookingUnit);
+		bookingUnit.setScreen(null);
 	}
 
 }

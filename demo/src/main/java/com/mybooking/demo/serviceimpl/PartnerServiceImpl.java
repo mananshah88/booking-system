@@ -47,7 +47,7 @@ public class PartnerServiceImpl implements PartnerService {
 	@Override
 	public Boolean addTheaterAndScreens(Integer partnerId, TheaterRequestDto dto) {
 		Set<Screen> screens = dto.getScreens().stream()
-				.map(s -> new Screen(s.getName(), s.getCapacity(), partnerId, partnerId, new Date(), new Date()))
+				.map(s -> new Screen(s.getName(), partnerId, partnerId, new Date(), new Date()))
 				.collect(Collectors.toSet());
 		var theater = new Theater(dto.getName(), partnerId, dto.getCityId(), dto.getAddress(), dto.getPincode(),
 				partnerId, partnerId, new Date(), new Date());

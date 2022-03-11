@@ -44,16 +44,15 @@ CREATE table screen(
         id bigint NOT NULL AUTO_INCREMENT primary key,
         name varchar(100) NOT NULL,
         theaterId int NOT NULL,
-        capacity int NOT NULL,
         created int(11) DEFAULT 0,
   	lastModified int(11) DEFAULT 0,
   	createdDate datetime NOT NULL,
   	lastModifiedDate datetime DEFAULT current_timestamp()
 );
-insert into screen values (1, "screen 1", 1, 50, 1,1,now(),now());
-insert into screen values (2, "screen 2", 1, 60, 1,1,now(),now());
-insert into screen values (3, "screen 3", 1, 70, 1,1,now(),now());
-insert into screen values (4, "screen 4", 1, 80, 1,1,now(),now());
+insert into screen values (1, "screen 1", 1, 1,1,now(),now());
+insert into screen values (2, "screen 2", 1, 1,1,now(),now());
+insert into screen values (3, "screen 3", 1, 1,1,now(),now());
+insert into screen values (4, "screen 4", 1, 1,1,now(),now());
 	
 CREATE table bookingtype(
         id bigint NOT NULL AUTO_INCREMENT primary key,
@@ -87,30 +86,18 @@ CREATE table bookingunit(
 insert into bookingunit values (1, 5, "movie1", now(), 'active',1,1,now(),now());
 insert into bookingunit values (2, 5, "movie2", now(), 'active',1,1,now(),now());
 
-CREATE table bookingunit_price(
+CREATE table bookingunit_details(
         id bigint NOT NULL AUTO_INCREMENT primary key,
+        bookingUnitId int NOT NULL,
         bookingTypeId int NOT NULL,
         price double DEFAULT 0,
+        capacity int DEFAULT 0,
         status varchar(10) DEFAULT 'active',
         created int(11) DEFAULT 0,
   	lastModified int(11) DEFAULT 0,
   	createdDate datetime NOT NULL,
   	lastModifiedDate datetime DEFAULT current_timestamp()
 );
-insert into bookingunit_price values (1, 1, 10.0, 'active',1,1,now(),now());
-insert into bookingunit_price values (2, 2, 20.0, 'active',1,1,now(),now());
-
-CREATE table bookingunit_capacity(
-        id bigint NOT NULL AUTO_INCREMENT primary key,
-        bookingTypeId int NOT NULL,
-        totalSeats int NOT NULL default 0,
-        availableSeats int  NOT NULL default 0,
-        status varchar(10) DEFAULT 'active',
-        created int(11) DEFAULT 0,
-  	lastModified int(11) DEFAULT 0,
-  	createdDate datetime NOT NULL,
-  	lastModifiedDate datetime DEFAULT current_timestamp()
-);
-insert into bookingunit_capacity values (1, 1, 50, 50, 'active', 1,1,now(),now());
-insert into bookingunit_capacity values (2, 2, 100, 100, 'active', 1,1,now(),now());
+insert into bookingunit_details values (1, 1, 1, 10.0, 15, 'active',1,1,now(),now());
+insert into bookingunit_details values (2, 1, 2, 20.0, 30, 'active',1,1,now(),now());
 

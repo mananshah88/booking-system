@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.mybooking.demo.base.BaseModel;
+import com.mybooking.demo.constant.SystemConstants;
 
 @Entity
 @Table(name = "bookingtype")
@@ -113,6 +114,18 @@ public class BookingType extends BaseModel {
 
 	public BookingType() {
 		super();
+	}
+
+	public BookingType(String name, String displayName) {
+		super();
+		var date = new Date();
+		this.name = name;
+		this.displayName = displayName;
+		this.status = SystemConstants.STATUS_ACTIVE;
+		this.created = 1;
+		this.lastModified = 1;
+		this.createdDate = date;
+		this.lastModifiedDate = date;
 	}
 
 	@Override
