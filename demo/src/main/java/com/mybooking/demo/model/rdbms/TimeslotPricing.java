@@ -18,8 +18,8 @@ import com.mybooking.demo.base.BaseModel;
 import com.mybooking.demo.constant.SystemConstants;
 
 @Entity
-@Table(name = "movie_pricing")
-public class MoviePricing extends BaseModel {
+@Table(name = "timeslot_pricing")
+public class TimeslotPricing extends BaseModel {
 
 	/**
 	 * 
@@ -126,11 +126,11 @@ public class MoviePricing extends BaseModel {
 		return serialVersionUID;
 	}
 
-	public MoviePricing() {
+	public TimeslotPricing() {
 		super();
 	}
 
-	public MoviePricing(SeatCategory seatcategory, Double price) {
+	public TimeslotPricing(SeatCategory seatcategory, Double price) {
 		super();
 		var date = new Date();
 		this.seatcategory = seatcategory;
@@ -142,7 +142,7 @@ public class MoviePricing extends BaseModel {
 		this.lastModifiedDate = date;
 	}
 
-	public MoviePricing(Long id, MovieTimeslot movieTimeslot, SeatCategory seatcategory, Double price,
+	public TimeslotPricing(Long id, MovieTimeslot movieTimeslot, SeatCategory seatcategory, Double price,
 			String status, Integer created, Integer lastModified, Date createdDate, Date lastModifiedDate) {
 		super();
 		this.id = id;
@@ -187,7 +187,7 @@ public class MoviePricing extends BaseModel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MoviePricing other = (MoviePricing) obj;
+		TimeslotPricing other = (TimeslotPricing) obj;
 		if (created == null) {
 			if (other.created != null)
 				return false;

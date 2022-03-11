@@ -13,7 +13,7 @@ import com.mybooking.demo.dto.upload.ScheduleDto;
 import com.mybooking.demo.dto.upload.UploadRequestDTO;
 import com.mybooking.demo.model.rdbms.SeatCategory;
 import com.mybooking.demo.model.rdbms.MovieTimeslot;
-import com.mybooking.demo.model.rdbms.MoviePricing;
+import com.mybooking.demo.model.rdbms.TimeslotPricing;
 import com.mybooking.demo.model.rdbms.Screen;
 import com.mybooking.demo.repository.rdbms.SeatCategoryRepository;
 import com.mybooking.demo.repository.rdbms.ScreenRepository;
@@ -100,9 +100,9 @@ public class UploadServiceImpl implements UploadService {
 		return movietiming;
 	}
 
-	public MoviePricing getNewMoviePricing(Long bookingTypeId, Double price, Integer seats) {
+	public TimeslotPricing getNewMoviePricing(Long bookingTypeId, Double price, Integer seats) {
 		SeatCategory bt = seatCategoryRepository.findById(bookingTypeId).get();
-		return new MoviePricing(bt, price);
+		return new TimeslotPricing(bt, price);
 	}
 
 	/* Assumption no modification allowed in StartTime */
@@ -115,7 +115,7 @@ public class UploadServiceImpl implements UploadService {
 		} else {
 			movietiming.setMovieId(schedule.getMovieId());
 			for (PriceQunatityDetail pqd : schedule.getPriceQunatityDetail()) {
-				MoviePricing bud = movietiming.getMoviePricing().stream()
+				TimeslotPricing bud = movietiming.getTimeslotPricing().stream()
 						.filter(ud -> ud.getSeatcategory().getId().equals(pqd.getBookingTypeId())).findAny()
 						.orElse(null);
 				if (bud == null) {
