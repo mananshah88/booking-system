@@ -44,9 +44,9 @@ public class MovieTiming extends BaseModel {
 	// Movie start time
 	private Date timeslot;
 
-	@JsonProperty("movietimings")
+	@JsonProperty("moviepricing")
 	@OneToMany(mappedBy = "movietiming", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<MoviePricing> movietimings = new HashSet<>();
+	private Set<MoviePricing> moviepricing = new HashSet<>();
 
 	private String status = SystemConstants.STATUS_ACTIVE;
 	private Integer created;
@@ -86,12 +86,12 @@ public class MovieTiming extends BaseModel {
 		this.timeslot = timeslot;
 	}
 
-	public Set<MoviePricing> getMovietimings() {
-		return movietimings;
+	public Set<MoviePricing> getMoviepricing() {
+		return moviepricing;
 	}
 
-	public void setMovietimings(Set<MoviePricing> movietimings) {
-		this.movietimings = movietimings;
+	public void setMoviepricing(Set<MoviePricing> moviepricing) {
+		this.moviepricing = moviepricing;
 	}
 
 	public String getStatus() {
@@ -247,14 +247,14 @@ public class MovieTiming extends BaseModel {
 		return true;
 	}
 
-	public void addMoviePricingDetails(MoviePricing moviePricing) {
-		movietimings.add(moviePricing);
-		moviePricing.setMovietiming(this);
+	public void addMoviePricing(MoviePricing mp) {
+		moviepricing.add(mp);
+		mp.setMovietiming(this);
 	}
 
-	public void removeMoviePricing(MoviePricing moviePricing) {
-		movietimings.remove(moviePricing);
-		moviePricing.setMovietiming(null);
+	public void removeMoviePricing(MoviePricing mp) {
+		moviepricing.remove(mp);
+		mp.setMovietiming(null);
 	}
 
 }

@@ -36,10 +36,10 @@ public class MoviePricing extends BaseModel {
 	private MovieTiming movietiming;
 
 	// Booking Type ( Seat type)
-	@JsonProperty("bookingType")
+	@JsonProperty("seatcategory")
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "bookingTypeId")
-	private BookingType bookingType;
+	@JoinColumn(name = "seatcategoryId")
+	private SeatCategory seatcategory;
 
 	// Price of booking a single ticket for the above type
 	private Double price;
@@ -69,12 +69,12 @@ public class MoviePricing extends BaseModel {
 		this.movietiming = movietiming;
 	}
 
-	public BookingType getBookingType() {
-		return bookingType;
+	public SeatCategory getSeatcategory() {
+		return seatcategory;
 	}
 
-	public void setBookingType(BookingType bookingType) {
-		this.bookingType = bookingType;
+	public void setSeatcategory(SeatCategory seatcategory) {
+		this.seatcategory = seatcategory;
 	}
 
 	public Double getPrice() {
@@ -141,10 +141,10 @@ public class MoviePricing extends BaseModel {
 		super();
 	}
 
-	public MoviePricing(BookingType bookingType, Double price, Integer capacity) {
+	public MoviePricing(SeatCategory seatcategory, Double price, Integer capacity) {
 		super();
 		var date = new Date();
-		this.bookingType = bookingType;
+		this.seatcategory = seatcategory;
 		this.price = price;
 		this.capacity = capacity;
 		this.status = SystemConstants.STATUS_ACTIVE;
@@ -154,12 +154,12 @@ public class MoviePricing extends BaseModel {
 		this.lastModifiedDate = date;
 	}
 
-	public MoviePricing(Long id, MovieTiming movieTiming, BookingType bookingType, Double price, Integer capacity,
+	public MoviePricing(Long id, MovieTiming movieTiming, SeatCategory seatcategory, Double price, Integer capacity,
 			String status, Integer created, Integer lastModified, Date createdDate, Date lastModifiedDate) {
 		super();
 		this.id = id;
 		this.movietiming = movieTiming;
-		this.bookingType = bookingType;
+		this.seatcategory = seatcategory;
 		this.price = price;
 		this.capacity = capacity;
 		this.status = status;
@@ -180,7 +180,6 @@ public class MoviePricing extends BaseModel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((bookingType == null) ? 0 : bookingType.hashCode());
 		result = prime * result + ((capacity == null) ? 0 : capacity.hashCode());
 		result = prime * result + ((created == null) ? 0 : created.hashCode());
 		result = prime * result + ((createdDate == null) ? 0 : createdDate.hashCode());
@@ -189,6 +188,7 @@ public class MoviePricing extends BaseModel {
 		result = prime * result + ((lastModifiedDate == null) ? 0 : lastModifiedDate.hashCode());
 		result = prime * result + ((movietiming == null) ? 0 : movietiming.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + ((seatcategory == null) ? 0 : seatcategory.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
@@ -202,11 +202,6 @@ public class MoviePricing extends BaseModel {
 		if (getClass() != obj.getClass())
 			return false;
 		MoviePricing other = (MoviePricing) obj;
-		if (bookingType == null) {
-			if (other.bookingType != null)
-				return false;
-		} else if (!bookingType.equals(other.bookingType))
-			return false;
 		if (capacity == null) {
 			if (other.capacity != null)
 				return false;
@@ -246,6 +241,11 @@ public class MoviePricing extends BaseModel {
 			if (other.price != null)
 				return false;
 		} else if (!price.equals(other.price))
+			return false;
+		if (seatcategory == null) {
+			if (other.seatcategory != null)
+				return false;
+		} else if (!seatcategory.equals(other.seatcategory))
 			return false;
 		if (status == null) {
 			if (other.status != null)

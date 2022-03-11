@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mybooking.demo.dto.upload.PriceQunatityDetail;
 import com.mybooking.demo.dto.upload.ScheduleDto;
 import com.mybooking.demo.dto.upload.UploadRequestDTO;
-import com.mybooking.demo.model.rdbms.BookingType;
+import com.mybooking.demo.model.rdbms.SeatCategory;
 import com.mybooking.demo.model.rdbms.MovieTiming;
 import com.mybooking.demo.model.rdbms.MoviePricing;
 import com.mybooking.demo.model.rdbms.Screen;
-import com.mybooking.demo.repository.rdbms.BookingTypeRepository;
+import com.mybooking.demo.repository.rdbms.SeatCategoryRepository;
 import com.mybooking.demo.repository.rdbms.ScreenRepository;
 import com.mybooking.demo.service.UploadService;
 
@@ -23,12 +23,12 @@ import com.mybooking.demo.service.UploadService;
 public class UploadServiceImpl implements UploadService {
 
 	private ScreenRepository screenRepository;
-	private BookingTypeRepository bookingTypeRepository;
+	private SeatCategoryRepository seatCategoryRepository;
 
 	@Autowired
-	public UploadServiceImpl(ScreenRepository screenRepository, BookingTypeRepository bookingTypeRepository) {
+	public UploadServiceImpl(ScreenRepository screenRepository, SeatCategoryRepository seatCategoryRepository) {
 		this.screenRepository = screenRepository;
-		this.bookingTypeRepository = bookingTypeRepository;
+		this.seatCategoryRepository = seatCategoryRepository;
 	}
 
 	/*
@@ -95,19 +95,19 @@ public class UploadServiceImpl implements UploadService {
 
 	public MovieTiming getNewMovieTiming(ScheduleDto schedule) {
 		var movietiming = new MovieTiming(schedule.getMovieId(), schedule.getStartTime());
-		schedule.getPriceQunatityDetail().forEach(detail -> movietiming.addMoviePricingDetails(
-				getNewMoviePricing(detail.getBookingTypeId(), detail.getPrice(), detail.getSeats())));
+		schedule.getPriceQunatityDetail().forEach(detail -> movietiming
+				.addMoviePricing(getNewMoviePricing(detail.getBookingTypeId(), detail.getPrice(), detail.getSeats())));
 		return movietiming;
 	}
 
 	public MoviePricing getNewMoviePricing(Long bookingTypeId, Double price, Integer seats) {
-		BookingType bt = bookingTypeRepository.findById(bookingTypeId).get();
+		SeatCategory bt = seatCategoryRepository.findById(bookingTypeId).get();
 		return new MoviePricing(bt, price, seats);
 	}
 
 	/* Assumption no modification allowed in StartTime */
 	public void modifyMovietiming(Screen screen, ScheduleDto schedule) {
-		var movietiming = screen.getMovietimings().stream()
+		MovieTiming movietiming = screen.getMovietimings().stream()
 				.filter(bu -> bu.getTimeslot().equals(schedule.getStartTime())).findAny().orElse(null);
 		if (movietiming == null) {
 			// new details are there...
@@ -115,11 +115,11 @@ public class UploadServiceImpl implements UploadService {
 		} else {
 			movietiming.setMovieId(schedule.getMovieId());
 			for (PriceQunatityDetail pqd : schedule.getPriceQunatityDetail()) {
-				MoviePricing bud = movietiming.getMovietimings().stream()
-						.filter(ud -> ud.getBookingType().getId().equals(pqd.getBookingTypeId())).findAny()
+				MoviePricing bud = movietiming.getMoviepricing().stream()
+						.filter(ud -> ud.getSeatcategory().getId().equals(pqd.getBookingTypeId())).findAny()
 						.orElse(null);
 				if (bud == null) {
-					movietiming.addMoviePricingDetails(
+					movietiming.addMoviePricing(
 							getNewMoviePricing(pqd.getBookingTypeId(), pqd.getPrice(), pqd.getSeats()));
 				} else {
 					bud.setPrice(pqd.getPrice());

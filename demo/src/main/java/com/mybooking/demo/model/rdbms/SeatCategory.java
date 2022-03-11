@@ -12,8 +12,8 @@ import com.mybooking.demo.base.BaseModel;
 import com.mybooking.demo.constant.SystemConstants;
 
 @Entity
-@Table(name = "bookingtype")
-public class BookingType extends BaseModel {
+@Table(name = "seat_category")
+public class SeatCategory extends BaseModel {
 
 	/**
 	 * 
@@ -99,7 +99,7 @@ public class BookingType extends BaseModel {
 		return serialVersionUID;
 	}
 
-	public BookingType(Long id, String name, String displayName, String status, Integer created, Integer lastModified,
+	public SeatCategory(Long id, String name, String displayName, String status, Integer created, Integer lastModified,
 			Date createdDate, Date lastModifiedDate) {
 		super();
 		this.id = id;
@@ -112,11 +112,11 @@ public class BookingType extends BaseModel {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 
-	public BookingType() {
+	public SeatCategory() {
 		super();
 	}
 
-	public BookingType(String name, String displayName) {
+	public SeatCategory(String name, String displayName) {
 		super();
 		var date = new Date();
 		this.name = name;
@@ -130,7 +130,7 @@ public class BookingType extends BaseModel {
 
 	@Override
 	public String toString() {
-		return "BookingType [id=" + id + ", name=" + name + ", displayName=" + displayName + ", status=" + status
+		return "SeatCategory [id=" + id + ", name=" + name + ", displayName=" + displayName + ", status=" + status
 				+ ", created=" + created + ", lastModified=" + lastModified + ", createdDate=" + createdDate
 				+ ", lastModifiedDate=" + lastModifiedDate + "]";
 	}
