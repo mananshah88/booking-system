@@ -32,8 +32,8 @@ public class MoviePricing extends BaseModel {
 
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "movietimingId", nullable = false)
-	private MovieTiming movietiming;
+	@JoinColumn(name = "movietimeslotId", nullable = false)
+	private MovieTimeslot movieTimeslot;
 
 	// Booking Type ( Seat type)
 	@JsonProperty("seatcategory")
@@ -58,12 +58,12 @@ public class MoviePricing extends BaseModel {
 		this.id = id;
 	}
 
-	public MovieTiming getMovietiming() {
-		return movietiming;
+	public MovieTimeslot getMovieTimeslot() {
+		return movieTimeslot;
 	}
 
-	public void setMovietiming(MovieTiming movietiming) {
-		this.movietiming = movietiming;
+	public void setMovieTimeslot(MovieTimeslot movieTimeslot) {
+		this.movieTimeslot = movieTimeslot;
 	}
 
 	public SeatCategory getSeatcategory() {
@@ -142,11 +142,11 @@ public class MoviePricing extends BaseModel {
 		this.lastModifiedDate = date;
 	}
 
-	public MoviePricing(Long id, MovieTiming movieTiming, SeatCategory seatcategory, Double price,
+	public MoviePricing(Long id, MovieTimeslot movieTimeslot, SeatCategory seatcategory, Double price,
 			String status, Integer created, Integer lastModified, Date createdDate, Date lastModifiedDate) {
 		super();
 		this.id = id;
-		this.movietiming = movieTiming;
+		this.movieTimeslot = movieTimeslot;
 		this.seatcategory = seatcategory;
 		this.price = price;
 		this.status = status;
@@ -172,7 +172,7 @@ public class MoviePricing extends BaseModel {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((lastModified == null) ? 0 : lastModified.hashCode());
 		result = prime * result + ((lastModifiedDate == null) ? 0 : lastModifiedDate.hashCode());
-		result = prime * result + ((movietiming == null) ? 0 : movietiming.hashCode());
+		result = prime * result + ((movieTimeslot == null) ? 0 : movieTimeslot.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		result = prime * result + ((seatcategory == null) ? 0 : seatcategory.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
@@ -213,10 +213,10 @@ public class MoviePricing extends BaseModel {
 				return false;
 		} else if (!lastModifiedDate.equals(other.lastModifiedDate))
 			return false;
-		if (movietiming == null) {
-			if (other.movietiming != null)
+		if (movieTimeslot == null) {
+			if (other.movieTimeslot != null)
 				return false;
-		} else if (!movietiming.equals(other.movietiming))
+		} else if (!movieTimeslot.equals(other.movieTimeslot))
 			return false;
 		if (price == null) {
 			if (other.price != null)

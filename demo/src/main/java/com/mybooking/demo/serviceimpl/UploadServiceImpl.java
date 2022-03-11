@@ -12,7 +12,7 @@ import com.mybooking.demo.dto.upload.PriceQunatityDetail;
 import com.mybooking.demo.dto.upload.ScheduleDto;
 import com.mybooking.demo.dto.upload.UploadRequestDTO;
 import com.mybooking.demo.model.rdbms.SeatCategory;
-import com.mybooking.demo.model.rdbms.MovieTiming;
+import com.mybooking.demo.model.rdbms.MovieTimeslot;
 import com.mybooking.demo.model.rdbms.MoviePricing;
 import com.mybooking.demo.model.rdbms.Screen;
 import com.mybooking.demo.repository.rdbms.SeatCategoryRepository;
@@ -93,8 +93,8 @@ public class UploadServiceImpl implements UploadService {
 		return true;
 	}
 
-	public MovieTiming getNewMovieTiming(ScheduleDto schedule) {
-		var movietiming = new MovieTiming(schedule.getMovieId(), schedule.getStartTime());
+	public MovieTimeslot getNewMovieTiming(ScheduleDto schedule) {
+		var movietiming = new MovieTimeslot(schedule.getMovieId(), schedule.getStartTime());
 		schedule.getPriceQunatityDetail().forEach(detail -> movietiming
 				.addMoviePricing(getNewMoviePricing(detail.getBookingTypeId(), detail.getPrice(), detail.getSeats())));
 		return movietiming;
@@ -107,7 +107,7 @@ public class UploadServiceImpl implements UploadService {
 
 	/* Assumption no modification allowed in StartTime */
 	public void modifyMovietiming(Screen screen, ScheduleDto schedule) {
-		MovieTiming movietiming = screen.getMovietimings().stream()
+		MovieTimeslot movietiming = screen.getMovietimeslots().stream()
 				.filter(bu -> bu.getTimeslot().equals(schedule.getStartTime())).findAny().orElse(null);
 		if (movietiming == null) {
 			// new details are there...
@@ -115,7 +115,7 @@ public class UploadServiceImpl implements UploadService {
 		} else {
 			movietiming.setMovieId(schedule.getMovieId());
 			for (PriceQunatityDetail pqd : schedule.getPriceQunatityDetail()) {
-				MoviePricing bud = movietiming.getMoviepricing().stream()
+				MoviePricing bud = movietiming.getMoviePricing().stream()
 						.filter(ud -> ud.getSeatcategory().getId().equals(pqd.getBookingTypeId())).findAny()
 						.orElse(null);
 				if (bud == null) {

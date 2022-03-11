@@ -21,8 +21,8 @@ import com.mybooking.demo.base.BaseModel;
 import com.mybooking.demo.constant.SystemConstants;
 
 @Entity
-@Table(name = "movie_timing")
-public class MovieTiming extends BaseModel {
+@Table(name = "movie_timeslot")
+public class MovieTimeslot extends BaseModel {
 
 	/**
 	 * 
@@ -46,7 +46,7 @@ public class MovieTiming extends BaseModel {
 
 	@JsonProperty("moviepricing")
 	@OneToMany(mappedBy = "movietiming", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<MoviePricing> moviepricing = new HashSet<>();
+	private Set<MoviePricing> moviePricing = new HashSet<>();
 
 	private String status = SystemConstants.STATUS_ACTIVE;
 	private Integer created;
@@ -86,12 +86,12 @@ public class MovieTiming extends BaseModel {
 		this.timeslot = timeslot;
 	}
 
-	public Set<MoviePricing> getMoviepricing() {
-		return moviepricing;
+	public Set<MoviePricing> getMoviePricing() {
+		return moviePricing;
 	}
 
-	public void setMoviepricing(Set<MoviePricing> moviepricing) {
-		this.moviepricing = moviepricing;
+	public void setMoviePricing(Set<MoviePricing> moviePricing) {
+		this.moviePricing = moviePricing;
 	}
 
 	public String getStatus() {
@@ -138,11 +138,11 @@ public class MovieTiming extends BaseModel {
 		return serialVersionUID;
 	}
 
-	public MovieTiming() {
+	public MovieTimeslot() {
 		super();
 	}
 
-	public MovieTiming(String movieId, Date timeslot) {
+	public MovieTimeslot(String movieId, Date timeslot) {
 		super();
 		this.movieId = movieId;
 		this.timeslot = timeslot;
@@ -153,7 +153,7 @@ public class MovieTiming extends BaseModel {
 		this.lastModifiedDate = new Date();
 	}
 
-	public MovieTiming(Long id, Screen screen, String movieId, Date timeslot, String status, Integer created,
+	public MovieTimeslot(Long id, Screen screen, String movieId, Date timeslot, String status, Integer created,
 			Integer lastModified, Date createdDate, Date lastModifiedDate) {
 		super();
 		this.id = id;
@@ -169,7 +169,7 @@ public class MovieTiming extends BaseModel {
 
 	@Override
 	public String toString() {
-		return "MovieTiming [id=" + id + ", movieId=" + movieId + ", timeslot=" + timeslot + ", status=" + status
+		return "MovieTimeslot [id=" + id + ", movieId=" + movieId + ", timeslot=" + timeslot + ", status=" + status
 				+ ", created=" + created + ", lastModified=" + lastModified + ", createdDate=" + createdDate
 				+ ", lastModifiedDate=" + lastModifiedDate + "]";
 	}
@@ -198,7 +198,7 @@ public class MovieTiming extends BaseModel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MovieTiming other = (MovieTiming) obj;
+		MovieTimeslot other = (MovieTimeslot) obj;
 		if (created == null) {
 			if (other.created != null)
 				return false;
@@ -248,13 +248,13 @@ public class MovieTiming extends BaseModel {
 	}
 
 	public void addMoviePricing(MoviePricing mp) {
-		moviepricing.add(mp);
-		mp.setMovietiming(this);
+		moviePricing.add(mp);
+		mp.setMovieTimeslot(this);
 	}
 
 	public void removeMoviePricing(MoviePricing mp) {
-		moviepricing.remove(mp);
-		mp.setMovietiming(null);
+		moviePricing.remove(mp);
+		mp.setMovieTimeslot(null);
 	}
 
 }
