@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mybooking.demo.dto.upload.PriceQunatityDetail;
 import com.mybooking.demo.dto.upload.ScheduleDto;
@@ -34,6 +37,7 @@ public class UploadServiceImpl implements UploadService {
 	 * @Valid annotation to requested DTO and it also has all the validations by
 	 * annotated
 	 */
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 2, readOnly = false, rollbackFor = Exception.class)
 	@Override
 	public Boolean uploadDetails(UploadRequestDTO uploadRequestDTO) {
 
@@ -56,6 +60,7 @@ public class UploadServiceImpl implements UploadService {
 	}
 
 	// MANAN
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 2, readOnly = false, rollbackFor = Exception.class)
 	@Override
 	public Boolean modifyDetails(UploadRequestDTO uploadRequestDTO) {
 		uploadRequestDTO.getScreens().forEach(screenDto -> {
@@ -123,4 +128,5 @@ public class UploadServiceImpl implements UploadService {
 		}
 		screen.addBookingUnit(bookingUnit);
 	}
+
 }
