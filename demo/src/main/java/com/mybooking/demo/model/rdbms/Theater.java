@@ -157,10 +157,9 @@ public class Theater extends BaseModel {
 
 	@Override
 	public String toString() {
-		return "Theater [id=" + id + ", name=" + name + ", partnerId=" + partnerId + ", screens=" + screens
-				+ ", cityId=" + cityId + ", address=" + address + ", pincode=" + pincode + ", created=" + created
-				+ ", lastModified=" + lastModified + ", createdDate=" + createdDate + ", lastModifiedDate="
-				+ lastModifiedDate + "]";
+		return "Theater [id=" + id + ", name=" + name + ", partnerId=" + partnerId + ", cityId=" + cityId + ", address="
+				+ address + ", pincode=" + pincode + ", created=" + created + ", lastModified=" + lastModified
+				+ ", createdDate=" + createdDate + ", lastModifiedDate=" + lastModifiedDate + "]";
 	}
 
 	public void addScreen(Screen screen) {
