@@ -93,6 +93,7 @@ CREATE table timeslot_pricing(
         seatcategoryId int NOT NULL,
         
         price double DEFAULT 0,
+        
         status varchar(10) DEFAULT 'active',
         created int(11) DEFAULT 0,
   	lastModified int(11) DEFAULT 0,
@@ -122,3 +123,46 @@ CREATE table timeslot_seat_details(
 
 insert into slot_seat_details(1, 1, 1, 1, 1, 'A1', false, 'active',1,1,now(),now());
 
+CREATE table purchase (
+        id bigint NOT NULL AUTO_INCREMENT primary key,
+        priceOfSingleTicket double DEFAULT NULL,
+        quantity int NOT NULL,
+        totalamount double DEFAULT NULL,
+        tax double DEFAULT NULL,
+        promotionCode varchar(20) DEFAULT NULL,
+        discount double DEFAULT NULL,
+        payableamount double DEFAULT NULL,
+        bookingStatus varchar(20) DEFAULT NULL,
+        status varchar(10) DEFAULT 'active',
+        created int(11) DEFAULT 0,
+  	lastModified int(11) DEFAULT 0,
+  	createdDate datetime NOT NULL,
+  	lastModifiedDate datetime DEFAULT current_timestamp()
+);
+insert into purchase values (1,50.0, 5, 250.0, 36.0, 'MYBOOKING15', 15.0, 271.0, 'booked', 'active',1,1,now(),now());
+insert into purchase values (2,50.0, 5, 250.0, 36.0,  null, 0.0, 286.0, 'payment-failed', 'active',1,1,now(),now());
+
+create table purchase_item (
+        id bigint NOT NULL AUTO_INCREMENT primary key,
+	purchaseId int NOT NULL,        
+        timeslotSeatId int NOT NULL,
+        status varchar(10) DEFAULT 'active',
+        created int(11) DEFAULT 0,
+  	lastModified int(11) DEFAULT 0,
+  	createdDate datetime NOT NULL,
+  	lastModifiedDate datetime DEFAULT current_timestamp()
+);
+insert into purchase_item values (1, 1, 1, 'active',1,1,now(),now());
+insert into purchase_item values (2, 1, 2, 'active',1,1,now(),now());
+
+
+create table orders (
+        id bigint NOT NULL AUTO_INCREMENT primary key,
+	purchaseId int NOT NULL,
+	paymentId int NOT NULL,
+        status varchar(10) DEFAULT 'active',
+        created int(11) DEFAULT 0,
+  	lastModified int(11) DEFAULT 0,
+  	createdDate datetime NOT NULL,
+  	lastModifiedDate datetime DEFAULT current_timestamp()
+);
