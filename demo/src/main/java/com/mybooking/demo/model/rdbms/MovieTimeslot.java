@@ -86,6 +86,14 @@ public class MovieTimeslot extends BaseModel {
 		this.timeslot = timeslot;
 	}
 
+	public Set<SeatDetails> getSeatDetails() {
+		return seatDetails;
+	}
+
+	public void setSeatDetails(Set<SeatDetails> seatDetails) {
+		this.seatDetails = seatDetails;
+	}
+
 	public String getStatus() {
 		return status;
 	}

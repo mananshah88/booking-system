@@ -34,7 +34,7 @@ public class PurchaseItem extends BaseModel {
 	private Purchase purchase;
 	
 	// one to one timeslot
-	private Integer timeslotSeatId;
+	private Long seatId;
 	private Double price;
 
 	private String status;
@@ -59,12 +59,12 @@ public class PurchaseItem extends BaseModel {
 		this.purchase = purchase;
 	}
 
-	public Integer getTimeslotSeatId() {
-		return timeslotSeatId;
+	public Long getSeatId() {
+		return seatId;
 	}
 
-	public void setTimeslotSeatId(Integer timeslotSeatId) {
-		this.timeslotSeatId = timeslotSeatId;
+	public void setSeatId(Long seatId) {
+		this.seatId = seatId;
 	}
 
 	public Double getPrice() {
@@ -123,9 +123,9 @@ public class PurchaseItem extends BaseModel {
 		super();
 	}
 
-	public PurchaseItem(Integer timeslotSeatId, Double price) {
+	public PurchaseItem(Long seatId, Double price) {
 		super();
-		this.timeslotSeatId = timeslotSeatId;
+		this.seatId = seatId;
 		this.price = price;
 		this.status = SystemConstants.STATUS_ACTIVE;
 		this.created = getLoggedInCustomerId();
@@ -136,7 +136,7 @@ public class PurchaseItem extends BaseModel {
 
 	@Override
 	public String toString() {
-		return "PurchaseItem [id=" + id + ", purchase=" + purchase + ", timeslotSeatId=" + timeslotSeatId + ", price="
+		return "PurchaseItem [id=" + id + ", purchase=" + purchase + ", seatId=" + seatId + ", price="
 				+ price + ", status=" + status + ", created=" + created + ", lastModified=" + lastModified
 				+ ", createdDate=" + createdDate + ", lastModifiedDate=" + lastModifiedDate + "]";
 	}
@@ -153,7 +153,7 @@ public class PurchaseItem extends BaseModel {
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		result = prime * result + ((purchase == null) ? 0 : purchase.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + ((timeslotSeatId == null) ? 0 : timeslotSeatId.hashCode());
+		result = prime * result + ((seatId == null) ? 0 : seatId.hashCode());
 		return result;
 	}
 
@@ -206,10 +206,10 @@ public class PurchaseItem extends BaseModel {
 				return false;
 		} else if (!status.equals(other.status))
 			return false;
-		if (timeslotSeatId == null) {
-			if (other.timeslotSeatId != null)
+		if (seatId == null) {
+			if (other.seatId != null)
 				return false;
-		} else if (!timeslotSeatId.equals(other.timeslotSeatId))
+		} else if (!seatId.equals(other.seatId))
 			return false;
 		return true;
 	}

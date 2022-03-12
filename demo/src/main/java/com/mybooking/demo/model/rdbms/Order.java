@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mybooking.demo.base.BaseModel;
+import com.mybooking.demo.constant.SystemConstants;
 
 @Entity
 @Table(name = "orders")
@@ -32,7 +33,7 @@ public class Order extends BaseModel {
 	@JoinColumn(name = "purchaseId")
 	private Purchase purchase;
 
-	private Integer paymentId;
+	private Long paymentId;
 
 	private String status;
 	private Integer created;
@@ -56,11 +57,11 @@ public class Order extends BaseModel {
 		this.purchase = purchase;
 	}
 
-	public Integer getPaymentId() {
+	public Long getPaymentId() {
 		return paymentId;
 	}
 
-	public void setPaymentId(Integer paymentId) {
+	public void setPaymentId(Long paymentId) {
 		this.paymentId = paymentId;
 	}
 
@@ -112,7 +113,18 @@ public class Order extends BaseModel {
 		super();
 	}
 
-	public Order(Long id, Purchase purchase, Integer paymentId, String status, Integer created, Integer lastModified,
+	public Order(Purchase purchase, Long paymentId) {
+		super();
+		this.purchase = purchase;
+		this.paymentId = paymentId;
+		this.status = SystemConstants.STATUS_ACTIVE;
+		this.created = getLoggedInCustomerId();
+		this.lastModified = getLoggedInCustomerId();
+		this.createdDate = getCurrentDateTime();
+		this.lastModifiedDate = getCurrentDateTime();
+	}
+
+	public Order(Long id, Purchase purchase, Long paymentId, String status, Integer created, Integer lastModified,
 			Date createdDate, Date lastModifiedDate) {
 		super();
 		this.id = id;

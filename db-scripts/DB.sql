@@ -119,7 +119,7 @@ insert into purchase values (2, 5, 250.0, 36.0,  null, 0.0, 286.0, 'payment-fail
 create table purchase_item (
         id bigint NOT NULL AUTO_INCREMENT primary key,
 	purchaseId int NOT NULL,        
-        timeslotSeatId int NOT NULL,
+        seatId int NOT NULL,
         price double DEFAULT NULL,
         status varchar(10) DEFAULT 'active',
         created int(11) DEFAULT 0,
