@@ -44,10 +44,6 @@ public class MovieTimeslot extends BaseModel {
 	// Movie start time
 	private Date timeslot;
 
-	@JsonProperty("timeslotPricing")
-	@OneToMany(mappedBy = "movieTimeslot", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<TimeslotPricing> timeslotPricing = new HashSet<>();
-
 	@JsonProperty("timeslotSeatDetails")
 	@OneToMany(mappedBy = "movieTimeslot", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<TimeslotSeatDetails> timeslotSeatDetails = new HashSet<>();
@@ -90,12 +86,12 @@ public class MovieTimeslot extends BaseModel {
 		this.timeslot = timeslot;
 	}
 
-	public Set<TimeslotPricing> getTimeslotPricing() {
-		return timeslotPricing;
+	public Set<TimeslotSeatDetails> getTimeslotSeatDetails() {
+		return timeslotSeatDetails;
 	}
 
-	public void setTimeslotPricing(Set<TimeslotPricing> timeslotPricing) {
-		this.timeslotPricing = timeslotPricing;
+	public void setTimeslotSeatDetails(Set<TimeslotSeatDetails> timeslotSeatDetails) {
+		this.timeslotSeatDetails = timeslotSeatDetails;
 	}
 
 	public String getStatus() {
@@ -249,16 +245,6 @@ public class MovieTimeslot extends BaseModel {
 		} else if (!timeslot.equals(other.timeslot))
 			return false;
 		return true;
-	}
-
-	public void addTimeslotPricing(TimeslotPricing mp) {
-		timeslotPricing.add(mp);
-		mp.setMovieTimeslot(this);
-	}
-
-	public void removeTimeslotPricing(TimeslotPricing mp) {
-		timeslotPricing.remove(mp);
-		mp.setMovieTimeslot(null);
 	}
 
 	public void addTimeslotSeatDetails(TimeslotSeatDetails tsd) {
