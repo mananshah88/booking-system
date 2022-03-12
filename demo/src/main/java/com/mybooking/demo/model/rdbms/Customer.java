@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.mybooking.demo.base.BaseModel;
+import com.mybooking.demo.constant.SystemConstants;
 
 @Entity
 @Table(name = "customer")
@@ -28,6 +29,7 @@ public class Customer extends BaseModel {
 	private Double mobileNumber;
 	private String gender;
 	private Integer type;
+	private String status = SystemConstants.STATUS_ACTIVE;
 	private Integer created;
 	private Integer lastModified;
 	private Date createdDate;
@@ -89,6 +91,14 @@ public class Customer extends BaseModel {
 		this.type = type;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public Integer getCreated() {
 		return created;
 	}
@@ -130,7 +140,7 @@ public class Customer extends BaseModel {
 	}
 
 	public Customer(Long id, String firstName, String lastName, String email, Double mobileNumber, String gender,
-			Integer type, Integer created, Integer lastModified, Date createdDate, Date lastModifiedDate) {
+			Integer type, Integer customerId, Date date) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -139,18 +149,19 @@ public class Customer extends BaseModel {
 		this.mobileNumber = mobileNumber;
 		this.gender = gender;
 		this.type = type;
-		this.created = created;
-		this.lastModified = lastModified;
-		this.createdDate = createdDate;
-		this.lastModifiedDate = lastModifiedDate;
+		this.status = SystemConstants.STATUS_ACTIVE;
+		this.created = customerId;
+		this.lastModified = customerId;
+		this.createdDate = date;
+		this.lastModifiedDate = date;
 	}
 
 	@Override
 	public String toString() {
 		return "Customer [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", mobileNumber=" + mobileNumber + ", gender=" + gender + ", type=" + type + ", created=" + created
-				+ ", lastModified=" + lastModified + ", createdDate=" + createdDate + ", lastModifiedDate="
-				+ lastModifiedDate + "]";
+				+ ", mobileNumber=" + mobileNumber + ", gender=" + gender + ", type=" + type + ", status=" + status
+				+ ", created=" + created + ", lastModified=" + lastModified + ", createdDate=" + createdDate
+				+ ", lastModifiedDate=" + lastModifiedDate + "]";
 	}
 
 }

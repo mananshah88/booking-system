@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mybooking.demo.base.BaseServiceImpl;
 import com.mybooking.demo.exceptions.InvalidScreenException;
 import com.mybooking.demo.exceptions.InvalidTheaterException;
 import com.mybooking.demo.model.rdbms.Screen;
@@ -13,7 +14,7 @@ import com.mybooking.demo.repository.rdbms.TheaterRepository;
 import com.mybooking.demo.service.TheaterService;
 
 @Service
-public class TheaterServiceImpl implements TheaterService {
+public class TheaterServiceImpl extends BaseServiceImpl implements TheaterService {
 
 	private TheaterRepository theaterRepo;
 

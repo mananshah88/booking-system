@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mybooking.demo.base.BaseServiceImpl;
 import com.mybooking.demo.enums.PurchaseStatus;
 import com.mybooking.demo.model.rdbms.MovieTimeslot;
 import com.mybooking.demo.model.rdbms.Purchase;
@@ -15,7 +16,7 @@ import com.mybooking.demo.repository.rdbms.PurchaseRepository;
 import com.mybooking.demo.service.PurchaseService;
 
 @Service
-public class PurchaseServiceImpl implements PurchaseService {
+public class PurchaseServiceImpl extends BaseServiceImpl implements PurchaseService {
 
 	private PurchaseRepository purchaseRepo;
 
@@ -35,9 +36,11 @@ public class PurchaseServiceImpl implements PurchaseService {
 		Double tax = getTax(totalamount);
 		Double discount = getPromotion();
 		Purchase purchase = new Purchase(seatIds.size(), totalamount, tax, discount,
-				getPayableamount(totalamount, tax, discount), PurchaseStatus.IN_CHECKOUT.getStatus());
-		movieTimeSlot.getSeatDetails().forEach(
-				seatDetail -> purchase.addPurchaseItem(new PurchaseItem(seatDetail.getId(), seatDetail.getPrice())));
+				getPayableamount(totalamount, tax, discount), PurchaseStatus.IN_CHECKOUT.getStatus(),
+				getLoggedInCustomerId(), getCurrentDateTime());
+		movieTimeSlot.getSeatDetails()
+				.forEach(seatDetail -> purchase.addPurchaseItem(new PurchaseItem(seatDetail.getId(),
+						seatDetail.getPrice(), getLoggedInCustomerId(), getCurrentDateTime())));
 		return purchase;
 	}
 

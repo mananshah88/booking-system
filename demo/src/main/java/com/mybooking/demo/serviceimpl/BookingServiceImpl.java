@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mybooking.demo.base.BaseServiceImpl;
 import com.mybooking.demo.dto.booking.BookingRequestDto;
 import com.mybooking.demo.dto.booking.PaymentDetailDTO;
 import com.mybooking.demo.exceptions.InvalidPurchaseException;
@@ -24,7 +25,7 @@ import com.mybooking.demo.service.TheaterService;
  * a theater, timing, preferred seats for the day
  */
 @Service
-public class BookingServiceImpl implements BookingService {
+public class BookingServiceImpl extends BaseServiceImpl implements BookingService {
 
 	private TheaterService theaterService;
 	private MovieTimeslotService movieTimeslotService;

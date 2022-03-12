@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mybooking.demo.base.BaseModel;
+import com.mybooking.demo.constant.SystemConstants;
 
 @Entity
 @Table(name = "theater")
@@ -35,11 +36,13 @@ public class Theater extends BaseModel {
 
 	@JsonProperty("screens")
 	@OneToMany(mappedBy = "theater", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Screen> screens= new HashSet<>();
+	private Set<Screen> screens = new HashSet<>();
 
 	private Integer cityId;
 	private String address;
 	private Double pincode;
+
+	private String status = SystemConstants.STATUS_ACTIVE;
 	private Integer created;
 	private Integer lastModified;
 	private Date createdDate;
@@ -101,6 +104,14 @@ public class Theater extends BaseModel {
 		this.pincode = pincode;
 	}
 
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public Integer getCreated() {
 		return created;
 	}
@@ -141,25 +152,27 @@ public class Theater extends BaseModel {
 		super();
 	}
 
-	public Theater(String name, Integer partnerId, Integer cityId, String address, Double pincode, Integer created,
-			Integer lastModified, Date createdDate, Date lastModifiedDate) {
+	public Theater(String name, Integer partnerId, Integer cityId, String address, Double pincode, Integer customerId,
+			Date date) {
 		super();
 		this.name = name;
 		this.partnerId = partnerId;
 		this.cityId = cityId;
 		this.address = address;
 		this.pincode = pincode;
-		this.created = created;
-		this.lastModified = lastModified;
-		this.createdDate = createdDate;
-		this.lastModifiedDate = lastModifiedDate;
+		this.status = SystemConstants.STATUS_ACTIVE;
+		this.created = customerId;
+		this.lastModified = customerId;
+		this.createdDate = date;
+		this.lastModifiedDate = date;
 	}
 
 	@Override
 	public String toString() {
-		return "Theater [id=" + id + ", name=" + name + ", partnerId=" + partnerId + ", cityId=" + cityId + ", address="
-				+ address + ", pincode=" + pincode + ", created=" + created + ", lastModified=" + lastModified
-				+ ", createdDate=" + createdDate + ", lastModifiedDate=" + lastModifiedDate + "]";
+		return "Theater [id=" + id + ", name=" + name + ", partnerId=" + partnerId + ", screens=" + screens
+				+ ", cityId=" + cityId + ", address=" + address + ", pincode=" + pincode + ", status=" + status
+				+ ", created=" + created + ", lastModified=" + lastModified + ", createdDate=" + createdDate
+				+ ", lastModifiedDate=" + lastModifiedDate + "]";
 	}
 
 	public void addScreen(Screen screen) {

@@ -113,28 +113,15 @@ public class Order extends BaseModel {
 		super();
 	}
 
-	public Order(Purchase purchase, Long paymentId) {
+	public Order(Purchase purchase, Long paymentId, Integer customerId, Date date) {
 		super();
 		this.purchase = purchase;
 		this.paymentId = paymentId;
 		this.status = SystemConstants.STATUS_ACTIVE;
-		this.created = getLoggedInCustomerId();
-		this.lastModified = getLoggedInCustomerId();
-		this.createdDate = getCurrentDateTime();
-		this.lastModifiedDate = getCurrentDateTime();
-	}
-
-	public Order(Long id, Purchase purchase, Long paymentId, String status, Integer created, Integer lastModified,
-			Date createdDate, Date lastModifiedDate) {
-		super();
-		this.id = id;
-		this.purchase = purchase;
-		this.paymentId = paymentId;
-		this.status = status;
-		this.created = created;
-		this.lastModified = lastModified;
-		this.createdDate = createdDate;
-		this.lastModifiedDate = lastModifiedDate;
+		this.created = customerId;
+		this.lastModified = customerId;
+		this.createdDate = date;
+		this.lastModifiedDate = date;
 	}
 
 	@Override

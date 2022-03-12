@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mybooking.demo.base.BaseServiceImpl;
 import com.mybooking.demo.constant.AccessRole;
 import com.mybooking.demo.dto.partner.PartnerDetailsForAdminDTO;
 import com.mybooking.demo.dto.partner.TheaterRequestDto;
@@ -22,7 +23,7 @@ import com.mybooking.demo.repository.rdbms.TheaterRepository;
 import com.mybooking.demo.service.PartnerService;
 
 @Service
-public class PartnerServiceImpl implements PartnerService {
+public class PartnerServiceImpl extends BaseServiceImpl implements PartnerService {
 
 	private CustomerRepository customerRepository;
 	private TheaterRepository theaterRepository;
@@ -47,10 +48,10 @@ public class PartnerServiceImpl implements PartnerService {
 	@Override
 	public Boolean addTheaterAndScreens(Integer partnerId, TheaterRequestDto dto) {
 		Set<Screen> screens = dto.getScreens().stream()
-				.map(s -> new Screen(s.getName(), partnerId, partnerId, new Date(), new Date()))
+				.map(s -> new Screen(s.getName(), partnerId, new Date()))
 				.collect(Collectors.toSet());
 		var theater = new Theater(dto.getName(), partnerId, dto.getCityId(), dto.getAddress(), dto.getPincode(),
-				partnerId, partnerId, new Date(), new Date());
+				partnerId, new Date());
 		screens.forEach(theater::addScreen);
 		theaterRepository.save(theater);
 		return true;

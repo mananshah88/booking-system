@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.mybooking.demo.base.BaseServiceImpl;
 import com.mybooking.demo.exceptions.InvalidRequestSeatException;
 import com.mybooking.demo.exceptions.InvalidTimeslotException;
 import com.mybooking.demo.model.rdbms.MovieTimeslot;
@@ -15,7 +16,7 @@ import com.mybooking.demo.model.rdbms.SeatDetails;
 import com.mybooking.demo.service.MovieTimeslotService;
 
 @Service
-public class MovieTimeslotServiceImpl implements MovieTimeslotService {
+public class MovieTimeslotServiceImpl extends BaseServiceImpl implements MovieTimeslotService {
 
 	@Override
 	public MovieTimeslot validateAndGetMovieTimeslot(Screen screen, Date bookingDateTimeSlot) {

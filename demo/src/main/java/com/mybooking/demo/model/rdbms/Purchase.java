@@ -169,7 +169,7 @@ public class Purchase extends BaseModel {
 	}
 
 	public Purchase(Integer quantity, Double totalamount, Double tax, Double discount, Double payableamount,
-			Integer bookingStatus) {
+			Integer bookingStatus, Integer customerId, Date date) {
 		super();
 		this.quantity = quantity;
 		this.totalamount = totalamount;
@@ -178,29 +178,11 @@ public class Purchase extends BaseModel {
 		this.payableamount = payableamount;
 		this.bookingStatus = bookingStatus;
 		this.status = SystemConstants.STATUS_ACTIVE;
-		this.created = getLoggedInCustomerId();
-		this.lastModified = getLoggedInCustomerId();
-		this.createdDate = getCurrentDateTime();
-		this.lastModifiedDate = getCurrentDateTime();
-	}
+		this.created = customerId;
+		this.lastModified = customerId;
+		this.createdDate = date;
+		this.lastModifiedDate = date;
 
-	public Purchase(Long id, Integer quantity, Double totalamount, Double tax, String promotionCode, Double discount,
-			Double payableamount, Integer bookingStatus, String status, Integer created, Integer lastModified,
-			Date createdDate, Date lastModifiedDate) {
-		super();
-		this.id = id;
-		this.quantity = quantity;
-		this.totalamount = totalamount;
-		this.tax = tax;
-		this.promotionCode = promotionCode;
-		this.discount = discount;
-		this.payableamount = payableamount;
-		this.bookingStatus = bookingStatus;
-		this.status = SystemConstants.STATUS_ACTIVE;
-		this.created = getLoggedInCustomerId();
-		this.lastModified = getLoggedInCustomerId();
-		this.createdDate = getCurrentDateTime();
-		this.lastModifiedDate = getCurrentDateTime();
 	}
 
 	@Override

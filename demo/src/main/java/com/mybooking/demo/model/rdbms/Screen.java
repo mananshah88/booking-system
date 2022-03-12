@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mybooking.demo.base.BaseModel;
+import com.mybooking.demo.constant.SystemConstants;
 
 @Entity
 @Table(name = "screen")
@@ -43,6 +44,7 @@ public class Screen extends BaseModel {
 	@OneToMany(mappedBy = "screen", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<MovieTimeslot> movietimeslots = new HashSet<>();
 
+	private String status = SystemConstants.STATUS_ACTIVE;
 	private Integer created;
 	private Integer lastModified;
 	private Date createdDate;
@@ -78,6 +80,14 @@ public class Screen extends BaseModel {
 
 	public void setMovietimeslots(Set<MovieTimeslot> movietimeslots) {
 		this.movietimeslots = movietimeslots;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public Integer getCreated() {
@@ -120,13 +130,14 @@ public class Screen extends BaseModel {
 		super();
 	}
 
-	public Screen(String name, Integer created, Integer lastModified, Date createdDate, Date lastModifiedDate) {
+	public Screen(String name, Integer customerId, Date date) {
 		super();
 		this.name = name;
-		this.created = created;
-		this.lastModified = lastModified;
-		this.createdDate = createdDate;
-		this.lastModifiedDate = lastModifiedDate;
+		this.status = SystemConstants.STATUS_ACTIVE;
+		this.created = customerId;
+		this.lastModified = customerId;
+		this.createdDate = date;
+		this.lastModifiedDate = date;
 	}
 
 	@Override
@@ -146,6 +157,7 @@ public class Screen extends BaseModel {
 		result = prime * result + ((lastModifiedDate == null) ? 0 : lastModifiedDate.hashCode());
 		result = prime * result + ((movietimeslots == null) ? 0 : movietimeslots.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((theater == null) ? 0 : theater.hashCode());
 		return result;
 	}
@@ -193,6 +205,11 @@ public class Screen extends BaseModel {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
 			return false;
 		if (theater == null) {
 			if (other.theater != null)

@@ -32,7 +32,7 @@ public class PurchaseItem extends BaseModel {
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "purchaseId", nullable = false)
 	private Purchase purchase;
-	
+
 	// one to one timeslot
 	private Long seatId;
 	private Double price;
@@ -123,22 +123,22 @@ public class PurchaseItem extends BaseModel {
 		super();
 	}
 
-	public PurchaseItem(Long seatId, Double price) {
+	public PurchaseItem(Long seatId, Double price, Integer customerId, Date date) {
 		super();
 		this.seatId = seatId;
 		this.price = price;
 		this.status = SystemConstants.STATUS_ACTIVE;
-		this.created = getLoggedInCustomerId();
-		this.lastModified = getLoggedInCustomerId();
-		this.createdDate = getCurrentDateTime();
-		this.lastModifiedDate = getCurrentDateTime();
+		this.created = customerId;
+		this.lastModified = customerId;
+		this.createdDate = date;
+		this.lastModifiedDate = date;
 	}
 
 	@Override
 	public String toString() {
-		return "PurchaseItem [id=" + id + ", purchase=" + purchase + ", seatId=" + seatId + ", price="
-				+ price + ", status=" + status + ", created=" + created + ", lastModified=" + lastModified
-				+ ", createdDate=" + createdDate + ", lastModifiedDate=" + lastModifiedDate + "]";
+		return "PurchaseItem [id=" + id + ", seatId=" + seatId + ", price=" + price + ", status=" + status
+				+ ", created=" + created + ", lastModified=" + lastModified + ", createdDate=" + createdDate
+				+ ", lastModifiedDate=" + lastModifiedDate + "]";
 	}
 
 	@Override

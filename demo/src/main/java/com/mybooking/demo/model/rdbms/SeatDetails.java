@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mybooking.demo.base.BaseModel;
+import com.mybooking.demo.constant.SystemConstants;
 
 @Entity
 @Table(name = "seat_details")
@@ -39,11 +40,11 @@ public class SeatDetails extends BaseModel {
 	private String seatName; // seat position displayname: A1, A2, etc
 	private Double price; // price of this seat
 
-	private String status;
+	private String status = SystemConstants.STATUS_ACTIVE;
 	private Integer created;
 	private Integer lastModified;
 	private Date createdDate;
-	private Date lastModifiedDate = new Date();
+	private Date lastModifiedDate;
 
 	public Long getId() {
 		return id;
@@ -150,8 +151,7 @@ public class SeatDetails extends BaseModel {
 	}
 
 	public SeatDetails(Long id, MovieTimeslot movieTimeslot, String seatcategory, Integer positionRowNo,
-			Integer positionOrderFromLeft, String seatName, Double price, String status, Integer created,
-			Integer lastModified, Date createdDate, Date lastModifiedDate) {
+			Integer positionOrderFromLeft, String seatName, Double price, Integer customerId, Date date) {
 		super();
 		this.id = id;
 		this.movieTimeslot = movieTimeslot;
@@ -160,20 +160,20 @@ public class SeatDetails extends BaseModel {
 		this.positionOrderFromLeft = positionOrderFromLeft;
 		this.seatName = seatName;
 		this.price = price;
-		this.status = status;
-		this.created = created;
-		this.lastModified = lastModified;
-		this.createdDate = createdDate;
-		this.lastModifiedDate = lastModifiedDate;
+		this.status = SystemConstants.STATUS_ACTIVE;
+		this.created = customerId;
+		this.lastModified = customerId;
+		this.createdDate = date;
+		this.lastModifiedDate = date;
+
 	}
 
 	@Override
 	public String toString() {
-		return "TimeslotSeatDetails [id=" + id + ", movieTimeslot=" + movieTimeslot + ", seatcategory=" + seatcategory
-				+ ", positionRowNo=" + positionRowNo + ", positionOrderFromLeft=" + positionOrderFromLeft
-				+ ", seatName=" + seatName + ", price=" + price + ", status=" + status + ", created=" + created
-				+ ", lastModified=" + lastModified + ", createdDate=" + createdDate + ", lastModifiedDate="
-				+ lastModifiedDate + "]";
+		return "TimeslotSeatDetails [id=" + id + ", seatcategory=" + seatcategory + ", positionRowNo=" + positionRowNo
+				+ ", positionOrderFromLeft=" + positionOrderFromLeft + ", seatName=" + seatName + ", price=" + price
+				+ ", status=" + status + ", created=" + created + ", lastModified=" + lastModified + ", createdDate="
+				+ createdDate + ", lastModifiedDate=" + lastModifiedDate + "]";
 	}
 
 	@Override

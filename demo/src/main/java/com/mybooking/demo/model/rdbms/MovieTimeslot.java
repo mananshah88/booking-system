@@ -142,29 +142,15 @@ public class MovieTimeslot extends BaseModel {
 		super();
 	}
 
-	public MovieTimeslot(String movieId, Date timeslot) {
+	public MovieTimeslot(String movieId, Date timeslot, Integer customerId, Date date) {
 		super();
 		this.movieId = movieId;
 		this.timeslot = timeslot;
 		this.status = SystemConstants.STATUS_ACTIVE;
-		this.created = 1;
-		this.lastModified = 1;
-		this.createdDate = new Date();
-		this.lastModifiedDate = new Date();
-	}
-
-	public MovieTimeslot(Long id, Screen screen, String movieId, Date timeslot, String status, Integer created,
-			Integer lastModified, Date createdDate, Date lastModifiedDate) {
-		super();
-		this.id = id;
-		this.screen = screen;
-		this.movieId = movieId;
-		this.timeslot = timeslot;
-		this.status = status;
-		this.created = created;
-		this.lastModified = lastModified;
-		this.createdDate = createdDate;
-		this.lastModifiedDate = lastModifiedDate;
+		this.created = customerId;
+		this.lastModified = customerId;
+		this.createdDate = date;
+		this.lastModifiedDate = date;
 	}
 
 	@Override

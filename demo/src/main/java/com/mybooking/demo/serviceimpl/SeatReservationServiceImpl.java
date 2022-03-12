@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mybooking.demo.base.BaseServiceImpl;
 import com.mybooking.demo.enums.PurchaseStatus;
 import com.mybooking.demo.enums.SeatBookingStatus;
 import com.mybooking.demo.model.rdbms.Order;
@@ -18,7 +19,7 @@ import com.mybooking.demo.repository.rdbms.SeatReservationRepository;
 import com.mybooking.demo.service.SeatReservationService;
 
 @Service
-public class SeatReservationServiceImpl implements SeatReservationService {
+public class SeatReservationServiceImpl extends BaseServiceImpl implements SeatReservationService {
 
 	private SeatReservationRepository reservationRepo;
 	private PurchaseRepository purchaseRepo;
@@ -58,7 +59,7 @@ public class SeatReservationServiceImpl implements SeatReservationService {
 			purchase.setBookingStatus(PurchaseStatus.PAYMENT_SUCCESS.getStatus());
 
 			reservationRepo.saveAll(reservations);
-			return orderRepository.save(new Order(purchase, paymentId));
+			return orderRepository.save(new Order(purchase, paymentId, getLoggedInCustomerId(), getCurrentDateTime()));
 		} else {
 			// Need to discuss because its erroneous case... Need to handle differently
 			return null;

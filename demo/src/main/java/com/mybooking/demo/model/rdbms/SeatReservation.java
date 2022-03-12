@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 import com.mybooking.demo.base.BaseModel;
+import com.mybooking.demo.constant.SystemConstants;
 
 @Entity
 @Table(name = "seat_reservation")
@@ -112,18 +113,18 @@ public class SeatReservation extends BaseModel {
 		return serialVersionUID;
 	}
 
-	public SeatReservation(Long id, Long version, Integer seatId, Integer bookingStatus, String status, Integer created,
-			Integer lastModified, Date createdDate, Date lastModifiedDate) {
+	public SeatReservation(Long id, Long version, Integer seatId, Integer bookingStatus, Integer customerId,
+			Date date) {
 		super();
 		this.id = id;
 		this.version = version;
 		this.seatId = seatId;
 		this.bookingStatus = bookingStatus;
-		this.status = status;
-		this.created = created;
-		this.lastModified = lastModified;
-		this.createdDate = createdDate;
-		this.lastModifiedDate = lastModifiedDate;
+		this.status = SystemConstants.STATUS_ACTIVE;
+		this.created = customerId;
+		this.lastModified = customerId;
+		this.createdDate = date;
+		this.lastModifiedDate = date;
 	}
 
 	public SeatReservation() {
