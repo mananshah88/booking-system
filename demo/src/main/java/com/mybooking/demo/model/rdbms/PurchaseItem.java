@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mybooking.demo.base.BaseModel;
+import com.mybooking.demo.constant.SystemConstants;
 
 @Entity
 @Table(name = "purchase_item")
@@ -34,6 +35,7 @@ public class PurchaseItem extends BaseModel {
 	
 	// one to one timeslot
 	private Integer timeslotSeatId;
+	private Double price;
 
 	private String status;
 	private Integer created;
@@ -63,6 +65,14 @@ public class PurchaseItem extends BaseModel {
 
 	public void setTimeslotSeatId(Integer timeslotSeatId) {
 		this.timeslotSeatId = timeslotSeatId;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 
 	public String getStatus() {
@@ -109,27 +119,26 @@ public class PurchaseItem extends BaseModel {
 		return serialVersionUID;
 	}
 
-	public PurchaseItem(Long id, Integer timeslotSeatId, String status, Integer created, Integer lastModified,
-			Date createdDate, Date lastModifiedDate) {
-		super();
-		this.id = id;
-		this.timeslotSeatId = timeslotSeatId;
-		this.status = status;
-		this.created = created;
-		this.lastModified = lastModified;
-		this.createdDate = createdDate;
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
 	public PurchaseItem() {
 		super();
 	}
 
+	public PurchaseItem(Integer timeslotSeatId, Double price) {
+		super();
+		this.timeslotSeatId = timeslotSeatId;
+		this.price = price;
+		this.status = SystemConstants.STATUS_ACTIVE;
+		this.created = getLoggedInCustomerId();
+		this.lastModified = getLoggedInCustomerId();
+		this.createdDate = getCurrentDateTime();
+		this.lastModifiedDate = getCurrentDateTime();
+	}
+
 	@Override
 	public String toString() {
-		return "PurchaseItem [id=" + id + ", timeslotSeatId=" + timeslotSeatId + ", status=" + status + ", created="
-				+ created + ", lastModified=" + lastModified + ", createdDate=" + createdDate + ", lastModifiedDate="
-				+ lastModifiedDate + "]";
+		return "PurchaseItem [id=" + id + ", purchase=" + purchase + ", timeslotSeatId=" + timeslotSeatId + ", price="
+				+ price + ", status=" + status + ", created=" + created + ", lastModified=" + lastModified
+				+ ", createdDate=" + createdDate + ", lastModifiedDate=" + lastModifiedDate + "]";
 	}
 
 	@Override
@@ -141,6 +150,7 @@ public class PurchaseItem extends BaseModel {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((lastModified == null) ? 0 : lastModified.hashCode());
 		result = prime * result + ((lastModifiedDate == null) ? 0 : lastModifiedDate.hashCode());
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		result = prime * result + ((purchase == null) ? 0 : purchase.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((timeslotSeatId == null) ? 0 : timeslotSeatId.hashCode());
@@ -180,6 +190,11 @@ public class PurchaseItem extends BaseModel {
 			if (other.lastModifiedDate != null)
 				return false;
 		} else if (!lastModifiedDate.equals(other.lastModifiedDate))
+			return false;
+		if (price == null) {
+			if (other.price != null)
+				return false;
+		} else if (!price.equals(other.price))
 			return false;
 		if (purchase == null) {
 			if (other.purchase != null)

@@ -9,16 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mybooking.demo.base.BaseModel;
 
 @Entity
-@Table(name = "timeslot_seat_details")
-public class TimeslotSeatDetails extends BaseModel {
+@Table(name = "seat_details")
+public class SeatDetails extends BaseModel {
 
 	/**
 	 * 
@@ -34,23 +32,12 @@ public class TimeslotSeatDetails extends BaseModel {
 	@JoinColumn(name = "movietimeslotId", nullable = false)
 	private MovieTimeslot movieTimeslot;
 
-	// Booking Type ( Seat type)
-	@JsonProperty("seatcategory")
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "seatcategoryId")
-	private SeatCategory seatcategory;
-
-	// seat position: row number
-	private Integer positionRowNo;
-
-	// seat position: number in the row
-	private Integer positionOrderFromLeft;
-
-	// seat position displayname: A1, A2, etc
-	private String seatNo;
-
-	// price of this seat
-	private Double price;
+	// Seat Properties - Details
+	private String seatcategory; // seat type: Gold, Upper, Lower
+	private Integer positionRowNo; // seat position: row number
+	private Integer positionOrderFromLeft; // seat position: number in the row
+	private String seatName; // seat position displayname: A1, A2, etc
+	private Double price; // price of this seat
 
 	private String status;
 	private Integer created;
@@ -74,11 +61,11 @@ public class TimeslotSeatDetails extends BaseModel {
 		this.movieTimeslot = movieTimeslot;
 	}
 
-	public SeatCategory getSeatcategory() {
+	public String getSeatcategory() {
 		return seatcategory;
 	}
 
-	public void setSeatcategory(SeatCategory seatcategory) {
+	public void setSeatcategory(String seatcategory) {
 		this.seatcategory = seatcategory;
 	}
 
@@ -98,12 +85,12 @@ public class TimeslotSeatDetails extends BaseModel {
 		this.positionOrderFromLeft = positionOrderFromLeft;
 	}
 
-	public String getSeatNo() {
-		return seatNo;
+	public String getSeatName() {
+		return seatName;
 	}
 
-	public void setSeatNo(String seatNo) {
-		this.seatNo = seatNo;
+	public void setSeatName(String seatName) {
+		this.seatName = seatName;
 	}
 
 	public Double getPrice() {
@@ -158,12 +145,12 @@ public class TimeslotSeatDetails extends BaseModel {
 		return serialVersionUID;
 	}
 
-	public TimeslotSeatDetails() {
+	public SeatDetails() {
 		super();
 	}
 
-	public TimeslotSeatDetails(Long id, MovieTimeslot movieTimeslot, SeatCategory seatcategory, Integer positionRowNo,
-			Integer positionOrderFromLeft, String seatNo, Double price, String status, Integer created,
+	public SeatDetails(Long id, MovieTimeslot movieTimeslot, String seatcategory, Integer positionRowNo,
+			Integer positionOrderFromLeft, String seatName, Double price, String status, Integer created,
 			Integer lastModified, Date createdDate, Date lastModifiedDate) {
 		super();
 		this.id = id;
@@ -171,7 +158,7 @@ public class TimeslotSeatDetails extends BaseModel {
 		this.seatcategory = seatcategory;
 		this.positionRowNo = positionRowNo;
 		this.positionOrderFromLeft = positionOrderFromLeft;
-		this.seatNo = seatNo;
+		this.seatName = seatName;
 		this.price = price;
 		this.status = status;
 		this.created = created;
@@ -183,9 +170,10 @@ public class TimeslotSeatDetails extends BaseModel {
 	@Override
 	public String toString() {
 		return "TimeslotSeatDetails [id=" + id + ", movieTimeslot=" + movieTimeslot + ", seatcategory=" + seatcategory
-				+ ", positionRowNo=" + positionRowNo + ", positionOrderFromLeft=" + positionOrderFromLeft + ", seatNo="
-				+ seatNo + ", price=" + price + ", status=" + status + ", created=" + created + ", lastModified="
-				+ lastModified + ", createdDate=" + createdDate + ", lastModifiedDate=" + lastModifiedDate + "]";
+				+ ", positionRowNo=" + positionRowNo + ", positionOrderFromLeft=" + positionOrderFromLeft
+				+ ", seatName=" + seatName + ", price=" + price + ", status=" + status + ", created=" + created
+				+ ", lastModified=" + lastModified + ", createdDate=" + createdDate + ", lastModifiedDate="
+				+ lastModifiedDate + "]";
 	}
 
 	@Override
@@ -201,7 +189,7 @@ public class TimeslotSeatDetails extends BaseModel {
 		result = prime * result + ((positionOrderFromLeft == null) ? 0 : positionOrderFromLeft.hashCode());
 		result = prime * result + ((positionRowNo == null) ? 0 : positionRowNo.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
-		result = prime * result + ((seatNo == null) ? 0 : seatNo.hashCode());
+		result = prime * result + ((seatName == null) ? 0 : seatName.hashCode());
 		result = prime * result + ((seatcategory == null) ? 0 : seatcategory.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
@@ -215,7 +203,7 @@ public class TimeslotSeatDetails extends BaseModel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TimeslotSeatDetails other = (TimeslotSeatDetails) obj;
+		SeatDetails other = (SeatDetails) obj;
 		if (created == null) {
 			if (other.created != null)
 				return false;
@@ -261,10 +249,10 @@ public class TimeslotSeatDetails extends BaseModel {
 				return false;
 		} else if (!price.equals(other.price))
 			return false;
-		if (seatNo == null) {
-			if (other.seatNo != null)
+		if (seatName == null) {
+			if (other.seatName != null)
 				return false;
-		} else if (!seatNo.equals(other.seatNo))
+		} else if (!seatName.equals(other.seatName))
 			return false;
 		if (seatcategory == null) {
 			if (other.seatcategory != null)

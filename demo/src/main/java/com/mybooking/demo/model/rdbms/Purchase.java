@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mybooking.demo.base.BaseModel;
+import com.mybooking.demo.constant.SystemConstants;
 
 @Entity
 @Table(name = "purchase")
@@ -33,14 +34,13 @@ public class Purchase extends BaseModel {
 	@OneToMany(mappedBy = "purchase", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<PurchaseItem> purchaseItems = new HashSet<>();
 
-	private Double priceOfSingleTicket;
 	private Integer quantity;
 	private Double totalamount;
 	private Double tax;
 	private String promotionCode;
 	private Double discount;
 	private Double payableamount;
-	private String bookingStatus;
+	private Integer bookingStatus;
 
 	private String status;
 	private Integer created;
@@ -62,14 +62,6 @@ public class Purchase extends BaseModel {
 
 	public void setPurchaseItems(Set<PurchaseItem> purchaseItems) {
 		this.purchaseItems = purchaseItems;
-	}
-
-	public Double getPriceOfSingleTicket() {
-		return priceOfSingleTicket;
-	}
-
-	public void setPriceOfSingleTicket(Double priceOfSingleTicket) {
-		this.priceOfSingleTicket = priceOfSingleTicket;
 	}
 
 	public Integer getQuantity() {
@@ -120,11 +112,11 @@ public class Purchase extends BaseModel {
 		this.payableamount = payableamount;
 	}
 
-	public String getBookingStatus() {
+	public Integer getBookingStatus() {
 		return bookingStatus;
 	}
 
-	public void setBookingStatus(String bookingStatus) {
+	public void setBookingStatus(Integer bookingStatus) {
 		this.bookingStatus = bookingStatus;
 	}
 
@@ -176,12 +168,27 @@ public class Purchase extends BaseModel {
 		super();
 	}
 
-	public Purchase(Long id, Double priceOfSingleTicket, Integer quantity, Double totalamount, Double tax,
-			String promotionCode, Double discount, Double payableamount, String bookingStatus, String status,
-			Integer created, Integer lastModified, Date createdDate, Date lastModifiedDate) {
+	public Purchase(Integer quantity, Double totalamount, Double tax, Double discount, Double payableamount,
+			Integer bookingStatus) {
+		super();
+		this.quantity = quantity;
+		this.totalamount = totalamount;
+		this.tax = tax;
+		this.discount = discount;
+		this.payableamount = payableamount;
+		this.bookingStatus = bookingStatus;
+		this.status = SystemConstants.STATUS_ACTIVE;
+		this.created = getLoggedInCustomerId();
+		this.lastModified = getLoggedInCustomerId();
+		this.createdDate = getCurrentDateTime();
+		this.lastModifiedDate = getCurrentDateTime();
+	}
+
+	public Purchase(Long id, Integer quantity, Double totalamount, Double tax, String promotionCode, Double discount,
+			Double payableamount, Integer bookingStatus, String status, Integer created, Integer lastModified,
+			Date createdDate, Date lastModifiedDate) {
 		super();
 		this.id = id;
-		this.priceOfSingleTicket = priceOfSingleTicket;
 		this.quantity = quantity;
 		this.totalamount = totalamount;
 		this.tax = tax;
@@ -189,28 +196,27 @@ public class Purchase extends BaseModel {
 		this.discount = discount;
 		this.payableamount = payableamount;
 		this.bookingStatus = bookingStatus;
-		this.status = status;
-		this.created = created;
-		this.lastModified = lastModified;
-		this.createdDate = createdDate;
-		this.lastModifiedDate = lastModifiedDate;
+		this.status = SystemConstants.STATUS_ACTIVE;
+		this.created = getLoggedInCustomerId();
+		this.lastModified = getLoggedInCustomerId();
+		this.createdDate = getCurrentDateTime();
+		this.lastModifiedDate = getCurrentDateTime();
 	}
 
 	@Override
 	public String toString() {
-		return "Purchase [id=" + id + ", priceOfSingleTicket=" + priceOfSingleTicket + ", quantity=" + quantity
-				+ ", totalamount=" + totalamount + ", tax=" + tax + ", promotionCode=" + promotionCode + ", discount="
-				+ discount + ", payableamount=" + payableamount + ", bookingStatus=" + bookingStatus + ", status="
-				+ status + ", created=" + created + ", lastModified=" + lastModified + ", createdDate=" + createdDate
-				+ ", lastModifiedDate=" + lastModifiedDate + "]";
+		return "Purchase [id=" + id + ", quantity=" + quantity + ", totalamount=" + totalamount + ", tax=" + tax
+				+ ", promotionCode=" + promotionCode + ", discount=" + discount + ", payableamount=" + payableamount
+				+ ", bookingStatus=" + bookingStatus + ", status=" + status + ", created=" + created + ", lastModified="
+				+ lastModified + ", createdDate=" + createdDate + ", lastModifiedDate=" + lastModifiedDate + "]";
 	}
 
-	public void addPurchaseItems(PurchaseItem purchaseItem) {
+	public void addPurchaseItem(PurchaseItem purchaseItem) {
 		purchaseItems.add(purchaseItem);
 		purchaseItem.setPurchase(this);
 	}
 
-	public void removePurchaseItems(PurchaseItem purchaseItem) {
+	public void removePurchaseItem(PurchaseItem purchaseItem) {
 		purchaseItems.remove(purchaseItem);
 		purchaseItem.setPurchase(null);
 	}
@@ -227,7 +233,6 @@ public class Purchase extends BaseModel {
 		result = prime * result + ((lastModified == null) ? 0 : lastModified.hashCode());
 		result = prime * result + ((lastModifiedDate == null) ? 0 : lastModifiedDate.hashCode());
 		result = prime * result + ((payableamount == null) ? 0 : payableamount.hashCode());
-		result = prime * result + ((priceOfSingleTicket == null) ? 0 : priceOfSingleTicket.hashCode());
 		result = prime * result + ((promotionCode == null) ? 0 : promotionCode.hashCode());
 		result = prime * result + ((purchaseItems == null) ? 0 : purchaseItems.hashCode());
 		result = prime * result + ((quantity == null) ? 0 : quantity.hashCode());
@@ -285,11 +290,6 @@ public class Purchase extends BaseModel {
 			if (other.payableamount != null)
 				return false;
 		} else if (!payableamount.equals(other.payableamount))
-			return false;
-		if (priceOfSingleTicket == null) {
-			if (other.priceOfSingleTicket != null)
-				return false;
-		} else if (!priceOfSingleTicket.equals(other.priceOfSingleTicket))
 			return false;
 		if (promotionCode == null) {
 			if (other.promotionCode != null)

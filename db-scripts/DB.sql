@@ -54,24 +54,6 @@ insert into screen values (2, "screen 2", 1, 1,1,now(),now());
 insert into screen values (3, "screen 3", 1, 1,1,now(),now());
 insert into screen values (4, "screen 4", 1, 1,1,now(),now());
 	
-CREATE table seat_category(
-        id bigint NOT NULL AUTO_INCREMENT primary key,
-        name varchar(100) NOT NULL,
-        displayName varchar(100) NOT NULL,
-        status varchar(10) DEFAULT 'active',
-        created int(11) DEFAULT 0,
-  	lastModified int(11) DEFAULT 0,
-  	createdDate datetime NOT NULL,
-  	lastModifiedDate datetime DEFAULT current_timestamp()
-);
-insert into seat_category values (1, 'Recliners', 'Recliners', 'active',1,1,now(),now());
-insert into seat_category values (2, 'Gold', 'Gold', 'active',1,1,now(),now());
-insert into seat_category values (3, 'Executive', 'Executive', 'active',1,1,now(),now());
-insert into seat_category values (4, 'Upper Circle', 'Upper Circle', 'active',1,1,now(),now());
-insert into seat_category values (5, 'Delux Circle', 'Delux Circle', 'active',1,1,now(),now());
-insert into seat_category values (6, 'Box', 'Box', 'active',1,1,now(),now());
-insert into seat_category values (7, 'Balcony', 'Balcony', 'active',1,1,now(),now());
-
 CREATE table movie_timeslot(
         id bigint NOT NULL AUTO_INCREMENT primary key,
         screenId int NOT NULL,
@@ -86,13 +68,13 @@ CREATE table movie_timeslot(
 insert into movie_timeslot values (1, 5, "movie1", now(), 'active',1,1,now(),now());
 insert into movie_timeslot values (2, 5, "movie2", now(), 'active',1,1,now(),now());
 
-CREATE table timeslot_seat_details(
+CREATE table seat_details(
         id bigint NOT NULL AUTO_INCREMENT primary key,
         movietimeslotId int NOT NULL,
-        seatcategoryId int NOT NULL,
+        seatcategory int NOT NULL,
         positionRowNo int NOT NULL,
         positionOrderFromLeft int NOT NULL,
-        seatNo varchar(10) NOT NULL,
+        seatName varchar(10) NOT NULL,
         price double DEFAULT 0,
         status varchar(10) DEFAULT 'active',
         created int(11) DEFAULT 0,
@@ -100,7 +82,7 @@ CREATE table timeslot_seat_details(
   	createdDate datetime NOT NULL,
   	lastModifiedDate datetime DEFAULT current_timestamp()
 );
-insert into slot_seat_details(1, 1, 1, 1, 1, 'A1', 'active',1,1,now(),now());
+insert into seat_details(1, 1, "Gold", 1, 1, 'A1', 'active',1,1,now(),now());
 
 CREATE table seat_reservation (
         id bigint NOT NULL AUTO_INCREMENT primary key,
@@ -118,7 +100,6 @@ INSERT INTO seat_reservation values (1, 1, 1, 'AVAILABLE', 'active',1,1,now(),no
 
 CREATE table purchase (
         id bigint NOT NULL AUTO_INCREMENT primary key,
-        priceOfSingleTicket double DEFAULT NULL,
         quantity int NOT NULL,
         totalamount double DEFAULT NULL,
         tax double DEFAULT NULL,
@@ -132,13 +113,14 @@ CREATE table purchase (
   	createdDate datetime NOT NULL,
   	lastModifiedDate datetime DEFAULT current_timestamp()
 );
-insert into purchase values (1,50.0, 5, 250.0, 36.0, 'MYBOOKING15', 15.0, 271.0, 'booked', 'active',1,1,now(),now());
-insert into purchase values (2,50.0, 5, 250.0, 36.0,  null, 0.0, 286.0, 'payment-failed', 'active',1,1,now(),now());
+insert into purchase values (1, 5, 250.0, 36.0, 'MYBOOKING15', 15.0, 271.0, 'booked', 'active',1,1,now(),now());
+insert into purchase values (2, 5, 250.0, 36.0,  null, 0.0, 286.0, 'payment-failed', 'active',1,1,now(),now());
 
 create table purchase_item (
         id bigint NOT NULL AUTO_INCREMENT primary key,
 	purchaseId int NOT NULL,        
         timeslotSeatId int NOT NULL,
+        price double DEFAULT NULL,
         status varchar(10) DEFAULT 'active',
         created int(11) DEFAULT 0,
   	lastModified int(11) DEFAULT 0,
