@@ -49,9 +49,6 @@ public class TimeslotSeatDetails extends BaseModel {
 	// seat position displayname: A1, A2, etc
 	private String seatNo;
 
-	// booking status
-	private Boolean booked;
-
 	private String status;
 	private Integer created;
 	private Integer lastModified;
@@ -106,14 +103,6 @@ public class TimeslotSeatDetails extends BaseModel {
 		this.seatNo = seatNo;
 	}
 
-	public Boolean getBooked() {
-		return booked;
-	}
-
-	public void setBooked(Boolean booked) {
-		this.booked = booked;
-	}
-
 	public String getStatus() {
 		return status;
 	}
@@ -163,8 +152,8 @@ public class TimeslotSeatDetails extends BaseModel {
 	}
 
 	public TimeslotSeatDetails(Long id, MovieTimeslot movieTimeslot, SeatCategory seatcategory, Integer positionRowNo,
-			Integer positionOrderFromLeft, String seatNo, Boolean booked, String status, Integer created,
-			Integer lastModified, Date createdDate, Date lastModifiedDate) {
+			Integer positionOrderFromLeft, String seatNo, String status, Integer created, Integer lastModified,
+			Date createdDate, Date lastModifiedDate) {
 		super();
 		this.id = id;
 		this.movieTimeslot = movieTimeslot;
@@ -172,7 +161,6 @@ public class TimeslotSeatDetails extends BaseModel {
 		this.positionRowNo = positionRowNo;
 		this.positionOrderFromLeft = positionOrderFromLeft;
 		this.seatNo = seatNo;
-		this.booked = booked;
 		this.status = status;
 		this.created = created;
 		this.lastModified = lastModified;
@@ -183,9 +171,9 @@ public class TimeslotSeatDetails extends BaseModel {
 	@Override
 	public String toString() {
 		return "TimeslotSeatDetails [id=" + id + ", positionRowNo=" + positionRowNo + ", positionOrderFromLeft="
-				+ positionOrderFromLeft + ", seatNo=" + seatNo + ", booked=" + booked + ", status=" + status
-				+ ", created=" + created + ", lastModified=" + lastModified + ", createdDate=" + createdDate
-				+ ", lastModifiedDate=" + lastModifiedDate + "]";
+				+ positionOrderFromLeft + ", seatNo=" + seatNo + ", status=" + status + ", created=" + created
+				+ ", lastModified=" + lastModified + ", createdDate=" + createdDate + ", lastModifiedDate="
+				+ lastModifiedDate + "]";
 	}
 
 }

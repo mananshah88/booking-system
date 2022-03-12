@@ -32,6 +32,7 @@ public class PurchaseItem extends BaseModel {
 	@JoinColumn(name = "purchaseId", nullable = false)
 	private Purchase purchase;
 	
+	// one to one timeslot
 	private Integer timeslotSeatId;
 
 	private String status;
