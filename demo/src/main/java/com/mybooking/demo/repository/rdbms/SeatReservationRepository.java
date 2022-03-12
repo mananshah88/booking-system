@@ -1,5 +1,7 @@
 package com.mybooking.demo.repository.rdbms;
 
+import java.util.Set;
+
 import javax.persistence.LockModeType;
 import javax.persistence.QueryHint;
 
@@ -30,9 +32,8 @@ public interface SeatReservationRepository extends JpaRepository<SeatReservation
 //	@Query(value = "SELECT * FROM seat_reservation WHERE seatId=? and bookingStatus = ? FOR UPDATE SKIP LOCKED", nativeQuery = true)
 //	public SeatReservation findBySeatIdAndBookingStatus(Integer seatId, String bookingStatus);
 		
-
 	// For MariaDB without native query
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
-	@QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="0")})
-	public SeatReservation findBySeatIdAndBookingStatus(Integer seatId, String bookingStatus);
+	@QueryHints({ @QueryHint(name = "javax.persistence.lock.timeout", value = "0") })
+	public Set<SeatReservation> findBySeatIdInAndBookingStatus(Set<Long> seatIds, Integer bookingStatus);
 }
