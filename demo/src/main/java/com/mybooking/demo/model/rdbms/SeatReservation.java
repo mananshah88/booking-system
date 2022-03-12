@@ -28,7 +28,7 @@ public class SeatReservation extends BaseModel {
 	private Long version;
 
 	private Integer seatId;
-	private String bookingStatus;
+	private Integer bookingStatus;
 
 	private String status;
 	private Integer created;
@@ -60,11 +60,11 @@ public class SeatReservation extends BaseModel {
 		this.seatId = seatId;
 	}
 
-	public String getBookingStatus() {
+	public Integer getBookingStatus() {
 		return bookingStatus;
 	}
 
-	public void setBookingStatus(String bookingStatus) {
+	public void setBookingStatus(Integer bookingStatus) {
 		this.bookingStatus = bookingStatus;
 	}
 
@@ -112,7 +112,7 @@ public class SeatReservation extends BaseModel {
 		return serialVersionUID;
 	}
 
-	public SeatReservation(Long id, Long version, Integer seatId, String bookingStatus, String status, Integer created,
+	public SeatReservation(Long id, Long version, Integer seatId, Integer bookingStatus, String status, Integer created,
 			Integer lastModified, Date createdDate, Date lastModifiedDate) {
 		super();
 		this.id = id;

@@ -86,42 +86,35 @@ CREATE table movie_timeslot(
 insert into movie_timeslot values (1, 5, "movie1", now(), 'active',1,1,now(),now());
 insert into movie_timeslot values (2, 5, "movie2", now(), 'active',1,1,now(),now());
 
-CREATE table timeslot_pricing(
-        id bigint NOT NULL AUTO_INCREMENT primary key,
-
-        movietimeslotId int NOT NULL,
-        seatcategoryId int NOT NULL,
-        
-        price double DEFAULT 0,
-        
-        status varchar(10) DEFAULT 'active',
-        created int(11) DEFAULT 0,
-  	lastModified int(11) DEFAULT 0,
-  	createdDate datetime NOT NULL,
-  	lastModifiedDate datetime DEFAULT current_timestamp()
-);
-insert into timeslot_pricing values (1, 1, 1, 10.0, 'active',1,1,now(),now());
-insert into timeslot_pricing values (2, 1, 2, 20.0, 'active',1,1,now(),now());
-
 CREATE table timeslot_seat_details(
         id bigint NOT NULL AUTO_INCREMENT primary key,
-        
         movietimeslotId int NOT NULL,
         seatcategoryId int NOT NULL,
-        
         positionRowNo int NOT NULL,
         positionOrderFromLeft int NOT NULL,
         seatNo varchar(10) NOT NULL,
-        booked tinyint(1) default 0,
-        
+        price double DEFAULT 0,
         status varchar(10) DEFAULT 'active',
         created int(11) DEFAULT 0,
   	lastModified int(11) DEFAULT 0,
   	createdDate datetime NOT NULL,
   	lastModifiedDate datetime DEFAULT current_timestamp()
 );
+insert into slot_seat_details(1, 1, 1, 1, 1, 'A1', 'active',1,1,now(),now());
 
-insert into slot_seat_details(1, 1, 1, 1, 1, 'A1', false, 'active',1,1,now(),now());
+CREATE table seat_reservation (
+        id bigint NOT NULL AUTO_INCREMENT primary key,
+        version int NOT NULL DEFAULT 1,
+        seatId int NOT NULL,
+        bookingStatus int DEFAULT 0,
+        status varchar(10) DEFAULT 'active',
+        created int(11) DEFAULT 0,
+  	lastModified int(11) DEFAULT 0,
+  	createdDate datetime NOT NULL,
+  	lastModifiedDate datetime DEFAULT current_timestamp(),
+  	CONSTRAINT seatId_unique UNIQUE (seatId)
+);
+INSERT INTO seat_reservation values (1, 1, 1, 'AVAILABLE', 'active',1,1,now(),now());
 
 CREATE table purchase (
         id bigint NOT NULL AUTO_INCREMENT primary key,
@@ -132,7 +125,7 @@ CREATE table purchase (
         promotionCode varchar(20) DEFAULT NULL,
         discount double DEFAULT NULL,
         payableamount double DEFAULT NULL,
-        bookingStatus varchar(20) DEFAULT NULL,
+        bookingStatus int DEFAULT NULL, //???
         status varchar(10) DEFAULT 'active',
         created int(11) DEFAULT 0,
   	lastModified int(11) DEFAULT 0,
