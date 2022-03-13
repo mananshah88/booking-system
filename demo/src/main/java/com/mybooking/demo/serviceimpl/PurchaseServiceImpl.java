@@ -51,7 +51,7 @@ public class PurchaseServiceImpl extends BaseServiceImpl implements PurchaseServ
 		movieTimeSlot.getSeatDetails()
 				.forEach(seatDetail -> purchase.addPurchaseItem(new PurchaseItem(seatDetail.getId(),
 						seatDetail.getPrice(), getLoggedInCustomerId(), getCurrentDateTime())));
-		checkAndApplyHiddenPromotionIfAny(purchase);
+		checkAndApplySelfApplicablePromotionIfAny(purchase);
 		return purchase;
 	}
 
@@ -70,8 +70,8 @@ public class PurchaseServiceImpl extends BaseServiceImpl implements PurchaseServ
 		return 0d;
 	}
 
-	public void checkAndApplyHiddenPromotionIfAny(Purchase purchase) {
-		List<Promotion> promotions = promotionService.getHiddnPromotions();
+	public void checkAndApplySelfApplicablePromotionIfAny(Purchase purchase) {
+		List<Promotion> promotions = promotionService.getSelfAppliedPromotions();
 		for (Promotion promotion : promotions) {
 			if (promotionService.isPurchaseElligibleForPromotion(purchase, promotion)) {
 				Double discount = promotionService.calculateDiscount(purchase, promotion);

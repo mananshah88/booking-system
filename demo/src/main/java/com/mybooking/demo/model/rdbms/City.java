@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.mybooking.demo.base.BaseModel;
-import com.mybooking.demo.constant.SystemConstants;
+import com.mybooking.demo.constant.BaseConstants;
 
 @Entity
 @Table(name = "city")
@@ -118,7 +118,7 @@ public class City extends BaseModel {
 		this.name = name;
 		this.state = state;
 		this.country = country;
-		this.status = SystemConstants.STATUS_ACTIVE;
+		this.status = BaseConstants.STATUS_ACTIVE;
 		this.created = customerId;
 		this.lastModified = customerId;
 		this.createdDate = date;

@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mybooking.demo.base.BaseModel;
-import com.mybooking.demo.constant.SystemConstants;
+import com.mybooking.demo.constant.BaseConstants;
 
 @Entity
 @Table(name = "theater")
@@ -42,7 +42,7 @@ public class Theater extends BaseModel {
 	private String address;
 	private Double pincode;
 
-	private String status = SystemConstants.STATUS_ACTIVE;
+	private String status = BaseConstants.STATUS_ACTIVE;
 	private Integer created;
 	private Integer lastModified;
 	private Date createdDate;
@@ -160,7 +160,7 @@ public class Theater extends BaseModel {
 		this.cityId = cityId;
 		this.address = address;
 		this.pincode = pincode;
-		this.status = SystemConstants.STATUS_ACTIVE;
+		this.status = BaseConstants.STATUS_ACTIVE;
 		this.created = customerId;
 		this.lastModified = customerId;
 		this.createdDate = date;

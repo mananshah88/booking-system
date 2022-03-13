@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mybooking.demo.base.BaseModel;
-import com.mybooking.demo.constant.SystemConstants;
+import com.mybooking.demo.constant.BaseConstants;
 
 @Entity
 @Table(name = "orders")
@@ -117,7 +117,7 @@ public class Order extends BaseModel {
 		super();
 		this.purchase = purchase;
 		this.paymentId = paymentId;
-		this.status = SystemConstants.STATUS_ACTIVE;
+		this.status = BaseConstants.STATUS_ACTIVE;
 		this.created = customerId;
 		this.lastModified = customerId;
 		this.createdDate = date;

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mybooking.demo.base.BaseServiceImpl;
+import com.mybooking.demo.constant.BaseConstants;
 import com.mybooking.demo.exceptions.InvalidPromotionException;
 import com.mybooking.demo.model.rdbms.Promotion;
 import com.mybooking.demo.model.rdbms.Purchase;
@@ -66,8 +67,8 @@ public class PromotionServiceImpl extends BaseServiceImpl implements PromotionSe
 	}
 
 	@Override
-	public List<Promotion> getHiddnPromotions() {
-		return promotionRepo.findByType("hidden");
+	public List<Promotion> getSelfAppliedPromotions() {
+		return promotionRepo.findByType(BaseConstants.PROMOTIONTYPE_SELF);
 	}
 
 }

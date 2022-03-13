@@ -18,7 +18,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mybooking.demo.base.BaseModel;
-import com.mybooking.demo.constant.SystemConstants;
+import com.mybooking.demo.constant.BaseConstants;
 
 @Entity
 @Table(name = "movie_timeslot")
@@ -48,7 +48,7 @@ public class MovieTimeslot extends BaseModel {
 	@OneToMany(mappedBy = "movieTimeslot", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<SeatDetails> seatDetails = new HashSet<>();
 
-	private String status = SystemConstants.STATUS_ACTIVE;
+	private String status = BaseConstants.STATUS_ACTIVE;
 	private Integer created;
 	private Integer lastModified;
 	private Date createdDate;
@@ -146,7 +146,7 @@ public class MovieTimeslot extends BaseModel {
 		super();
 		this.movieId = movieId;
 		this.timeslot = timeslot;
-		this.status = SystemConstants.STATUS_ACTIVE;
+		this.status = BaseConstants.STATUS_ACTIVE;
 		this.created = customerId;
 		this.lastModified = customerId;
 		this.createdDate = date;

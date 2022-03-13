@@ -19,7 +19,7 @@ public interface PromotionService {
 
 	public Promotion getPromotion(String promotionCode);
 	
-	public List<Promotion> getHiddnPromotions();
+	public List<Promotion> getSelfAppliedPromotions();
 
 	public boolean isPurchaseElligibleForPromotion(Purchase purchase, Promotion promotion);
 

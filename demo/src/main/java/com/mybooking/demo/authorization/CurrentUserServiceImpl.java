@@ -3,7 +3,7 @@ package com.mybooking.demo.authorization;
 import org.springframework.stereotype.Service;
 
 import com.mybooking.demo.base.BaseLogger;
-import com.mybooking.demo.constant.AccessRole;
+import com.mybooking.demo.enums.AccessRole;
 
 @Service
 public class CurrentUserServiceImpl extends BaseLogger {

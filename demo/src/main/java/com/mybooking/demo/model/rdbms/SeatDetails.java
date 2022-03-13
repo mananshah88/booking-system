@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mybooking.demo.base.BaseModel;
-import com.mybooking.demo.constant.SystemConstants;
+import com.mybooking.demo.constant.BaseConstants;
 
 @Entity
 @Table(name = "seat_details")
@@ -40,7 +40,7 @@ public class SeatDetails extends BaseModel {
 	private String seatName; // seat position displayname: A1, A2, etc
 	private Double price; // price of this seat
 
-	private String status = SystemConstants.STATUS_ACTIVE;
+	private String status = BaseConstants.STATUS_ACTIVE;
 	private Integer created;
 	private Integer lastModified;
 	private Date createdDate;
@@ -160,7 +160,7 @@ public class SeatDetails extends BaseModel {
 		this.positionOrderFromLeft = positionOrderFromLeft;
 		this.seatName = seatName;
 		this.price = price;
-		this.status = SystemConstants.STATUS_ACTIVE;
+		this.status = BaseConstants.STATUS_ACTIVE;
 		this.created = customerId;
 		this.lastModified = customerId;
 		this.createdDate = date;

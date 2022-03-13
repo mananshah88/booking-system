@@ -1,4 +1,4 @@
-package com.mybooking.demo.constant;
+package com.mybooking.demo.enums;
 
 public enum AccessRole {
 

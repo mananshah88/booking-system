@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.mybooking.demo.base.BaseServiceImpl;
+import com.mybooking.demo.constant.BaseConstants;
 import com.mybooking.demo.model.rdbms.PromotionRestriction;
 import com.mybooking.demo.model.rdbms.Purchase;
 
@@ -22,20 +23,20 @@ public class PromotionRestictionEngine extends BaseServiceImpl {
 		String operator = restriction.getConditionOperator();
 		String value = restriction.getConditionValue();
 
-		if ("city".equalsIgnoreCase(condition)) {
+		if (BaseConstants.CONDITION_CITY.equalsIgnoreCase(condition)) {
 			if (!checkForCityRestriction(purchase, value, operator)) {
 				return false;
 			}
-		} else if ("theater".equalsIgnoreCase(condition)) {
+		} else if (BaseConstants.CONDITION_THEATER.equalsIgnoreCase(condition)) {
 			if (!checkForTheaterRestriction(purchase, value, operator)) {
 				return false;
 			}
-		} else if ("nooftickets".equalsIgnoreCase(condition)) {
+		} else if (BaseConstants.CONDITION_NOOFTICKETS.equalsIgnoreCase(condition)) {
 			if (!checkForNoOfTicketsRestriction(purchase, value, operator)) {
 				return false;
 			}
-		} else if("showtime".equalsIgnoreCase(condition)) {
-			if(!checkForShowtimeRestriction(purchase, value, operator)) {
+		} else if (BaseConstants.CONDITION_SHOWTIME.equalsIgnoreCase(condition)) {
+			if (!checkForShowtimeRestriction(purchase, value, operator)) {
 				return false;
 			}
 		} else {
@@ -48,16 +49,16 @@ public class PromotionRestictionEngine extends BaseServiceImpl {
 		Long cityId = getCityFromPurchase();
 		Long requireCityId = Long.parseLong(value);
 		Set<Long> requireCitIds = getCities(value);
-		if ("eq".equalsIgnoreCase(operator) && !cityId.equals(requireCityId)) {
+		if (BaseConstants.OPERATOR_EQ.equalsIgnoreCase(operator) && !cityId.equals(requireCityId)) {
 			return false;
 		}
-		if ("neq".equalsIgnoreCase(operator) && cityId.equals(requireCityId)) {
+		if (BaseConstants.OPERATOR_NEQ.equalsIgnoreCase(operator) && cityId.equals(requireCityId)) {
 			return false;
 		}
-		if ("in".equalsIgnoreCase(operator) && !requireCitIds.contains(cityId)) {
+		if (BaseConstants.OPERATOR_IN.equalsIgnoreCase(operator) && !requireCitIds.contains(cityId)) {
 			return false;
 		}
-		if ("nin".equalsIgnoreCase(operator) && requireCitIds.contains(cityId)) {
+		if (BaseConstants.OPERATOR_NIN.equalsIgnoreCase(operator) && requireCitIds.contains(cityId)) {
 			return false;
 		}
 		return true;
@@ -67,16 +68,16 @@ public class PromotionRestictionEngine extends BaseServiceImpl {
 		Long theaterId = getTheaterIdFromPurchase();
 		Long requireTheaterId = Long.parseLong(value);
 		Set<Long> requireTheaterIds = getCities(value);
-		if ("eq".equalsIgnoreCase(operator) && !theaterId.equals(requireTheaterId)) {
+		if (BaseConstants.OPERATOR_EQ.equalsIgnoreCase(operator) && !theaterId.equals(requireTheaterId)) {
 			return false;
 		}
-		if ("neq".equalsIgnoreCase(operator) && theaterId.equals(requireTheaterId)) {
+		if (BaseConstants.OPERATOR_NEQ.equalsIgnoreCase(operator) && theaterId.equals(requireTheaterId)) {
 			return false;
 		}
-		if ("in".equalsIgnoreCase(operator) && !requireTheaterIds.contains(theaterId)) {
+		if (BaseConstants.OPERATOR_IN.equalsIgnoreCase(operator) && !requireTheaterIds.contains(theaterId)) {
 			return false;
 		}
-		if ("nin".equalsIgnoreCase(operator) && requireTheaterIds.contains(theaterId)) {
+		if (BaseConstants.OPERATOR_NIN.equalsIgnoreCase(operator) && requireTheaterIds.contains(theaterId)) {
 			return false;
 		}
 		return true;
@@ -85,40 +86,40 @@ public class PromotionRestictionEngine extends BaseServiceImpl {
 	public boolean checkForNoOfTicketsRestriction(Purchase purchase, String value, String operator) {
 		int noOfTickets = purchase.getQuantity();
 		int requireTickets = Integer.parseInt(value);
-		if ("eq".equalsIgnoreCase(operator) && noOfTickets != requireTickets) {
+		if (BaseConstants.OPERATOR_EQ.equalsIgnoreCase(operator) && noOfTickets != requireTickets) {
 			return false;
 		}
-		if ("neq".equalsIgnoreCase(operator) && noOfTickets == requireTickets) {
+		if (BaseConstants.OPERATOR_NEQ.equalsIgnoreCase(operator) && noOfTickets == requireTickets) {
 			return false;
 		}
-		if ("gt".equalsIgnoreCase(operator) && noOfTickets <= requireTickets) {
+		if (BaseConstants.OPERATOR_GT.equalsIgnoreCase(operator) && noOfTickets <= requireTickets) {
 			return false;
 		}
-		if ("lt".equalsIgnoreCase(operator) && noOfTickets >= requireTickets) {
+		if (BaseConstants.OPERATOR_LT.equalsIgnoreCase(operator) && noOfTickets >= requireTickets) {
 			return false;
 		}
-		if ("gte".equalsIgnoreCase(operator) && noOfTickets < requireTickets) {
+		if (BaseConstants.OPERATOR_GTE.equalsIgnoreCase(operator) && noOfTickets < requireTickets) {
 			return false;
 		}
-		if ("lte".equalsIgnoreCase(operator) && noOfTickets > requireTickets) {
+		if (BaseConstants.OPERATOR_LTE.equalsIgnoreCase(operator) && noOfTickets > requireTickets) {
 			return false;
 		}
 		return true;
 	}
-	
+
 	public boolean checkForShowtimeRestriction(Purchase purchase, String value, String operator) {
 		Date ticketTime = getMovieTimeFromPurchase();
 		Date requireDatetime = getDate(value);
-		if ("eq".equalsIgnoreCase(operator) && !requireDatetime.equals(ticketTime)) {
+		if (BaseConstants.OPERATOR_EQ.equalsIgnoreCase(operator) && !requireDatetime.equals(ticketTime)) {
 			return false;
 		}
-		if ("neq".equalsIgnoreCase(operator) && requireDatetime.equals(ticketTime)) {
+		if (BaseConstants.OPERATOR_NEQ.equalsIgnoreCase(operator) && requireDatetime.equals(ticketTime)) {
 			return false;
 		}
-		if ("gte".equalsIgnoreCase(operator) && requireDatetime.before(ticketTime)) {
+		if (BaseConstants.OPERATOR_GTE.equalsIgnoreCase(operator) && requireDatetime.before(ticketTime)) {
 			return false;
 		}
-		if ("lte".equalsIgnoreCase(operator) && requireDatetime.after(ticketTime)) {
+		if (BaseConstants.OPERATOR_LTE.equalsIgnoreCase(operator) && requireDatetime.after(ticketTime)) {
 			return false;
 		}
 		return true;
@@ -127,7 +128,7 @@ public class PromotionRestictionEngine extends BaseServiceImpl {
 	public Long getCityFromPurchase() {
 		return 1l;
 	}
-	
+
 	public Long getTheaterIdFromPurchase() {
 		return 1l;
 	}
@@ -140,7 +141,7 @@ public class PromotionRestictionEngine extends BaseServiceImpl {
 		Set<String> cities = new HashSet<>(Arrays.asList(value.split(",")));
 		return cities.stream().map(Long::parseLong).collect(Collectors.toSet());
 	}
-	
+
 	public Set<Long> getTheaters(String value) {
 		Set<String> theaters = new HashSet<>(Arrays.asList(value.split(",")));
 		return theaters.stream().map(Long::parseLong).collect(Collectors.toSet());

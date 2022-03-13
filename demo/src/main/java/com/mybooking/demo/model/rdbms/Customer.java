@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.mybooking.demo.base.BaseModel;
-import com.mybooking.demo.constant.SystemConstants;
+import com.mybooking.demo.constant.BaseConstants;
 
 @Entity
 @Table(name = "customer")
@@ -29,7 +29,7 @@ public class Customer extends BaseModel {
 	private Double mobileNumber;
 	private String gender;
 	private Integer type;
-	private String status = SystemConstants.STATUS_ACTIVE;
+	private String status = BaseConstants.STATUS_ACTIVE;
 	private Integer created;
 	private Integer lastModified;
 	private Date createdDate;
@@ -149,7 +149,7 @@ public class Customer extends BaseModel {
 		this.mobileNumber = mobileNumber;
 		this.gender = gender;
 		this.type = type;
-		this.status = SystemConstants.STATUS_ACTIVE;
+		this.status = BaseConstants.STATUS_ACTIVE;
 		this.created = customerId;
 		this.lastModified = customerId;
 		this.createdDate = date;
