@@ -1,5 +1,6 @@
 package com.mybooking.demo.model.rdbms;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -35,7 +36,7 @@ public class PurchaseItem extends BaseModel {
 
 	// one to one timeslot
 	private Long seatId;
-	private Double price;
+	private BigDecimal price;
 
 	private String status;
 	private Integer created;
@@ -67,11 +68,11 @@ public class PurchaseItem extends BaseModel {
 		this.seatId = seatId;
 	}
 
-	public Double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
@@ -123,7 +124,7 @@ public class PurchaseItem extends BaseModel {
 		super();
 	}
 
-	public PurchaseItem(Long seatId, Double price, Integer customerId, Date date) {
+	public PurchaseItem(Long seatId, BigDecimal price, Integer customerId, Date date) {
 		super();
 		this.seatId = seatId;
 		this.price = price;

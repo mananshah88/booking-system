@@ -1,5 +1,6 @@
 package com.mybooking.demo.serviceimpl;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -42,12 +43,13 @@ public class PurchaseServiceImpl extends BaseServiceImpl implements PurchaseServ
 
 	@Override
 	public Purchase preparePurchase(MovieTimeslot movieTimeSlot, Set<Long> seatIds) {
-		Double priceForSingleTicket = movieTimeSlot.getSeatDetails().stream().findFirst().get().getPrice();
-		Double totalamount = movieTimeSlot.getSeatDetails().stream().map(SeatDetails::getPrice).reduce(0d, Double::sum);
-		Double tax = getTax(totalamount);
-		Purchase purchase = new Purchase(priceForSingleTicket, seatIds.size(), totalamount, tax, 0d,
-				getPayableamount(totalamount, tax, 0d), PurchaseStatus.IN_CHECKOUT.getStatus(), getLoggedInCustomerId(),
-				getCurrentDateTime());
+		BigDecimal priceForSingleTicket = movieTimeSlot.getSeatDetails().stream().findFirst().get().getPrice();
+		BigDecimal totalamount = movieTimeSlot.getSeatDetails().stream().map(SeatDetails::getPrice)
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
+		BigDecimal tax = getTax(totalamount);
+		Purchase purchase = new Purchase(priceForSingleTicket, seatIds.size(), totalamount, tax, BigDecimal.ZERO,
+				getPayableamount(totalamount, tax, BigDecimal.ZERO), PurchaseStatus.IN_CHECKOUT.getStatus(),
+				getLoggedInCustomerId(), getCurrentDateTime());
 		movieTimeSlot.getSeatDetails()
 				.forEach(seatDetail -> purchase.addPurchaseItem(new PurchaseItem(seatDetail.getId(),
 						seatDetail.getPrice(), getLoggedInCustomerId(), getCurrentDateTime())));
@@ -55,26 +57,26 @@ public class PurchaseServiceImpl extends BaseServiceImpl implements PurchaseServ
 		return purchase;
 	}
 
-	public Double getPayableamount(Double totalamount, Double tax, Double discount) {
-		if (totalamount < discount) {
+	public BigDecimal getPayableamount(BigDecimal totalamount, BigDecimal tax, BigDecimal discount) {
+		if (totalamount.compareTo(discount) < 0) {
 			discount = totalamount;
 		}
-		return (totalamount + tax - discount);
+		return totalamount.add(tax).subtract(discount);
 	}
 
 	/*
 	 * we can keep tax calculation here... we can store tax configuration either in
 	 * the configuration file like application.properties or in the database-table
 	 */
-	public Double getTax(Double totalamount) {
-		return 0d;
+	public BigDecimal getTax(BigDecimal totalamount) {
+		return BigDecimal.ZERO;
 	}
 
 	public void checkAndApplySelfApplicablePromotionIfAny(Purchase purchase) {
 		List<Promotion> promotions = promotionService.getSelfAppliedPromotions();
 		for (Promotion promotion : promotions) {
 			if (promotionService.isPurchaseElligibleForPromotion(purchase, promotion)) {
-				Double discount = promotionService.calculateDiscount(purchase, promotion);
+				BigDecimal discount = promotionService.calculateDiscount(purchase, promotion);
 				applyPromotionOnPurchase(purchase, discount, promotion.getPromotionCode());
 				break;
 			}
@@ -82,7 +84,7 @@ public class PurchaseServiceImpl extends BaseServiceImpl implements PurchaseServ
 	}
 
 	@Override
-	public Purchase applyPromotionOnPurchase(Purchase purchase, Double discount, String promotionCode) {
+	public Purchase applyPromotionOnPurchase(Purchase purchase, BigDecimal discount, String promotionCode) {
 		purchase.setDiscount(discount);
 		purchase.setPromotionCode(promotionCode);
 		purchase.setPayableamount(getPayableamount(purchase.getTotalamount(), purchase.getTax(), discount));

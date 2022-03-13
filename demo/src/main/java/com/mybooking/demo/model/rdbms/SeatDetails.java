@@ -1,5 +1,6 @@
 package com.mybooking.demo.model.rdbms;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -38,7 +39,7 @@ public class SeatDetails extends BaseModel {
 	private Integer positionRowNo; // seat position: row number
 	private Integer positionOrderFromLeft; // seat position: number in the row
 	private String seatName; // seat position displayname: A1, A2, etc
-	private Double price; // price of this seat
+	private BigDecimal price; // price of this seat
 
 	private String status = BaseConstants.STATUS_ACTIVE;
 	private Integer created;
@@ -94,11 +95,11 @@ public class SeatDetails extends BaseModel {
 		this.seatName = seatName;
 	}
 
-	public Double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
@@ -151,7 +152,7 @@ public class SeatDetails extends BaseModel {
 	}
 
 	public SeatDetails(Long id, MovieTimeslot movieTimeslot, String seatcategory, Integer positionRowNo,
-			Integer positionOrderFromLeft, String seatName, Double price, Integer customerId, Date date) {
+			Integer positionOrderFromLeft, String seatName, BigDecimal price, Integer customerId, Date date) {
 		super();
 		this.id = id;
 		this.movieTimeslot = movieTimeslot;

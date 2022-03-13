@@ -1,5 +1,6 @@
 package com.mybooking.demo.service;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 import com.mybooking.demo.model.rdbms.MovieTimeslot;
@@ -11,7 +12,7 @@ public interface PurchaseService {
 
 	public Purchase preparePurchase(MovieTimeslot movieTimeSlot, Set<Long> seats);
 
-	public Purchase applyPromotionOnPurchase(Purchase purchase, Double discount, String promotionCode);
+	public Purchase applyPromotionOnPurchase(Purchase purchase, BigDecimal discount, String promotionCode);
 	
 	public Purchase save(Purchase purchase);
 }

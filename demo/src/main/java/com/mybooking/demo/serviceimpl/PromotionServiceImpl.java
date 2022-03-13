@@ -1,5 +1,6 @@
 package com.mybooking.demo.serviceimpl;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -54,13 +55,15 @@ public class PromotionServiceImpl extends BaseServiceImpl implements PromotionSe
 	}
 
 	@Override
-	public Double calculateDiscount(Purchase purchase, Promotion promotion) {
-		Double discount = promotion.getEntities().stream().mapToDouble(pe -> promotionCalculationEngine.calculate(pe,
-				purchase.getTotalamount(), purchase.getQuantity(), purchase.getPriceForSingleTicket())).sum();
-		if (discount < 0) {
-			discount = 0d;
+	public BigDecimal calculateDiscount(Purchase purchase, Promotion promotion) {
+		BigDecimal discount = promotion
+				.getEntities().stream().map(pe -> promotionCalculationEngine.calculate(pe, purchase.getTotalamount(),
+						purchase.getQuantity(), purchase.getPriceForSingleTicket()))
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
+		if (discount.compareTo(BigDecimal.ZERO) < 0) {
+			discount = BigDecimal.ZERO;
 		}
-		if (purchase.getTotalamount() < discount) {
+		if (purchase.getTotalamount().compareTo(discount) < 0) {
 			discount = purchase.getTotalamount();
 		}
 		return discount;

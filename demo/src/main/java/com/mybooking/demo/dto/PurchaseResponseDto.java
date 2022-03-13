@@ -1,5 +1,6 @@
 package com.mybooking.demo.dto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class PurchaseResponseDto {
@@ -7,11 +8,11 @@ public class PurchaseResponseDto {
 	private Long orderId;
 	private Long purchaseId;
 	private Integer quantity;
-	private Double totalamount;
-	private Double tax;
+	private BigDecimal totalamount;
+	private BigDecimal tax;
 	private String promotionCode;
-	private Double discount;
-	private Double payableamount;
+	private BigDecimal discount;
+	private BigDecimal payableamount;
 	private List<PurchaseItemResponseDto> items;
 	private String responseMessage;
 	private String responseCode;
@@ -40,19 +41,19 @@ public class PurchaseResponseDto {
 		this.quantity = quantity;
 	}
 
-	public Double getTotalamount() {
+	public BigDecimal getTotalamount() {
 		return totalamount;
 	}
 
-	public void setTotalamount(Double totalamount) {
+	public void setTotalamount(BigDecimal totalamount) {
 		this.totalamount = totalamount;
 	}
 
-	public Double getTax() {
+	public BigDecimal getTax() {
 		return tax;
 	}
 
-	public void setTax(Double tax) {
+	public void setTax(BigDecimal tax) {
 		this.tax = tax;
 	}
 
@@ -64,19 +65,19 @@ public class PurchaseResponseDto {
 		this.promotionCode = promotionCode;
 	}
 
-	public Double getDiscount() {
+	public BigDecimal getDiscount() {
 		return discount;
 	}
 
-	public void setDiscount(Double discount) {
+	public void setDiscount(BigDecimal discount) {
 		this.discount = discount;
 	}
 
-	public Double getPayableamount() {
+	public BigDecimal getPayableamount() {
 		return payableamount;
 	}
 
-	public void setPayableamount(Double payableamount) {
+	public void setPayableamount(BigDecimal payableamount) {
 		this.payableamount = payableamount;
 	}
 
@@ -121,9 +122,9 @@ public class PurchaseResponseDto {
 		this.responseCode = responseCode;
 	}
 
-	public PurchaseResponseDto(Long purchaseId, Integer quantity, Double totalamount, Double tax, String promotionCode,
-			Double discount, Double payableamount, List<PurchaseItemResponseDto> items, String responseCode,
-			String responseMessage) {
+	public PurchaseResponseDto(Long purchaseId, Integer quantity, BigDecimal totalamount, BigDecimal tax,
+			String promotionCode, BigDecimal discount, BigDecimal payableamount, List<PurchaseItemResponseDto> items,
+			String responseCode, String responseMessage) {
 		super();
 		this.purchaseId = purchaseId;
 		this.quantity = quantity;

@@ -1,5 +1,6 @@
 package com.mybooking.demo.model.rdbms;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -36,7 +37,7 @@ public class PromotionEntity extends BaseModel {
 	private Integer entityValue;
 	private String entityOperator;
 	private String promotionType;
-	private Double promotionValue;
+	private BigDecimal promotionValue;
 
 	private String status;
 	private Integer created;
@@ -92,11 +93,11 @@ public class PromotionEntity extends BaseModel {
 		this.promotionType = promotionType;
 	}
 
-	public Double getPromotionValue() {
+	public BigDecimal getPromotionValue() {
 		return promotionValue;
 	}
 
-	public void setPromotionValue(Double promotionValue) {
+	public void setPromotionValue(BigDecimal promotionValue) {
 		this.promotionValue = promotionValue;
 	}
 
@@ -149,7 +150,7 @@ public class PromotionEntity extends BaseModel {
 	}
 
 	public PromotionEntity(Long id, Promotion promotion, String entityType, Integer entityValue, String entityOperator,
-			String promotionType, Double promotionValue, String status, Integer created, Integer lastModified,
+			String promotionType, BigDecimal promotionValue, String status, Integer created, Integer lastModified,
 			Date createdDate, Date lastModifiedDate) {
 		super();
 		this.id = id;

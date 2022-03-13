@@ -1,9 +1,11 @@
 package com.mybooking.demo.dto;
 
+import java.math.BigDecimal;
+
 public class PurchaseItemResponseDto {
 
 	private Long seatId;
-	private Double price;
+	private BigDecimal price;
 
 	public Long getSeatId() {
 		return seatId;
@@ -13,11 +15,11 @@ public class PurchaseItemResponseDto {
 		this.seatId = seatId;
 	}
 
-	public Double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
@@ -25,7 +27,7 @@ public class PurchaseItemResponseDto {
 		super();
 	}
 
-	public PurchaseItemResponseDto(Long seatId, Double price) {
+	public PurchaseItemResponseDto(Long seatId, BigDecimal price) {
 		super();
 		this.seatId = seatId;
 		this.price = price;

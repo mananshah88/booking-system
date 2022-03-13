@@ -1,5 +1,6 @@
 package com.mybooking.demo.service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +24,6 @@ public interface PromotionService {
 
 	public boolean isPurchaseElligibleForPromotion(Purchase purchase, Promotion promotion);
 
-	public Double calculateDiscount(Purchase purchase, Promotion promotion);
+	public BigDecimal calculateDiscount(Purchase purchase, Promotion promotion);
 
 }

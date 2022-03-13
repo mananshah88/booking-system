@@ -1,5 +1,6 @@
 package com.mybooking.demo.serviceimpl;
 
+import java.math.BigDecimal;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -133,7 +134,7 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 			if (promotionService.isPurchaseElligibleForPromotion(purchase, promotion)) {
 
 				// If criteria are fulfilled then calculate the discount
-				Double discount = promotionService.calculateDiscount(purchase, promotion);
+				BigDecimal discount = promotionService.calculateDiscount(purchase, promotion);
 
 				// Apply the discount in the purchase.
 				purchase = purchaseService.applyPromotionOnPurchase(purchase, discount,

@@ -1,5 +1,6 @@
 package com.mybooking.demo.model.rdbms;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,13 +35,13 @@ public class Purchase extends BaseModel {
 	@OneToMany(mappedBy = "purchase", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<PurchaseItem> purchaseItems = new HashSet<>();
 
-	private Double priceForSingleTicket;
+	private BigDecimal priceForSingleTicket;
 	private Integer quantity;
-	private Double totalamount;
-	private Double tax;
+	private BigDecimal totalamount;
+	private BigDecimal tax;
 	private String promotionCode;
-	private Double discount;
-	private Double payableamount;
+	private BigDecimal discount;
+	private BigDecimal payableamount;
 	private Integer bookingStatus;
 
 	private String status;
@@ -65,11 +66,11 @@ public class Purchase extends BaseModel {
 		this.purchaseItems = purchaseItems;
 	}
 
-	public Double getPriceForSingleTicket() {
+	public BigDecimal getPriceForSingleTicket() {
 		return priceForSingleTicket;
 	}
 
-	public void setPriceForSingleTicket(Double priceForSingleTicket) {
+	public void setPriceForSingleTicket(BigDecimal priceForSingleTicket) {
 		this.priceForSingleTicket = priceForSingleTicket;
 	}
 
@@ -81,19 +82,19 @@ public class Purchase extends BaseModel {
 		this.quantity = quantity;
 	}
 
-	public Double getTotalamount() {
+	public BigDecimal getTotalamount() {
 		return totalamount;
 	}
 
-	public void setTotalamount(Double totalamount) {
+	public void setTotalamount(BigDecimal totalamount) {
 		this.totalamount = totalamount;
 	}
 
-	public Double getTax() {
+	public BigDecimal getTax() {
 		return tax;
 	}
 
-	public void setTax(Double tax) {
+	public void setTax(BigDecimal tax) {
 		this.tax = tax;
 	}
 
@@ -105,19 +106,19 @@ public class Purchase extends BaseModel {
 		this.promotionCode = promotionCode;
 	}
 
-	public Double getDiscount() {
+	public BigDecimal getDiscount() {
 		return discount;
 	}
 
-	public void setDiscount(Double discount) {
+	public void setDiscount(BigDecimal discount) {
 		this.discount = discount;
 	}
 
-	public Double getPayableamount() {
+	public BigDecimal getPayableamount() {
 		return payableamount;
 	}
 
-	public void setPayableamount(Double payableamount) {
+	public void setPayableamount(BigDecimal payableamount) {
 		this.payableamount = payableamount;
 	}
 
@@ -177,8 +178,8 @@ public class Purchase extends BaseModel {
 		super();
 	}
 
-	public Purchase(Double priceForSingleTicket, Integer quantity, Double totalamount, Double tax, Double discount, Double payableamount,
-			Integer bookingStatus, Integer customerId, Date date) {
+	public Purchase(BigDecimal priceForSingleTicket, Integer quantity, BigDecimal totalamount, BigDecimal tax,
+			BigDecimal discount, BigDecimal payableamount, Integer bookingStatus, Integer customerId, Date date) {
 		super();
 		this.priceForSingleTicket = priceForSingleTicket;
 		this.quantity = quantity;
