@@ -17,4 +17,11 @@ public class HelloWorldController {
 		return new ResponseEntity<>("Hello World!!", HttpStatus.OK);
 	}
 
+//	@PutMapping
+//	@ResponseBody
+//	// @PreAuthorize("@currentUserServiceImpl.isTheSamePartner(#partnerId)")
+//	public ResponseEntity<Boolean> addTheaterAndScreens(@RequestBody UploadRequestDTO uploadRequestDTO) {
+//		return new ResponseEntity<>(uploadService.uploadDetails(uploadRequestDTO), HttpStatus.OK);
+//	}
+
 }
