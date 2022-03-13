@@ -8,11 +8,9 @@ import javax.persistence.QueryHint;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.QueryHints;
-import org.springframework.stereotype.Repository;
 
 import com.mybooking.demo.model.rdbms.SeatReservation;
 
-@Repository
 public interface SeatReservationRepository extends JpaRepository<SeatReservation, Integer> {
 
 	/* As per documents, it works with Oracle and other dbs

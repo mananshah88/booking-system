@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mybooking.demo.base.BaseModel;
+import com.mybooking.demo.constant.BaseConstants;
 
 @Entity
 @Table(name = "promotion")
@@ -41,6 +42,7 @@ public class Promotion extends BaseModel {
 	@OneToMany(mappedBy = "promotion", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<PromotionRestriction> restrictions = new HashSet<>();
 
+	private String status = BaseConstants.STATUS_ACTIVE;
 	private Integer created;
 	private Integer lastModified;
 	private Date createdDate;
@@ -100,6 +102,14 @@ public class Promotion extends BaseModel {
 
 	public void setRestrictions(Set<PromotionRestriction> restrictions) {
 		this.restrictions = restrictions;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public Integer getCreated() {
