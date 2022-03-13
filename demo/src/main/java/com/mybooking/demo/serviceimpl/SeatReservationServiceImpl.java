@@ -1,6 +1,9 @@
 package com.mybooking.demo.serviceimpl;
 
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.persistence.LockTimeoutException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +11,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mybooking.demo.base.BaseServiceImpl;
+import com.mybooking.demo.dto.PurchaseItemResponseDto;
+import com.mybooking.demo.dto.PurchaseResponseDto;
 import com.mybooking.demo.enums.PurchaseStatus;
 import com.mybooking.demo.enums.SeatBookingStatus;
 import com.mybooking.demo.model.rdbms.Order;
@@ -35,40 +40,54 @@ public class SeatReservationServiceImpl extends BaseServiceImpl implements SeatR
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, timeout = 5, readOnly = false, rollbackFor = Exception.class)
-	public boolean blockSeats(Set<Long> seatIds, Purchase purchase) {
-		Set<SeatReservation> reservations = reservationRepo.findBySeatIdInAndBookingStatus(seatIds,
-				SeatBookingStatus.AVAILABLE.getStatus());
-		if (reservations != null && !reservations.isEmpty()) {
-			reservations.forEach(r -> r.setBookingStatus(SeatBookingStatus.IN_PROGRESS.getStatus()));
-			purchase.setBookingStatus(PurchaseStatus.IN_CHECKOUT.getStatus());
+	public PurchaseResponseDto blockSeats(Set<Long> seatIds, Purchase purchase) {
+		try {
+			Set<SeatReservation> reservations = reservationRepo.findBySeatIdInAndBookingStatus(seatIds,
+					SeatBookingStatus.AVAILABLE.getStatus());
+			if (reservations != null && !reservations.isEmpty()) {
+				reservations.forEach(r -> r.setBookingStatus(SeatBookingStatus.IN_PROGRESS.getStatus()));
+				purchase.setBookingStatus(PurchaseStatus.IN_CHECKOUT.getStatus());
 
-			reservationRepo.saveAll(reservations);
-			purchaseRepo.save(purchase);
-			return true;
+				reservationRepo.saveAll(reservations);
+				purchase = purchaseRepo.save(purchase);
+
+				return new PurchaseResponseDto(purchase.getId(), purchase.getQuantity(), purchase.getTotalamount(),
+						purchase.getTax(), purchase.getPromotionCode(), purchase.getDiscount(),
+						purchase.getPayableamount(),
+						purchase.getPurchaseItems().stream()
+								.map(pi -> new PurchaseItemResponseDto(pi.getSeatId(), pi.getPrice()))
+								.collect(Collectors.toList()),
+						"SUCCESS00", "Seat is blocked. Please pay the money.");
+			} else {
+				return new PurchaseResponseDto("ERROR_102", "Seat is already booked OR in progress.");
+			}
+		} catch (LockTimeoutException e) {
+			return new PurchaseResponseDto("ERROR_101",
+					"Someone is trying to block the seat. Currently seat is not available. Please try after some time.");
 		}
-		return false;
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
-	public Order bookSeats(Set<Long> seatIds, Purchase purchase, Long paymentId) {
+	public PurchaseResponseDto bookSeats(Set<Long> seatIds, Purchase purchase, Long paymentId) {
 		Set<SeatReservation> reservations = reservationRepo.findBySeatIdInAndBookingStatus(seatIds,
 				SeatBookingStatus.IN_PROGRESS.getStatus());
 		if (reservations != null && !reservations.isEmpty()) {
 			reservations.forEach(r -> r.setBookingStatus(SeatBookingStatus.BOOKED.getStatus()));
 			purchase.setBookingStatus(PurchaseStatus.PAYMENT_SUCCESS.getStatus());
-
 			reservationRepo.saveAll(reservations);
-			return orderRepository.save(new Order(purchase, paymentId, getLoggedInCustomerId(), getCurrentDateTime()));
+			var order = orderRepository
+					.save(new Order(purchase, paymentId, getLoggedInCustomerId(), getCurrentDateTime()));
+			return new PurchaseResponseDto(order.getId(), "SUCCESS00", "Seat is booked/confirmed.");
 		} else {
 			// Need to discuss because its erroneous case... Need to handle differently
-			return null;
+			return new PurchaseResponseDto("ERROR_103", "Something went wrong");
 		}
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
-	public boolean unblockTickets(Set<Long> seatIds, Purchase purchase) {
+	public PurchaseResponseDto unblockTickets(Set<Long> seatIds, Purchase purchase) {
 		Set<SeatReservation> reservations = reservationRepo.findBySeatIdInAndBookingStatus(seatIds,
 				SeatBookingStatus.IN_PROGRESS.getStatus());
 		if (reservations != null && !reservations.isEmpty()) {
@@ -77,10 +96,11 @@ public class SeatReservationServiceImpl extends BaseServiceImpl implements SeatR
 
 			reservationRepo.saveAll(reservations);
 			purchaseRepo.save(purchase);
-			return true;
+			return new PurchaseResponseDto("SUCCESS00", "Marked the seats as available");
 		} else {
-			// Need to discuss because its erroneous case... Need to handle differently
-			return false;
+			// Need to discuss because its erroneous case... Need to handle differently...
+			// either booked/or_already available
+			return new PurchaseResponseDto("SUCCESS00", "Marked the seats as available");
 		}
 	}
 

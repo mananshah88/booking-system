@@ -3,7 +3,7 @@ package com.mybooking.demo.serviceimpl;
 import org.springframework.stereotype.Service;
 
 import com.mybooking.demo.base.BaseServiceImpl;
-import com.mybooking.demo.dto.booking.PaymentDetailDTO;
+import com.mybooking.demo.dto.PaymentDetailDTO;
 import com.mybooking.demo.service.PaymentService;
 
 @Service

@@ -1,4 +1,4 @@
-package com.mybooking.demo.dto.booking;
+package com.mybooking.demo.dto;
 
 public class PaymentDetailDTO {
 

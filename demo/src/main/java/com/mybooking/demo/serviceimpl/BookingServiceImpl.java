@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mybooking.demo.base.BaseServiceImpl;
-import com.mybooking.demo.dto.booking.BookingRequestDto;
-import com.mybooking.demo.dto.booking.PaymentDetailDTO;
+import com.mybooking.demo.dto.BookingRequestDto;
+import com.mybooking.demo.dto.PaymentDetailDTO;
+import com.mybooking.demo.dto.PromotionRequestDto;
+import com.mybooking.demo.dto.PurchaseResponseDto;
 import com.mybooking.demo.exceptions.InvalidPurchaseException;
 import com.mybooking.demo.model.rdbms.Purchase;
 import com.mybooking.demo.model.rdbms.PurchaseItem;
@@ -45,7 +47,7 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 	}
 
 	@Override
-	public Boolean blockSeats(BookingRequestDto bookingRequest) {
+	public PurchaseResponseDto blockSeats(BookingRequestDto bookingRequest) {
 
 		/* Validate theater-screen details */
 		var screen = theaterService.validateAndGetTheater(bookingRequest.getTheaterId(),
@@ -74,7 +76,7 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 	 * Then client calls this API 
 	 */
 	@Override
-	public Long processSuccessfulPayment(Long purchaseId, PaymentDetailDTO paymentDto) {
+	public PurchaseResponseDto processSuccessfulPayment(Long purchaseId, PaymentDetailDTO paymentDto) {
 
 		Optional<Purchase> requestedPurchase = purchaseService.getPurchase(purchaseId);
 		if (requestedPurchase.isEmpty()) {
@@ -87,12 +89,12 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 		if (isSuccess) {
 			Set<Long> seatIds = purchase.getPurchaseItems().stream().map(PurchaseItem::getSeatId)
 					.collect(Collectors.toSet());
-			var order = seatReservationService.bookSeats(seatIds, purchase, paymentDto.getPaymentId());
-			return order != null ? order.getId() : 0l;
+			return seatReservationService.bookSeats(seatIds, purchase, paymentDto.getPaymentId());
 		} else {
 			// receiving failed payment... there can be many possible things so will do as
 			// per requirement
-			return 0l;
+			return new PurchaseResponseDto("ERROR_104",
+					"Payment is failed/aborted but customer is behaving like successful payment.");
 		}
 	}
 
@@ -101,7 +103,7 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 	 * Then client calls this API 
 	 */
 	@Override
-	public Boolean processFailedPayment(Long purchaseId, PaymentDetailDTO paymentDto) {
+	public PurchaseResponseDto processFailedPayment(Long purchaseId, PaymentDetailDTO paymentDto) {
 		Optional<Purchase> requestedPurchase = purchaseService.getPurchase(purchaseId);
 		if (requestedPurchase.isEmpty()) {
 			throw new InvalidPurchaseException("Invalid purchase");
@@ -118,7 +120,15 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 			// receiving successful payment... there can be many possible things so will do
 			// as
 			// per requirement
-			return false;
+			return new PurchaseResponseDto("ERROR_105",
+					"Payment is done but customer is behaving like its failed payment.");
 		}
 	}
+
+	@Override
+	public PurchaseResponseDto applyPromotionCode(PromotionRequestDto promotionRequestDTO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

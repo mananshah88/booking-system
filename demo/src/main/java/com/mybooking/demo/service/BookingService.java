@@ -1,7 +1,9 @@
 package com.mybooking.demo.service;
 
-import com.mybooking.demo.dto.booking.BookingRequestDto;
-import com.mybooking.demo.dto.booking.PaymentDetailDTO;
+import com.mybooking.demo.dto.BookingRequestDto;
+import com.mybooking.demo.dto.PaymentDetailDTO;
+import com.mybooking.demo.dto.PromotionRequestDto;
+import com.mybooking.demo.dto.PurchaseResponseDto;
 
 public interface BookingService {
 
@@ -9,10 +11,12 @@ public interface BookingService {
 	 * Functional Requirement: Book movie tickets by selecting a theater, timing,
 	 * preferred seats for the day
 	 */
-	public Boolean blockSeats(BookingRequestDto bookingRequest);
+	public PurchaseResponseDto blockSeats(BookingRequestDto bookingRequest);
 
-	public Long processSuccessfulPayment(Long purchaseId, PaymentDetailDTO paymentDto);
+	public PurchaseResponseDto applyPromotionCode(PromotionRequestDto promotionRequestDTO);
 
-	public Boolean processFailedPayment(Long purchaseId, PaymentDetailDTO paymentDto);
+	public PurchaseResponseDto processSuccessfulPayment(Long purchaseId, PaymentDetailDTO paymentDto);
+
+	public PurchaseResponseDto processFailedPayment(Long purchaseId, PaymentDetailDTO paymentDto);
 
 }
