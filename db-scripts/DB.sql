@@ -157,10 +157,11 @@ create table promotion (
 create table promotion_entity (
         id bigint NOT NULL AUTO_INCREMENT primary key,
 	promotionId int NOT NULL,
-	entityType varchar(100) NOT NULL DEFAULT 'overall',
-	entityValue int DEFAULT NULL,
-	promotionType varchar(10) NOT NULL
-	promotionValue double DEFAULT 0, 
+	entityType varchar(100) NOT NULL DEFAULT 'overall', /* overall, individual */
+	entityValue int DEFAULT NULL, /* 3rd ticket */
+	entityOperator varchar(20) DEFAULT NULL, /* exact, onwards, first_of */
+	promotionType varchar(10) NOT NULL, /* Fixed,Percentage*/ 
+	promotionValue double DEFAULT 0,  /* 50 */
         status varchar(10) DEFAULT 'active',
         created int(11) DEFAULT 0,
   	lastModified int(11) DEFAULT 0,

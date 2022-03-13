@@ -1,6 +1,5 @@
 package com.mybooking.demo.serviceimpl;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -12,12 +11,13 @@ import com.mybooking.demo.dto.BookingRequestDto;
 import com.mybooking.demo.dto.PaymentDetailDTO;
 import com.mybooking.demo.dto.PromotionRequestDto;
 import com.mybooking.demo.dto.PurchaseResponseDto;
-import com.mybooking.demo.exceptions.InvalidPurchaseException;
+import com.mybooking.demo.model.rdbms.Promotion;
 import com.mybooking.demo.model.rdbms.Purchase;
 import com.mybooking.demo.model.rdbms.PurchaseItem;
 import com.mybooking.demo.service.BookingService;
 import com.mybooking.demo.service.MovieTimeslotService;
 import com.mybooking.demo.service.PaymentService;
+import com.mybooking.demo.service.PromotionService;
 import com.mybooking.demo.service.PurchaseService;
 import com.mybooking.demo.service.SeatReservationService;
 import com.mybooking.demo.service.TheaterService;
@@ -32,17 +32,19 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 	private TheaterService theaterService;
 	private MovieTimeslotService movieTimeslotService;
 	private PurchaseService purchaseService;
+	private PromotionService promotionService;
 	private PaymentService paymentService;
 	private SeatReservationService seatReservationService;
 
 	@Autowired
 	public BookingServiceImpl(TheaterService theaterService, MovieTimeslotService movieTimeslotService,
-			PurchaseService purchaseService, PaymentService paymentService,
+			PurchaseService purchaseService, PaymentService paymentService, PromotionService promotionService,
 			SeatReservationService seatReservationService) {
 		this.theaterService = theaterService;
 		this.movieTimeslotService = movieTimeslotService;
 		this.purchaseService = purchaseService;
 		this.paymentService = paymentService;
+		this.promotionService = promotionService;
 		this.seatReservationService = seatReservationService;
 	}
 
@@ -50,8 +52,7 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 	public PurchaseResponseDto blockSeats(BookingRequestDto bookingRequest) {
 
 		/* Validate theater-screen details */
-		var screen = theaterService.validateAndGetTheater(bookingRequest.getTheaterId(),
-				bookingRequest.getScreenId());
+		var screen = theaterService.validateAndGetTheater(bookingRequest.getTheaterId(), bookingRequest.getScreenId());
 
 		/* validate Movie Timeslot */
 		var movieTimeSlot = movieTimeslotService.validateAndGetMovieTimeslot(screen,
@@ -72,17 +73,13 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 	}
 
 	/*
-	 * The client(web or mobile) can get the success from the PaymentGateway. 
-	 * Then client calls this API 
+	 * The client(web or mobile) can get the success from the PaymentGateway. Then
+	 * client calls this API
 	 */
 	@Override
 	public PurchaseResponseDto processSuccessfulPayment(Long purchaseId, PaymentDetailDTO paymentDto) {
 
-		Optional<Purchase> requestedPurchase = purchaseService.getPurchase(purchaseId);
-		if (requestedPurchase.isEmpty()) {
-			throw new InvalidPurchaseException("Invalid purchase");
-		}
-		Purchase purchase = requestedPurchase.get();
+		Purchase purchase = purchaseService.getPurchase(purchaseId);
 
 		/* Validate the payment details with Payment Gateway */
 		boolean isSuccess = paymentService.validatePaymentDetailsWithPaymentGateway(paymentDto);
@@ -99,16 +96,13 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 	}
 
 	/*
-	 * The client(web or mobile) can get the failed/abort payment from the PaymentGateway. 
-	 * Then client calls this API 
+	 * The client(web or mobile) can get the failed/abort payment from the
+	 * PaymentGateway. Then client calls this API
 	 */
 	@Override
 	public PurchaseResponseDto processFailedPayment(Long purchaseId, PaymentDetailDTO paymentDto) {
-		Optional<Purchase> requestedPurchase = purchaseService.getPurchase(purchaseId);
-		if (requestedPurchase.isEmpty()) {
-			throw new InvalidPurchaseException("Invalid purchase");
-		}
-		Purchase purchase = requestedPurchase.get();
+
+		Purchase purchase = purchaseService.getPurchase(purchaseId);
 
 		/* Validate the payment details with Payment Gateway */
 		boolean isFailed = paymentService.validatePaymentDetailsWithPaymentGateway(paymentDto);
@@ -126,8 +120,31 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 	}
 
 	@Override
-	public PurchaseResponseDto applyPromotionCode(PromotionRequestDto promotionRequestDTO) {
-		// TODO Auto-generated method stub
+	public PurchaseResponseDto applyPromotionCode(PromotionRequestDto promotionRequestDto) {
+
+		// check purchase is valid or not
+		Purchase purchase = purchaseService.getPurchase(promotionRequestDto.getPurchaseId());
+
+		if (promotionRequestDto.getPromotionCode() != null && !promotionRequestDto.getPromotionCode().isEmpty()) {
+			// Promotion code is applied then check it is valid or not
+			Promotion promotion = promotionService.getPromotion(promotionRequestDto.getPromotionCode());
+
+			// If it is valid then check all the criteria are fulfilled or not
+			if (promotionService.isPurchaseElligibleForPromotion(purchase, promotion)) {
+
+				// If criteria are fulfilled then calculate the discount
+				Double discount = promotionService.calculateDiscount(purchase, promotion);
+
+				// Apply the discount in the purchase.
+				purchase = purchaseService.applyPromotionOnPurchase(purchase, discount,
+						promotionRequestDto.getPromotionCode());
+
+				purchaseService.save(purchase);
+
+			} else {
+				return new PurchaseResponseDto("ERROR_106", "Promtion critrias are not fulfilled");
+			}
+		}
 		return null;
 	}
 

@@ -34,6 +34,7 @@ public class Purchase extends BaseModel {
 	@OneToMany(mappedBy = "purchase", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<PurchaseItem> purchaseItems = new HashSet<>();
 
+	private Double priceForSingleTicket;
 	private Integer quantity;
 	private Double totalamount;
 	private Double tax;
@@ -62,6 +63,14 @@ public class Purchase extends BaseModel {
 
 	public void setPurchaseItems(Set<PurchaseItem> purchaseItems) {
 		this.purchaseItems = purchaseItems;
+	}
+
+	public Double getPriceForSingleTicket() {
+		return priceForSingleTicket;
+	}
+
+	public void setPriceForSingleTicket(Double priceForSingleTicket) {
+		this.priceForSingleTicket = priceForSingleTicket;
 	}
 
 	public Integer getQuantity() {
@@ -168,9 +177,10 @@ public class Purchase extends BaseModel {
 		super();
 	}
 
-	public Purchase(Integer quantity, Double totalamount, Double tax, Double discount, Double payableamount,
+	public Purchase(Double priceForSingleTicket, Integer quantity, Double totalamount, Double tax, Double discount, Double payableamount,
 			Integer bookingStatus, Integer customerId, Date date) {
 		super();
+		this.priceForSingleTicket = priceForSingleTicket;
 		this.quantity = quantity;
 		this.totalamount = totalamount;
 		this.tax = tax;
@@ -187,7 +197,8 @@ public class Purchase extends BaseModel {
 
 	@Override
 	public String toString() {
-		return "Purchase [id=" + id + ", quantity=" + quantity + ", totalamount=" + totalamount + ", tax=" + tax
+		return "Purchase [id=" + id + ", purchaseItems=" + purchaseItems + ", priceForSingleTicket="
+				+ priceForSingleTicket + ", quantity=" + quantity + ", totalamount=" + totalamount + ", tax=" + tax
 				+ ", promotionCode=" + promotionCode + ", discount=" + discount + ", payableamount=" + payableamount
 				+ ", bookingStatus=" + bookingStatus + ", status=" + status + ", created=" + created + ", lastModified="
 				+ lastModified + ", createdDate=" + createdDate + ", lastModifiedDate=" + lastModifiedDate + "]";
@@ -215,6 +226,7 @@ public class Purchase extends BaseModel {
 		result = prime * result + ((lastModified == null) ? 0 : lastModified.hashCode());
 		result = prime * result + ((lastModifiedDate == null) ? 0 : lastModifiedDate.hashCode());
 		result = prime * result + ((payableamount == null) ? 0 : payableamount.hashCode());
+		result = prime * result + ((priceForSingleTicket == null) ? 0 : priceForSingleTicket.hashCode());
 		result = prime * result + ((promotionCode == null) ? 0 : promotionCode.hashCode());
 		result = prime * result + ((purchaseItems == null) ? 0 : purchaseItems.hashCode());
 		result = prime * result + ((quantity == null) ? 0 : quantity.hashCode());
@@ -272,6 +284,11 @@ public class Purchase extends BaseModel {
 			if (other.payableamount != null)
 				return false;
 		} else if (!payableamount.equals(other.payableamount))
+			return false;
+		if (priceForSingleTicket == null) {
+			if (other.priceForSingleTicket != null)
+				return false;
+		} else if (!priceForSingleTicket.equals(other.priceForSingleTicket))
 			return false;
 		if (promotionCode == null) {
 			if (other.promotionCode != null)

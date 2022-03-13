@@ -34,6 +34,7 @@ public class PromotionEntity extends BaseModel {
 
 	private String entityType;
 	private Integer entityValue;
+	private String entityOperator;
 	private String promotionType;
 	private Double promotionValue;
 
@@ -73,6 +74,14 @@ public class PromotionEntity extends BaseModel {
 
 	public void setEntityValue(Integer entityValue) {
 		this.entityValue = entityValue;
+	}
+
+	public String getEntityOperator() {
+		return entityOperator;
+	}
+
+	public void setEntityOperator(String entityOperator) {
+		this.entityOperator = entityOperator;
 	}
 
 	public String getPromotionType() {
@@ -139,14 +148,15 @@ public class PromotionEntity extends BaseModel {
 		super();
 	}
 
-	public PromotionEntity(Long id, Promotion promotion, String entityType, Integer entityValue, String promotionType,
-			Double promotionValue, String status, Integer created, Integer lastModified, Date createdDate,
-			Date lastModifiedDate) {
+	public PromotionEntity(Long id, Promotion promotion, String entityType, Integer entityValue, String entityOperator,
+			String promotionType, Double promotionValue, String status, Integer created, Integer lastModified,
+			Date createdDate, Date lastModifiedDate) {
 		super();
 		this.id = id;
 		this.promotion = promotion;
 		this.entityType = entityType;
 		this.entityValue = entityValue;
+		this.entityOperator = entityOperator;
 		this.promotionType = promotionType;
 		this.promotionValue = promotionValue;
 		this.status = status;
@@ -158,10 +168,11 @@ public class PromotionEntity extends BaseModel {
 
 	@Override
 	public String toString() {
-		return "PromotionEntity [id=" + id + ", entityType=" + entityType + ", entityValue=" + entityValue
-				+ ", promotionType=" + promotionType + ", promotionValue=" + promotionValue + ", status=" + status
-				+ ", created=" + created + ", lastModified=" + lastModified + ", createdDate=" + createdDate
-				+ ", lastModifiedDate=" + lastModifiedDate + "]";
+		return "PromotionEntity [id=" + id + ", promotion=" + promotion + ", entityType=" + entityType
+				+ ", entityValue=" + entityValue + ", entityOperator=" + entityOperator + ", promotionType="
+				+ promotionType + ", promotionValue=" + promotionValue + ", status=" + status + ", created=" + created
+				+ ", lastModified=" + lastModified + ", createdDate=" + createdDate + ", lastModifiedDate="
+				+ lastModifiedDate + "]";
 	}
 
 }

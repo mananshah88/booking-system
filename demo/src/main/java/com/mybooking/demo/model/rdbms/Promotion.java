@@ -30,6 +30,7 @@ public class Promotion extends BaseModel {
 	private Long id;
 	private String promotionCode;
 	private String name;
+	private String type;
 	private String description;
 
 	@JsonProperty("entities")
@@ -75,6 +76,14 @@ public class Promotion extends BaseModel {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public Set<PromotionEntity> getEntities() {

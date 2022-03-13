@@ -1,7 +1,9 @@
 package com.mybooking.demo.service;
 
 import java.util.Date;
+import java.util.List;
 
+import com.mybooking.demo.model.rdbms.Promotion;
 import com.mybooking.demo.model.rdbms.Purchase;
 
 public interface PromotionService {
@@ -14,5 +16,13 @@ public interface PromotionService {
 	 */
 	public Purchase applyPromotion(Long cityId, Long theaterId, Long screenId, Integer noOfTickets, Date timeslot,
 			Long purchaseId);
+
+	public Promotion getPromotion(String promotionCode);
+	
+	public List<Promotion> getHiddnPromotions();
+
+	public boolean isPurchaseElligibleForPromotion(Purchase purchase, Promotion promotion);
+
+	public Double calculateDiscount(Purchase purchase, Promotion promotion);
 
 }
