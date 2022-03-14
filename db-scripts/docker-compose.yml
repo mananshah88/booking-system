@@ -1,0 +1,30 @@
+version: '3'
+services:
+   mariadb:
+     image: mariadb
+     environment:
+       MYSQL_DATABASE: 'mybookingdb'
+       MYSQL_ROOT_PASSWORD: 'root'
+     ports:
+       - '3306:3306'
+     expose:
+       - '3306'
+     volumes:
+       - "<PATH>:/var/lib/mysql"
+     networks:
+       - maria
+   mongodb:
+     image: mongo:4.0
+     ports:
+       - '27017:27017'
+     expose:
+       - '27017'
+     volumes:
+       - "<path>:/data/db"
+     networks:
+       - mongo
+networks:
+  maria:
+    driver: bridge
+  mongo:
+    driver: bridge

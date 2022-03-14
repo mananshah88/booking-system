@@ -38,6 +38,9 @@ public class PromotionCalculationEngine extends BaseServiceImpl {
 			} else if (BaseConstants.ENTITYOPERATOR_ONWARDS.equalsIgnoreCase(entityOperator)) {
 				BigDecimal bd = new BigDecimal(noOfTicket - entityValue);
 				return checkForAny(promotionType, promotionValue, bd, priceForSingleTicket);
+			} else if(BaseConstants.ENTITYOPERATOR_EACH.equalsIgnoreCase(entityOperator)) {
+				BigDecimal bd = new BigDecimal(noOfTicket);
+				return checkForAny(promotionType, promotionValue, bd, priceForSingleTicket);
 			}
 		}
 		return BigDecimal.ZERO;

@@ -1,6 +1,7 @@
 package com.mybooking.demo.serviceimpl;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -61,7 +62,7 @@ public class PurchaseServiceImpl extends BaseServiceImpl implements PurchaseServ
 		if (totalamount.compareTo(discount) < 0) {
 			discount = totalamount;
 		}
-		return totalamount.add(tax).subtract(discount);
+		return totalamount.add(tax).subtract(discount).setScale(2, RoundingMode.HALF_EVEN);
 	}
 
 	/*

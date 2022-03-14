@@ -26,6 +26,7 @@ public class BaseConstants {
 
 	public static final String ENTITYOPERATOR_ANY = "any";
 	public static final String ENTITYOPERATOR_ONWARDS = "onwards";
+	public static final String ENTITYOPERATOR_EACH = "each";
 
 	public static final String PROMOTIONTYPE_FIXED = "fixed";
 	public static final String PROMOTIONTYPE_PERCENTAGE = "percentage";
