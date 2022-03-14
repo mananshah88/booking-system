@@ -18,9 +18,7 @@ import com.mybooking.demo.model.nosql.Movie;
 import com.mybooking.demo.service.MovieSearchService;
 
 /*
- * Functional Requirement: Enable end customers to browse the platform 
- * to get access to movies across 
- * different cities, languages, and genres
+ * Key Goal: Enable end customers to browse the platform to get access to movies across different cities, languages, and genres.
  */
 @Service
 public class MovieSearchServiceImpl extends BaseServiceImpl implements MovieSearchService {

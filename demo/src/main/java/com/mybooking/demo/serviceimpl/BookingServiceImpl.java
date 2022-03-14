@@ -24,8 +24,8 @@ import com.mybooking.demo.service.SeatReservationService;
 import com.mybooking.demo.service.TheaterService;
 
 /*
- * Functional Requirement: Book movie tickets by selecting 
- * a theater, timing, preferred seats for the day
+ * Write Functional Requirement: 
+ * Book movie tickets by selecting a theater, timing, and preferred seats for the day
  */
 @Service
 public class BookingServiceImpl extends BaseServiceImpl implements BookingService {
@@ -120,6 +120,11 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 		}
 	}
 
+	/* Read scenarios: 
+	 * • Booking platform offers in selected cities and theaters
+        ◦ 50% discount on the third ticket
+        ◦ Tickets booked for the afternoon show get a 20% discount
+    */
 	@Override
 	public PurchaseResponseDto applyPromotionCode(PromotionRequestDto promotionRequestDto) {
 
