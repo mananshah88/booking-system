@@ -3,7 +3,7 @@ package com.mybooking.demo.serviceimpl;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.persistence.LockTimeoutException;
+import javax.persistence.PersistenceException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +44,7 @@ public class SeatReservationServiceImpl extends BaseServiceImpl implements SeatR
 		try {
 			Set<SeatReservation> reservations = reservationRepo.findBySeatIdInAndBookingStatus(seatIds,
 					SeatBookingStatus.AVAILABLE.getStatus());
+
 			if (reservations != null && !reservations.isEmpty()) {
 				reservations.forEach(r -> r.setBookingStatus(SeatBookingStatus.IN_PROGRESS.getStatus()));
 				purchase.setBookingStatus(PurchaseStatus.IN_CHECKOUT.getStatus());
@@ -61,7 +62,8 @@ public class SeatReservationServiceImpl extends BaseServiceImpl implements SeatR
 			} else {
 				return new PurchaseResponseDto("ERROR_102", "Seat is already booked OR in progress.");
 			}
-		} catch (LockTimeoutException e) {
+		} catch (PersistenceException e) {
+			// LockTimeoutException , PessimisticLockException
 			return new PurchaseResponseDto("ERROR_101",
 					"Someone is trying to block the seat. Currently seat is not available. Please try after some time.");
 		}

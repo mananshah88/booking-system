@@ -17,16 +17,13 @@ public interface SeatReservationRepository extends JpaRepository<SeatReservation
 	 * Ref: https://blog.mimacom.com/testing-pessimistic-locking-handling-spring-boot-jpa/
 	 * https://stackoverflow.com/questions/66438900/jpa-pessimistic-read-does-not-time-out-in-the-specified-period
 	 * https://stackoverflow.com/questions/29765934/how-to-specify-lock-timeout-in-spring-data-jpa-query
-	 * 
 	 * */ 
-//	@Lock(LockModeType.PESSIMISTIC_FORCE_INCREMENT)
-//	@QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="0")})
-//	public SeatReservation findBySeatIdAndBookingStatus(Integer seatId, String bookingStatus);
-	
+
 	/* For MariaDB with Native Query: https://mariadb.com/kb/en/wait-and-nowait/ */
 //	@Lock(LockModeType.PESSIMISTIC_FORCE_INCREMENT)
-//	@Query(value = "SELECT * FROM seat_reservation WHERE seatId=? and bookingStatus = ? FOR UPDATE NOWAIT", nativeQuery = true)
-//	@Query(value = "SELECT * FROM seat_reservation WHERE seatId=? and bookingStatus = ? FOR UPDATE WAIT 0", nativeQuery = true)
+//	@QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="0")})
+//	@Query(value = "SELECT * FROM seat_reservation WHERE seatId=? and bookingStatus = ? FOR UPDATE NOWAIT", nativeQuery = true) // Exclusive Lock
+//	@Query(value = "SELECT * FROM seat_reservation WHERE seatId=? and bookingStatus = ? FOR UPDATE WAIT 0", nativeQuery = true) 
 //	@Query(value = "SELECT * FROM seat_reservation WHERE seatId=? and bookingStatus = ? FOR UPDATE SKIP LOCKED", nativeQuery = true)
 //	public SeatReservation findBySeatIdAndBookingStatus(Integer seatId, String bookingStatus);
 		
