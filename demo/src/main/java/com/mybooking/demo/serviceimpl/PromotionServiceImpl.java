@@ -34,7 +34,7 @@ public class PromotionServiceImpl extends BaseServiceImpl implements PromotionSe
 	@Override
 	public Purchase applyPromotion(Long cityId, Long theaterId, Long screenId, Integer noOfTickets, Date timeslot,
 			Long purchaseId) {
-
+		// not in use
 		return null;
 	}
 

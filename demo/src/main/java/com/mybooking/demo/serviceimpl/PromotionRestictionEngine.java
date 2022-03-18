@@ -23,6 +23,16 @@ public class PromotionRestictionEngine extends BaseServiceImpl {
 		String operator = restriction.getConditionOperator();
 		String value = restriction.getConditionValue();
 
+		/*
+		 * For this logic, there are only few if-else statements. But in the future
+		 * if we have multiple if-else then we can use
+		 * Strategy Pattern: Replace Conditional Logic with Strategy.
+		 *
+		 * 1. Strategy + Factory Design Pattern using Map
+		 * 2. Strategy + Factory Design Pattern using Enum
+		 * See: com.mybooking.demo.designpattern.strategy_factory.Sample File
+		 */
+
 		if (BaseConstants.CONDITION_CITY.equalsIgnoreCase(condition)) {
 			if (!checkForCityRestriction(purchase, value, operator)) {
 				return false;
@@ -158,3 +168,5 @@ public class PromotionRestictionEngine extends BaseServiceImpl {
 		return date;
 	}
 }
+
+

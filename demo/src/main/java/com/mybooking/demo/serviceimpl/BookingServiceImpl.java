@@ -17,6 +17,7 @@ import com.mybooking.demo.model.rdbms.Purchase;
 import com.mybooking.demo.model.rdbms.PurchaseItem;
 import com.mybooking.demo.service.BookingService;
 import com.mybooking.demo.service.MovieTimeslotService;
+import com.mybooking.demo.service.NotificationService;
 import com.mybooking.demo.service.PaymentService;
 import com.mybooking.demo.service.PromotionService;
 import com.mybooking.demo.service.PurchaseService;
@@ -36,17 +37,19 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 	private PromotionService promotionService;
 	private PaymentService paymentService;
 	private SeatReservationService seatReservationService;
+	private NotificationService notificationService;
 
 	@Autowired
 	public BookingServiceImpl(TheaterService theaterService, MovieTimeslotService movieTimeslotService,
 			PurchaseService purchaseService, PaymentService paymentService, PromotionService promotionService,
-			SeatReservationService seatReservationService) {
+			SeatReservationService seatReservationService, NotificationService notificationService) {
 		this.theaterService = theaterService;
 		this.movieTimeslotService = movieTimeslotService;
 		this.purchaseService = purchaseService;
 		this.paymentService = paymentService;
 		this.promotionService = promotionService;
 		this.seatReservationService = seatReservationService;
+		this.notificationService = notificationService;
 	}
 
 	@Override
@@ -87,7 +90,13 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 		if (isSuccess) {
 			Set<Long> seatIds = purchase.getPurchaseItems().stream().map(PurchaseItem::getSeatId)
 					.collect(Collectors.toSet());
-			return seatReservationService.bookSeats(seatIds, purchase, paymentDto.getPaymentId());
+			PurchaseResponseDto purchaseResponseDto = seatReservationService.bookSeats(seatIds, purchase,
+					paymentDto.getPaymentId());
+
+			// send email/SMS notification...
+			notificationService.notifyCustomer(purchaseResponseDto);
+
+			return purchaseResponseDto;
 		} else {
 			// receiving failed payment... there can be many possible things so will do as
 			// per requirement
@@ -110,7 +119,12 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 		if (isFailed) {
 			Set<Long> seatIds = purchase.getPurchaseItems().stream().map(PurchaseItem::getSeatId)
 					.collect(Collectors.toSet());
-			return seatReservationService.unblockTickets(seatIds, purchase);
+			PurchaseResponseDto purchaseResponseDto = seatReservationService.unblockTickets(seatIds, purchase);
+
+			// send email/SMS notification...
+			notificationService.notifyCustomer(purchaseResponseDto);
+
+			return purchaseResponseDto;
 		} else {
 			// receiving successful payment... there can be many possible things so will do
 			// as
@@ -120,11 +134,11 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 		}
 	}
 
-	/* Read scenarios: 
-	 * • Booking platform offers in selected cities and theaters
-        ◦ 50% discount on the third ticket
-        ◦ Tickets booked for the afternoon show get a 20% discount
-    */
+	/*
+	 * Read scenarios: • Booking platform offers in selected cities and theaters ◦
+	 * 50% discount on the third ticket ◦ Tickets booked for the afternoon show get
+	 * a 20% discount
+	 */
 	@Override
 	public PurchaseResponseDto applyPromotionCode(PromotionRequestDto promotionRequestDto) {
 
@@ -148,7 +162,7 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 				purchaseService.save(purchase);
 
 			} else {
-				return new PurchaseResponseDto("ERROR_106", "Promtion critrias are not fulfilled");
+				return new PurchaseResponseDto("ERROR_106", "Promtion criterias are not fulfilled");
 			}
 		}
 		return null;
