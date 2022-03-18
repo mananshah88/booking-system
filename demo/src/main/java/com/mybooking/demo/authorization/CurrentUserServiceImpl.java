@@ -5,6 +5,22 @@ import org.springframework.stereotype.Service;
 import com.mybooking.demo.base.BaseLogger;
 import com.mybooking.demo.enums.AccessRole;
 
+/* For the Authz - Authorization 
+ * We can check all the authorization access here 
+ * from the controller API before invoking the business logic... 
+ * 
+ * Which helps us in preventing from vulnerability like "Broken Access Control".
+ * 
+ * We can check the following things here...
+ * - Check if the resource which is being served has actually owned by the logged in customer... 
+ * - Like Customer can not view admin reports, 
+ *        Customer can not view other customers' invoices / bookings
+ *        Admin/Subadmin can not access customers' Personal details...
+ *        etc..
+ * 
+ * Token should not have Authz information (to secure them by preventing "stolen tokens" )
+ * */
+
 @Service
 public class CurrentUserServiceImpl extends BaseLogger {
 

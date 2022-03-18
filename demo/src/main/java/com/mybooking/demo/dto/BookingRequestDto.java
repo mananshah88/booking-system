@@ -9,6 +9,15 @@ import javax.validation.constraints.Size;
 
 public class BookingRequestDto {
 
+	/*
+	 * All input validations from the rquest can be done here.
+	 *
+	 * Not all but we can protect from the vulnerability like 1.) SQL Injection:
+	 * server-side input validation like - Don't allow number where string is
+	 * require OR vice-versa (or for other data types as well) - Escape/Validate the
+	 * special characters which are going to use for SQL queries
+	 */
+
 	@Positive(message = "TheaterId must be greater than 1")
 	private Long theaterId;
 
