@@ -25,8 +25,9 @@ public class SeatReservation extends BaseModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Version
-	private Long version;
+	// Require only for Optimistic lock
+//	@Version
+//	private Long version;
 
 	private Integer seatId;
 	private Integer bookingStatus;
@@ -45,13 +46,13 @@ public class SeatReservation extends BaseModel {
 		this.id = id;
 	}
 
-	public Long getVersion() {
-		return version;
-	}
-
-	public void setVersion(Long version) {
-		this.version = version;
-	}
+//	public Long getVersion() {
+//		return version;
+//	}
+//
+//	public void setVersion(Long version) {
+//		this.version = version;
+//	}
 
 	public Integer getSeatId() {
 		return seatId;
@@ -113,11 +114,11 @@ public class SeatReservation extends BaseModel {
 		return serialVersionUID;
 	}
 
-	public SeatReservation(Long id, Long version, Integer seatId, Integer bookingStatus, Integer customerId,
+	public SeatReservation(Long id, Integer seatId, Integer bookingStatus, Integer customerId,
 			Date date) {
 		super();
 		this.id = id;
-		this.version = version;
+//		this.version = version;
 		this.seatId = seatId;
 		this.bookingStatus = bookingStatus;
 		this.status = BaseConstants.STATUS_ACTIVE;
